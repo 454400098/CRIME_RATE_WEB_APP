@@ -3,28 +3,39 @@
 
 {% block head %}
   {{ super() }}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+
+  <link rel="stylesheet"  href="{{ url_for('static', filename='css/result.css') }}">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+
+
+
+
 {% endblock %}
 
 {% block page_content %}
-<p>TEST RESULT PAGE</p>
-<table border = 1>
-  {% for key in result.items()%}
-    <tr>
-      <th>{{ key }}</th>
-    </tr>
-  {% endfor %}
+<!-- <div class="test_get_method">
+  <p>TEST RESULT PAGE</p>
+  <table border = 1>
+    {% for key in result.items()%}
+      <tr>
+        <th>{{ key }}</th>
+      </tr>
+    {% endfor %}
+</div> -->
 
+<div class="par">
+  <p>TEST IF CSS IS WORKING OR NOT</p>
+</div>
+<!-- <div id='map'></div>
+<div class='map-overlay' id='features'><h2>US population density</h2><div id='pd'><p>Hover over a state!</p></div></div>
+<div class='map-overlay' id='legend'></div> -->
 
 {% endblock %}
 
 
-<!-- for map VISUALIZATION -->
 
+<!-- for map VISUALIZATION -->
 {% block map %}
-<div id='map'></div>
-<div class='map-overlay' id='features'><h2>US population density</h2><div id='pd'><p>Hover over a state!</p></div></div>
-<div class='map-overlay' id='legend'></div>
-{% endblock  %}
+{% endblock %}

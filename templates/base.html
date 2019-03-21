@@ -3,7 +3,7 @@
 
 {% block head %}
     {{ super() }}
-
+    
 {% endblock %}
 
 <!-- for nav bar -->
@@ -40,4 +40,6 @@
     <div class="container">
         {% block page_content %}{% endblock %}
     </div>
+
+    {% block map %}{% endblock %}
 {% endblock %}

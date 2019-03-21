@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   padding: 0;
@@ -14,8 +15,8 @@ h3 {
 }
 
 p {
-  font-size: 0.85em;
-  margin: 10px;
+  font-size: 1.85em;
+  margin: 1px;
   text-align: left;
 }
 
@@ -23,9 +24,9 @@ p {
 * Create a position for the map
 * on the page */
 #map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
+  position: relative;
+  top: 1px;
+  bottom: 100px;
   width: 100%;
 }
 
@@ -34,7 +35,7 @@ p {
 * (information box and legend) will be displayed
 * on the page. */
 .map-overlay {
-  position: absolute;
+  position: relative;
   bottom: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.8);
