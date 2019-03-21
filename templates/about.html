@@ -3,6 +3,16 @@
 
 
 {% block page_content %}
-<h1>About Flask</h1>
-<p>Flask is a micro web framework written in python</p>
+<h1>Second Page</h1>
+
+<form action = "/result" method = "POST">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="text" class="form-control" id="inputarea"  placeholder="Enter area">
+    <small id="emailHelp" class="form-text text-muted">please input a area</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
 {% endblock %}

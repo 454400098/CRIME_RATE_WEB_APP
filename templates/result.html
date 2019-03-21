@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<table border = 1>
+  {% for key in result.items()%}
+    <tr>
+      <th>{{ key }}</th>
+    </tr>
+  {% endfor %}
+
+{% endblock %}
