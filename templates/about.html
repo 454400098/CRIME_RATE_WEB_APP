@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>About Flask</title>
-  </head>
-  <body>
-    {% extends "template.html" %}
-    {% block content %}
 
-    <h1>About Flask</h1>
-    <p>Flask is a micro web framework written in python</p>
+{% extends "base.html" %}
 
-    {% endblock %}
-  </body>
-</html>
+
+{% block page_content %}
+<h1>About Flask</h1>
+<p>Flask is a micro web framework written in python</p>
+{% endblock %}
