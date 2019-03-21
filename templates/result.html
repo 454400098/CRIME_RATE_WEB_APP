@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+{% endblock %}
+
 {% block page_content %}
 <p>TEST RESULT PAGE</p>
 <table border = 1>
@@ -9,4 +17,14 @@
     </tr>
   {% endfor %}
 
+
 {% endblock %}
+
+
+<!-- for map VISUALIZATION -->
+
+{% block map %}
+<div id='map'></div>
+<div class='map-overlay' id='features'><h2>US population density</h2><div id='pd'><p>Hover over a state!</p></div></div>
+<div class='map-overlay' id='legend'></div>
+{% endblock  %}
