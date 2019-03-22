@@ -1,3 +1,5 @@
-.alert alert-secondary{
-  text-align: right;
+p {
+  font-size: 0.5em;
+  margin: 1px;
+  text-align: left;
 }
