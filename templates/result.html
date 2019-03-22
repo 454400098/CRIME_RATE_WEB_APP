@@ -3,6 +3,27 @@
 
 {% block head %}
   {{ super() }}
+
+<!-- for geoarr init -->
+<script type="text/javascript">
+  var myGeocode = [40.7831,-73.985130];
+  var input = {{result}}
+  if (input.value.length === 5) {
+
+    var zipCode = input.value;
+
+    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipCode + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
+
+    xhr.done(function(data) {
+      lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
+      myGeocode[0] = data.results[0].geometry.location.lat;
+      myGeocode[1] = data.results[0].geometry.location.lng;
+    });
+  }
+</script>
+<!-- for geoarr init -->
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
     integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
     crossorigin=""/>
@@ -18,22 +39,51 @@
 
 {% block content %}
 
-
-<div class="test_get_method">
+<div class="flex-container">
+<div>
   <p>TEST RESULT PAGE</p>
   <table border = 1>
-    {% for key ,value in result.items()%}
       <tr>
-        <th>{{ key }}</th>
-        <th>{{ value }}</th>
+        <th>{{result}}</th>
       </tr>
-    {% endfor %}
 </div>
 
 
+<!-- <div>
+  <input type="text" placeholder="Enter a zip code" id="zip" onkeydown="lonlat()" autocomplete="off"/>
+  <p id="lonlat"></p>
+</div> -->
+
+
 <div id="mapid" style="width: 600px; height: 400px;"></div>
+</div>
+
+
+<!-- <script type="text/javascript">
+  function lonlat() {
+
+	var input = document.getElementById('zip');
+	var lonlat = document.getElementById('lonlat');
+
+	if (event.keyCode === 13 && input.value.length === 5) {
+
+		var zipCode = input.value;
+
+		var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipCode + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
+
+		xhr.done(function(data) {
+			lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
+      myGeocode[0] = data.results[0].geometry.location.lat;
+      myGeocode[1] = data.results[0].geometry.location.lng;
+		});
+	}
+}
+</script> -->
+
+
+
 <script type="text/javascript">
-  var mymap = L.map('mapid').setView([40.514658, -74.393104], 13);
+  var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,

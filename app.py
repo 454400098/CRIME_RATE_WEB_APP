@@ -18,6 +18,7 @@ def about():
 def result():
     if request.method == 'POST':
         result = request.form
+        result = result['Area']
     return render_template("result.html",result = result)
 
 if __name__ == "__main__":
