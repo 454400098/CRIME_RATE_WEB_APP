@@ -15,32 +15,27 @@
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.0/mapbox-gl.js'></script>
   <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.0/mapbox-gl.css' rel='stylesheet' />
 
-  <style>
-    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
-    #map {
-      position:absolute;
-      width: 100%;
-      height: 100%;
-    }
-    svg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-  
+
+
 {% endblock %}
 
 {% block page_content %}
-<!-- <div class="test_get_method">
-  <p>TEST RESULT PAGE</p>
-  <table border = 1>
-    {% for key in result.items()%}
-      <tr>
-        <th>{{ key }}</th>
-      </tr>
-    {% endfor %}
-</div> -->
+
+<style>
+  body { margin:20;position:fixed;top:0;right:0;bottom:0;left:0; }
+  #map {
+    position:absolute;
+    width: 50%;
+    height: 50%;
+  }
+  svg {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+  }
+</style>
+
+
 
 
 <div id="map"></div>
@@ -70,7 +65,7 @@
     var center = map.getCenter();
     var zoom = map.getZoom();
     // 512 is hardcoded tile size, might need to be 256 or changed to suit your map config
-    var scale = (512) * 0.5 / Math.PI * Math.pow(2, zoom);
+    var scale = (256) * 0.5 / Math.PI * Math.pow(2, zoom);
 
     var d3projection = d3.geo.mercator()
       .center([center.lng, center.lat])
@@ -139,4 +134,14 @@
 
 
 {% block map %}
+
+<div class="test_get_method">
+  <p>TEST RESULT PAGE</p>
+  <table border = 1>
+    {% for key in result.items()%}
+      <tr>
+        <th>{{ key }}</th>
+      </tr>
+    {% endfor %}
+</div>
 {% endblock %}
