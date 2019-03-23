@@ -3,24 +3,9 @@
 
 {% block head %}
   {{ super() }}
-
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <!-- for geoarr init -->
-<script type="text/javascript">
-  var myGeocode = [40.7831,-73.985130];
-  var input = {{result}}
-  if (input.value.length === 5) {
 
-    var zipCode = input.value;
-
-    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipCode + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
-
-    xhr.done(function(data) {
-      lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
-      myGeocode[0] = data.results[0].geometry.location.lat;
-      myGeocode[1] = data.results[0].geometry.location.lng;
-    });
-  }
-</script>
 <!-- for geoarr init -->
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -49,40 +34,55 @@
 </div>
 
 
-<!-- <div>
+
+
+
+<div>
   <input type="text" placeholder="Enter a zip code" id="zip" onkeydown="lonlat()" autocomplete="off"/>
   <p id="lonlat"></p>
-</div> -->
-
-
-<div id="mapid" style="width: 600px; height: 400px;"></div>
 </div>
 
 
-<!-- <script type="text/javascript">
-  function lonlat() {
-
-	var input = document.getElementById('zip');
-	var lonlat = document.getElementById('lonlat');
-
-	if (event.keyCode === 13 && input.value.length === 5) {
-
-		var zipCode = input.value;
-
-		var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + zipCode + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
-
-		xhr.done(function(data) {
-			lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
+<script type="text/javascript">
+  var myGeocode = [40.7831,-73.985130];
+  var input = {{result['Area']|tojson}}
+  var lonlat = document.getElementById('lonlat');
+  console.log(input);
+  if (input.length === 5) {
+    console.log('i am here');
+    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
+    xhr.done(function(data) {
+      lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
       myGeocode[0] = data.results[0].geometry.location.lat;
       myGeocode[1] = data.results[0].geometry.location.lng;
-		});
-	}
-}
+      console.log('finished computation');
+      console.log(myGeocode[0]);
+      console.log(myGeocode[1]);
+    });
+  }
+  console.log('now ans is ');
+  console.log(myGeocode[0]);
+</script>
+
+
+<!-- <button type="button" name="button" onclick="setTimeout(myfunction,3000)">TRY IT</button>
+<script type="text/javascript">
+  function myfunction(){
+    console.log('after all these fucking shit');
+    console.log(myGeocode[0]);
+    console.log(myGeocode[1]);
+  }
 </script> -->
 
 
 
+
+<button id = "action" type="button" name="button" class="btn btn-outline-primary" >Show map</button>
+<div id="mapid" style="width: 600px; height: 400px;"></div>
+</div>
+
 <script type="text/javascript">
+function mapDisplay(){
   var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -90,6 +90,11 @@
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoiNDU0NDAwMDk4IiwiYSI6ImNqdGo3ZWNwcTBxamE0M2xlcWhmbDI1aWwifQ.NFAQsnKRRN3wTsQPjV-ZtA'
 }).addTo(mymap);
+};
+
+$(function() {
+    $('#action').click(mapDisplay);
+});
 </script>
 
 {% endblock %}
