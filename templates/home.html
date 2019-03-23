@@ -2,15 +2,39 @@
 
 {% extends "base.html" %}
 
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+{% endblock %}
 {% block content %}
-<h1> TODO: NEED A MAP CONTAINS USA GUN VIO DISTRIBUTION</h1>
-<p>Flask is Fun</p>
 
-<div class="col-md-4 col-lg-offset-4">
-  <div class="alert alert-secondary" role="alert">
-    A simple secondary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-  </div>
+
+<div class="flex-container">
+<svg width="960" height="600"></svg>
 </div>
+<script>
 
+var svg = d3.select("svg");
+
+var path = d3.geoPath();
+
+d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
+  if (error) throw error;
+
+  svg.append("g")
+      .attr("class", "states")
+    .selectAll("path")
+    .data(topojson.feature(us, us.objects.states).features)
+    .enter().append("path")
+      .attr("d", path);
+
+  svg.append("path")
+      .attr("class", "state-borders")
+      .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
+});
+
+</script>
 
 {% endblock %}
