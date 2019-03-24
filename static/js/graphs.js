@@ -12,6 +12,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   crimeProjects.forEach(function(d){
     d["date"] = dateFormat.parse(d["date"]);
     d["date"].setDate(1);
+
   });
 
 
@@ -27,12 +28,13 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
   var all = ndx.groupAll();
 
-  var minDate = dateDim.bottom(1)[0]["date"];
-  var maxDate = dateDim.top(1)[0]["date"];
+  //Define values (to be used in charts)
+	var minDate = dateDim.bottom(1)[0]["date"];
+	var maxDate = dateDim.top(1)[0]["date"];
 
   //charts
   var timeChart = dc.barChart("#time-chart");
-  // var usChart = dc.geoChoroplethChart("#us-chart");
+  var usChart = dc.geoChoroplethChart("#us-chart");
 
 
   timeChart
@@ -46,6 +48,25 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .elasticY(true)
   .xAxisLabel("Year")
   .yAxis().ticks(4);
+
+
+  usChart.width(1000)
+		.height(330)
+		.dimension(stateDim)
+		.group(numProjectsByDate)
+		// .colors(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])
+		// .colorDomain([0, max_state])
+		.overlayGeoJson(statesJson["features"], "state", function (d) {
+			return d.properties.name;
+		})
+		.projection(d3.geo.albersUsa()
+    				.scale(600)
+    				.translate([340, 150]))
+		// .title(function (p) {
+		// 	return "State: " + p["key"]
+		// 			+ "\n"
+		// 			+ "Total Donations: " + Math.round(p["value"]) + " $";
+		// })
 
 
 

@@ -37,7 +37,7 @@ def home():
 def firset_projects():
     connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
     collection = connection[DBS_NAME][COLLECTION_NAME]
-    projects = collection.find(projection=FIELDS,limit = 500)
+    projects = collection.find(projection=FIELDS)
     json_projects = []
     for project in projects:
         json_projects.append(project)
