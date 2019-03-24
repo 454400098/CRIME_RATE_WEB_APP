@@ -10,12 +10,18 @@ app = Flask(__name__)
 Bootstrap(app)
 
 
-
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 DBS_NAME = 'first1'
 COLLECTION_NAME = 'projects'
-FIELDS = {'date': True,'state': True, 'city_or_county': True, 'address': True, 'congressional_district': True, 'latitude': True,'longitude': True ,'_id': False}
+FIELDS = {'date': True,
+'state': True,
+'city_or_county': True,
+'address': True,
+'congressional_district': True,
+'latitude': True,
+'longitude': True ,
+'_id': False}
 
 
 
@@ -27,11 +33,11 @@ def home():
 
 
 
-@app.route("/first/projects")
+@app.route("/first1/projects")
 def firset_projects():
     connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
     collection = connection[DBS_NAME][COLLECTION_NAME]
-    projects = collection.find(projection=FIELDS)
+    projects = collection.find(projection=FIELDS,limit = 500)
     json_projects = []
     for project in projects:
         json_projects.append(project)
