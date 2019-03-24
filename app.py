@@ -10,12 +10,18 @@ app = Flask(__name__)
 Bootstrap(app)
 
 
-
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
-DBS_NAME = 'first'
+DBS_NAME = 'first1'
 COLLECTION_NAME = 'projects'
-FIELDS = {'state': True, 'city_or_county': True, 'address': True, 'congressional_district': True, 'latitude': True,'longitude': True ,'_id': False}
+FIELDS = {'date': True,
+'state': True,
+'city_or_county': True,
+'address': True,
+'congressional_district': True,
+'latitude': True,
+'longitude': True ,
+'_id': False}
 
 
 
@@ -27,7 +33,7 @@ def home():
 
 
 
-@app.route("/first/projects")
+@app.route("/first1/projects")
 def firset_projects():
     connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
     collection = connection[DBS_NAME][COLLECTION_NAME]
@@ -37,7 +43,7 @@ def firset_projects():
         json_projects.append(project)
     json_projects = json.dumps(json_projects, default=json_util.default)
     connection.close()
-    return json_projects    
+    return json_projects
 
 @app.route("/about")
 def about():
