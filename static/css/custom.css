@@ -1,9 +1,9 @@
 #number-projects-nd {
-    font-size: 60px;
+    font-size: 30px;
 }
 
 #total-donations-nd {
-    font-size: 60px;
+    font-size: 30px;
 }
 
 .dc-chart g.row text {
@@ -12,5 +12,5 @@
 }
 
 #total-injured-nd {
-  font-size: 12px;
+  font-size: 30px;
 }
