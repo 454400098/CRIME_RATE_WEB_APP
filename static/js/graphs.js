@@ -65,23 +65,24 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var numberincidentsND = dc.numberDisplay("#number-projects-nd");
 	var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
-  var victimND = dc.rowChart("#victim-chart");
+  var victimND = dc.compositeChart("#victim-chart");
 
-  // victimND
-  // .width(300)
-  // .height(250)
-  // .margins({ top: 10, right: 10, bottom: 20, left: 40 })
-  // .dimension(n_ch_dimension)
-  // .transitionDuration(500)
-  // .brushOn(false)
-  // .valueAccessor(function(d){return d; })
+  victimND
+  .width(300)
+  .height(250)
+  .margins({ top: 10, right: 10, bottom: 20, left: 40 })
+  .dimension(dateDim)
+  .transitionDuration(500)
+  .brushOn(false)
+  .valueAccessor(function(d){return d; })
   // .x(d3.scale.linear().domain([0, 10000]))
-  // .elasticY(true)
-  // .compose([
-  //       dc.lineChart(victimND).group(n_child_dim),
-  //       dc.lineChart(victimND).group(n_teen_dim),
-  //       dc.lineChart(victimND).group(n_adult_dim),
-  //   ]);
+  .x(d3.time.scale().domain([minDate, maxDate]))
+  .elasticY(true)
+  .compose([
+        dc.lineChart(victimND).group(n_child_dim,'child_victim').colors(['#ff80c0']),
+        dc.lineChart(victimND).group(n_teen_dim,'teen_victim').colors(['#ff8080']),
+        dc.lineChart(victimND).group(n_adult_dim,'adult_victim').colors(['#ffc080']),
+    ]);
 
 
 
