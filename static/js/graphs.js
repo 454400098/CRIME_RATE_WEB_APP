@@ -21,7 +21,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var ndx = crossfilter(crimeProjects);
   //Define Dimensions
   var dateDim = ndx.dimension(function(d) { return d["date"]; });
-  var stateDim = ndx.dimension(function(d) { return d["state"]; });
+  var stateDim = ndx.dimension(function(d) { return d["state_ab"]; });
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
   var total_injured = ndx.dimension(function(d) { return d["n_injured"]; });
@@ -93,7 +93,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.group(totalnumkilledByState)
 		.colors(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])
 		.colorDomain([0, max_killed_state])
-		.overlayGeoJson(statesJson["features"], "state", function (d) {
+		.overlayGeoJson(statesJson["features"], "state_ab", function (d) {
 			return d.properties.name;
 		})
 		.projection(d3.geo.albersUsa()
