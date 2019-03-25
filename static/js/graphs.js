@@ -13,8 +13,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     d["date"].setDate(1);
     d["n_killed"]=+d["n_killed"];
     d["n_injured"]=+d["n_injured"];
-    d["n_teen"]=+d["n_teen"];
     d["n_child_victim"]=+d["n_child_victim"];
+    d["n_teen_victim"]=+d["n_teen_victim"];
+    d["n_adult_victim"]=+d["n_adult_victim"];
   });
 
 
@@ -91,7 +92,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.height(330)
 		.dimension(stateDim)
 		.group(totalnumkilledByState)
-		.colors(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"])
+		.colors(["#ffcccc", "#ffb3b3", "#ff8080", "#ff4d4d", "#ff3333", "#ff0000", "#e60000", "#cc0000", "#990000","#660000"])
 		.colorDomain([0, max_killed_state])
 		.overlayGeoJson(statesJson["features"], "state_ab", function (d) {
 			return d.properties.name;
@@ -102,7 +103,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.title(function (p) {
 			return "State: " + p["key"]
 					+ "\n"
-					+ "Total Num of Killed: " + Math.round(p["value"]) + " $";
+					+ "Total Num of Killed: " + Math.round(p["value"]);
 		})
 
 
