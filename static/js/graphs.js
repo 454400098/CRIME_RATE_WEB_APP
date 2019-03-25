@@ -89,7 +89,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   numberincidentsND
 		.formatNumber(d3.format("d"))
 		.valueAccessor(function(d){return d; })
-		.group(all);
+		.group(all,"test");
 
 
 
