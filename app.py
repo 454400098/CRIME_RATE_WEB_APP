@@ -69,6 +69,7 @@ def about():
 def result():
     if request.method == 'POST':
         result = request.form
+
     return render_template("result.html",result = result)
 
 
