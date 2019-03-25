@@ -14,6 +14,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     d["n_killed"]=+d["n_killed"];
     d["n_injured"]=+d["n_injured"];
     d["n_teen"]=+d["n_teen"];
+    d["n_child_victim"]=+d["n_child_victim"];
   });
 
 
@@ -23,6 +24,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var stateDim = ndx.dimension(function(d) { return d["state"]; });
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
+  var total_injured = ndx.dimension(function(d) { return d["n_injured"]; });
 
   //Calculate metrics
   var numProjectsByDate = dateDim.group();
@@ -37,6 +39,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
   var all = ndx.groupAll();
   var totalkilled = ndx.groupAll().reduceSum(function(d) {return d["n_killed"];});
+  var totalinjured = ndx.groupAll().reduceSum(function(d) {return d["n_injured"];});
+
 
   var max_killed_state = totalnumkilledByState.top(1)[0].value;
   var max_injured_state = totalnuminjuredByState.top(1)[0].value;
@@ -50,7 +54,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var usChart = dc.geoChoroplethChart("#us-chart");
   var numberincidentsND = dc.numberDisplay("#number-projects-nd");
 	var totalkilledND = dc.numberDisplay("#total-donations-nd");
-
+  var totalinjuredND = dc.numberDisplay("#total-injured-nd");
 
   numberincidentsND
 		.formatNumber(d3.format("d"))
@@ -62,6 +66,12 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.formatNumber(d3.format("d"))
 		.valueAccessor(function(d){return d; })
 		.group(totalkilled)
+		.formatNumber(d3.format(".3s"));
+
+  totalinjuredND
+		.formatNumber(d3.format("d"))
+		.valueAccessor(function(d){return d; })
+		.group(totalinjured)
 		.formatNumber(d3.format(".3s"));
 
   timeChart
