@@ -61,6 +61,22 @@ def firset_projects():
     connection.close()
     return json_projects
 
+
+# test aggragation
+@app.route("/first1/zipfilter")
+def zipfilter():
+    connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
+    collection = connection[DBS_NAME][COLLECTION_NAME]
+    projects = collection.aggregate([{'$match':{"zip_code":10026}}]);
+    json_projects = []
+    for project in projects:
+        json_projects.append(project)
+    json_projects = json.dumps(json_projects, default=json_util.default)
+    connection.close()
+    return json_projects
+
+# test aggragation
+
 @app.route("/about")
 def about():
     return render_template("about.html")

@@ -1,16 +1,31 @@
 
 {% extends "base.html" %}
 
+{% block head %}
+  {{ super() }}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{% endblock %}
 
 {% block content %}
 <h1>Second Page</h1>
 
-<form  action = "/result" method = "POST">
+<form  id = "zipform" action = "/result" method = "POST">
+<form  id = "zipform" method = "POST">
   <div class="form-group">
     <p id = "test" >Area <input type="test" name="Area" value=""></p>
   </div>
-  <button type="submit" onclick= "myfunction" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+<script>
+  $("button#submit").click(function() {
+    $.post("first1/zipfilter", $("zipform").serialize(), function(data){
+        //DO something
+    });
 
+    $.post("/result", $("zipform").serialize(), function(data){
+        //DO something
+    });
+});
+</script>
 {% endblock %}
