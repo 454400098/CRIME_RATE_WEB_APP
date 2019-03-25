@@ -26,6 +26,15 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
   var total_injured = ndx.dimension(function(d) { return d["n_injured"]; });
+  var n_ch_dimension = ndx.dimension(function(d) { return d["n_child_victim"]; });
+
+  //-------- for victim chart---------
+  var n_child_dim = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
+  var n_teen_dim = dateDim.group().reduceSum(function (d) { return d["n_teen_victim"]; });
+  var n_adult_dim = dateDim.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
+
+  //--------****-----------
+
 
   //Calculate metrics
   var numProjectsByDate = dateDim.group();
@@ -56,11 +65,31 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var numberincidentsND = dc.numberDisplay("#number-projects-nd");
 	var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
+  var victimND = dc.rowChart("#victim-chart");
+
+  // victimND
+  // .width(300)
+  // .height(250)
+  // .margins({ top: 10, right: 10, bottom: 20, left: 40 })
+  // .dimension(n_ch_dimension)
+  // .transitionDuration(500)
+  // .brushOn(false)
+  // .valueAccessor(function(d){return d; })
+  // .x(d3.scale.linear().domain([0, 10000]))
+  // .elasticY(true)
+  // .compose([
+  //       dc.lineChart(victimND).group(n_child_dim),
+  //       dc.lineChart(victimND).group(n_teen_dim),
+  //       dc.lineChart(victimND).group(n_adult_dim),
+  //   ]);
+
+
 
   numberincidentsND
 		.formatNumber(d3.format("d"))
 		.valueAccessor(function(d){return d; })
 		.group(all);
+
 
 
   totalkilledND
