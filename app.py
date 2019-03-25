@@ -5,6 +5,8 @@ from pymongo import MongoClient
 import json
 from bson import json_util
 from bson.json_util import dumps
+from threading import Thread
+from flask import Response
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -42,6 +44,7 @@ FIELDS = {'date': True,
 
 
 
+static_zip = 90001
 
 @app.route("/")
 def home():
@@ -61,20 +64,21 @@ def firset_projects():
     connection.close()
     return json_projects
 
-
 # test aggragation
-@app.route("/first1/zipfilter")
+@app.route("/first1/zipfilter",methods = ['POST','GET'])
 def zipfilter():
-    connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
-    collection = connection[DBS_NAME][COLLECTION_NAME]
-    projects = collection.aggregate([{'$match':{"zip_code":10026}}]);
-    json_projects = []
-    for project in projects:
-        json_projects.append(project)
-    json_projects = json.dumps(json_projects, default=json_util.default)
-    connection.close()
-    return json_projects
-
+        result = request.form
+        static_zip = result['Area']
+        static_zip=int(static_zip)
+        connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
+        collection = connection[DBS_NAME][COLLECTION_NAME]
+        projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
+        json_projects = []
+        for project in projects:
+            json_projects.append(project)
+        json_projects = json.dumps(json_projects, default=json_util.default)
+        connection.close()
+        return json_projects
 # test aggragation
 
 @app.route("/about")
@@ -85,7 +89,8 @@ def about():
 def result():
     if request.method == 'POST':
         result = request.form
-
+        static_zip = result['Area']
+        print(static_zip)
     return render_template("result.html",result = result)
 
 

@@ -9,8 +9,7 @@
 {% block content %}
 <h1>Second Page</h1>
 
-<form  id = "zipform" action = "/result" method = "POST">
-<form  id = "zipform" method = "POST">
+<form  id = "zipform" action = "/first1/zipfilter" method = "POST">
   <div class="form-group">
     <p id = "test" >Area <input type="test" name="Area" value=""></p>
   </div>
@@ -18,7 +17,8 @@
 </form>
 
 <script>
-  $("button#submit").click(function() {
+  $("zipform").submit(function(e) {
+    e.preventDefault(); // avoid to execute the actual submit of the form.
     $.post("first1/zipfilter", $("zipform").serialize(), function(data){
         //DO something
     });
