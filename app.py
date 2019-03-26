@@ -7,7 +7,7 @@ from bson.json_util import dumps
 from threading import Thread
 from flask import Response
 import json
-
+import os
 app = Flask(__name__)
 Bootstrap(app)
 
@@ -88,6 +88,10 @@ def zipfilter():
 
 @app.route("/about")
 def about():
+    print("delete begin")
+    if os.path.exists("./second/data.json"):
+        os.remove("./second/data.json")
+    print("delete stop")
     return render_template("about.html")
 
 
