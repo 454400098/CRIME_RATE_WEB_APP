@@ -9,14 +9,7 @@
 <!-- for geoarr init -->
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-    crossorigin=""/>
 
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-  integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-  crossorigin=""></script>
 
 
 
@@ -37,31 +30,22 @@
 
 
 
+
 <div>
-  <input type="text" placeholder="Enter a zip code" id="zip" onkeydown="lonlat()" autocomplete="off"/>
+  <input type="text" placeholder="Enter a zip code" id="zip"  autocomplete="off"/>
   <p id="lonlat"></p>
 </div>
 
+<div id="chart">Pie Chart</div>
 
 <script type="text/javascript">
   var myGeocode = [40.7831,-73.985130];
   var input = {{result['Area']|tojson}}
-  var lonlat = document.getElementById('lonlat');
+ 
   console.log(input);
-  if (input.length === 5) {
-    console.log('i am here');
-    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
-    xhr.done(function(data) {
-      lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
-      myGeocode[0] = data.results[0].geometry.location.lat;
-      myGeocode[1] = data.results[0].geometry.location.lng;
-      console.log('finished computation');
-      console.log(myGeocode[0]);
-      console.log(myGeocode[1]);
-    });
-  }
+
   console.log('now ans is ');
-  console.log(myGeocode[0]);
+  
 </script>
 
 
@@ -81,20 +65,20 @@
 <div id="mapid" style="width: 600px; height: 400px;"></div>
 </div>
 
-<script type="text/javascript">
-function mapDisplay(){
-  var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
-  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox.streets',
-    accessToken: 'pk.eyJ1IjoiNDU0NDAwMDk4IiwiYSI6ImNqdGo3ZWNwcTBxamE0M2xlcWhmbDI1aWwifQ.NFAQsnKRRN3wTsQPjV-ZtA'
-}).addTo(mymap);
-};
+<script src="./static/lib/js/jquery.min.js"></script>
+  <script src="./static/lib/js/bootstrap.min.js"></script>
+  <script src="./static/lib/js/crossfilter.js"></script>
+  <script src="./static/lib/js/d3.js"></script>
+  <script src="./static/lib/js/dc.js"></script>
+  <script src="./static/lib/js/queue.js"></script>
+  <!-- <script src="http://d3js.org/queue.v1.min.js"></script> -->
+  <script src="./static/lib/js/keen.min.js"></script>
+  <script src='./static/js/graphs2.js' type='text/javascript'></script>
 
-$(function() {
-    $('#action').click(mapDisplay);
-});
+<script type="text/javascript">
+
+var userzip2={{result['Area']|tojson}};
+  console.log(userzip2);
 </script>
 
 {% endblock %}
