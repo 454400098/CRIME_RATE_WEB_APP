@@ -15,7 +15,7 @@ Bootstrap(app)
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 DBS_NAME = 'first1'
-COLLECTION_NAME = 'projects'
+COLLECTION_NAME = 'projects1'
 FIELDS = {'date': True,
 'state_ab': True,
 'city_or_county': True,
@@ -47,7 +47,7 @@ FIELDS = {'date': True,
 # ---------zipcode DB init--------------
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
-DBS_NAME2 = 'first2'
+DBS_NAME2 = 'first1'
 COLLECTION_NAME2 = 'projects2'
 FIELDS = {'Average Household Income':True,
 'Average Household Income':True,
@@ -70,7 +70,7 @@ def second_projects():
 
 
 
-#---------------------------------------
+# ---------------------------------------
 static_zip = 90001
 
 @app.route("/")
