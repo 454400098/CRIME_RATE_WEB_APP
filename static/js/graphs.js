@@ -6,7 +6,6 @@ queue()     //asynchronous call back, when all data loaded , continue to call ma
 
 function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and us-states to function
   var crimeProjects = projectsJson;
-  console.log(projectsJson)
   // var dateFormat = d3.time.format("%Y-%m-%d");
   var dateFormat = d3.time.format("%-m/%-d/%Y");
   crimeProjects.forEach(function(d){
@@ -81,7 +80,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .elasticY(true)
   .compose([
         dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff80c0']),
-        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#ff8080']),
+        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#331926']),
         dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080']),
     ]);
 
