@@ -45,28 +45,17 @@ FIELDS = {'date': True,
 
 
 # ---------zipcode DB init--------------
-MONGODB_HOST = 'localhost'
-MONGODB_PORT = 27017
-DBS_NAME2 = 'first1'
-COLLECTION_NAME2 = 'projects2'
-FIELDS = {'Average Household Income':True,
-'Average Household Income':True,
-'Median House Value':True,
-'_id':False}
+# MONGODB_HOST = 'localhost'
+# MONGODB_PORT = 27018
+# DBS_NAME2 = 'first1'
+# COLLECTION_NAME2 = 'projects2'
+# FIELDS = {'Average Household Income':True,
+# 'Average Household Income':True,
+# 'Median House Value':True,
+# '_id':False}
 
 
 
-@app.route("/first2/projects2")
-def second_projects():
-    connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
-    collection = connection[DBS_NAME2][COLLECTION_NAME2]
-    projects = collection.find(projection=FIELDS,limit = 240000)
-    json_projects = []
-    for project in projects:
-        json_projects.append(project)
-    json_projects = json.dumps(json_projects, default=json_util.default)
-    connection.close()
-    return json_projects
 
 
 
@@ -76,7 +65,18 @@ static_zip = 90001
 @app.route("/")
 def home():
     return render_template("home.html")
-
+# 
+# @app.route("/first2/projects2")
+# def second_projects():
+#     connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
+#     collection = connection[DBS_NAME2][COLLECTION_NAME2]
+#     projects = collection.find(projection=FIELDS,limit = 240000)
+#     json_projects = []
+#     for project in projects:
+#         json_projects.append(project)
+#     json_projects = json.dumps(json_projects, default=json_util.default)
+#     connection.close()
+#     return json_projects
 
 
 @app.route("/first1/projects")
