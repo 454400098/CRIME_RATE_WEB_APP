@@ -6,6 +6,7 @@ queue()     //asynchronous call back, when all data loaded , continue to call ma
 
 function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and us-states to function
   var crimeProjects = projectsJson;
+  console.log(projectsJson)
   // var dateFormat = d3.time.format("%Y-%m-%d");
   var dateFormat = d3.time.format("%-m/%-d/%Y");
   crimeProjects.forEach(function(d){

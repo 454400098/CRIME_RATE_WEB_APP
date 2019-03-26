@@ -40,6 +40,8 @@ FIELDS = {'date': True,
 'n_male_victim': True ,
 'n_female_victim': True ,
 'Total Population':True,
+'n_male_victim':True,
+'n_female_victim':True,
 '_id': False}
 
 
@@ -65,7 +67,7 @@ static_zip = 90001
 @app.route("/")
 def home():
     return render_template("home.html")
-# 
+#
 # @app.route("/first2/projects2")
 # def second_projects():
 #     connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
@@ -107,7 +109,8 @@ def zipfilter():
         for project in projects:
             json_projects.append(project)
         json_projects = json.dumps(json_projects, default=json_util.default)
-        with open('./second/data.json', 'w') as outfile:
+        
+        with open('static/second/data.json', 'w') as outfile:
              json.dump(json_projects, outfile)
         connection.close()
         return json_projects
@@ -116,8 +119,8 @@ def zipfilter():
 @app.route("/about")
 def about():
     print("delete begin")
-    if os.path.exists("./second/data.json"):
-        os.remove("./second/data.json")
+    if os.path.exists("./static/second/data.json"):
+        os.remove("./static/second/data.json")
     print("delete stop")
     return render_template("about.html")
 
