@@ -70,6 +70,8 @@ def zipfilter():
         result = request.form
         static_zip = result['Area']
         static_zip=int(static_zip)
+        print(" i am in json")
+        print(static_zip)
         connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
         collection = connection[DBS_NAME][COLLECTION_NAME]
         projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
@@ -85,12 +87,12 @@ def zipfilter():
 def about():
     return render_template("about.html")
 
+
 @app.route("/result",methods = ['POST','GET'])
 def result():
     if request.method == 'POST':
         result = request.form
-        static_zip = result['Area']
-        print(static_zip)
+        print('test')
     return render_template("result.html",result = result)
 
 

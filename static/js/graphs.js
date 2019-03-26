@@ -1,7 +1,7 @@
 
 queue()     //asynchronous call back, when all data loaded , continue to call make graphs
     .defer(d3.json, "/first1/projects")
-    .defer(d3.json, "static/geojson/us-states.json")
+    .defer(d3.json, "/static/geojson/us-states.json")
     .await(makeGraphs);
 
 function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and us-states to function
