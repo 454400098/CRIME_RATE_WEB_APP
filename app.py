@@ -106,10 +106,21 @@ def zipfilter():
         collection = connection[DBS_NAME][COLLECTION_NAME]
         projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
         json_projects = []
+        print('!!!!!!!!!!!!!')
+        print(projects)
         for project in projects:
-            json_projects.append(project)
+            json_temp=project.copy()
+            json_temp=str(json_temp)
+            json_temp=json_temp.replace('"','')
+            json_temp=json_temp.replace('\\','')
+            l=len(json_temp.split('incident_id')[0])
+            _d="{'"+json_temp[l:]
+            __d=eval(_d)
+            #print('kaska')
+            print(__d)
+            json_projects.append(__d)
         json_projects = json.dumps(json_projects, default=json_util.default)
-        
+
         with open('static/second/data.json', 'w') as outfile:
              json.dump(json_projects, outfile)
         connection.close()
