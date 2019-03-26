@@ -2,10 +2,12 @@ from flask import Flask
 from flask import render_template,request
 from flask_bootstrap import Bootstrap
 from pymongo import MongoClient
-import json
 from bson import json_util
 from bson.json_util import dumps
-
+from threading import Thread
+from flask import Response
+import json
+import os
 app = Flask(__name__)
 Bootstrap(app)
 
@@ -13,9 +15,9 @@ Bootstrap(app)
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 DBS_NAME = 'first1'
-COLLECTION_NAME = 'projects'
+COLLECTION_NAME = 'projects1'
 FIELDS = {'date': True,
-'state': True,
+'state_ab': True,
 'city_or_county': True,
 'address': True,
 'n_killed': True,
@@ -37,23 +39,53 @@ FIELDS = {'date': True,
 'n_female': True ,
 'n_male_victim': True ,
 'n_female_victim': True ,
+'Total Population':True,
+'n_male_victim':True,
+'n_female_victim':True,
 '_id': False}
 
 
 
+# ---------zipcode DB init--------------
+# MONGODB_HOST = 'localhost'
+# MONGODB_PORT = 27018
+# DBS_NAME2 = 'first1'
+# COLLECTION_NAME2 = 'projects2'
+# FIELDS = {'Average Household Income':True,
+# 'Average Household Income':True,
+# 'Median House Value':True,
+# '_id':False}
 
+
+
+
+
+
+# ---------------------------------------
+static_zip = 90001
 
 @app.route("/")
 def home():
     return render_template("home.html")
-
+#
+# @app.route("/first2/projects2")
+# def second_projects():
+#     connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
+#     collection = connection[DBS_NAME2][COLLECTION_NAME2]
+#     projects = collection.find(projection=FIELDS,limit = 240000)
+#     json_projects = []
+#     for project in projects:
+#         json_projects.append(project)
+#     json_projects = json.dumps(json_projects, default=json_util.default)
+#     connection.close()
+#     return json_projects
 
 
 @app.route("/first1/projects")
 def firset_projects():
     connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
     collection = connection[DBS_NAME][COLLECTION_NAME]
-    projects = collection.find(projection=FIELDS)
+    projects = collection.find(projection=FIELDS,limit = 240000)
     json_projects = []
     for project in projects:
         json_projects.append(project)
@@ -61,15 +93,55 @@ def firset_projects():
     connection.close()
     return json_projects
 
+# test aggragation
+@app.route("/first1/zipfilter",methods = ['POST','GET'])
+def zipfilter():
+        result = request.form
+        static_zip = result['Area']
+        static_zip=int(static_zip)
+        print(" i am in the fucking json above")
+        print(static_zip)
+        print(" i am in the fucking json below")
+        connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
+        collection = connection[DBS_NAME][COLLECTION_NAME]
+        projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
+        json_projects = []
+        print('!!!!!!!!!!!!!')
+        print(projects)
+        for project in projects:
+            json_temp=project.copy()
+            json_temp=str(json_temp)
+            json_temp=json_temp.replace('"','')
+            json_temp=json_temp.replace('\\','')
+            l=len(json_temp.split('incident_id')[0])
+            _d="{'"+json_temp[l:]
+            __d=eval(_d)
+            #print('kaska')
+            print(__d)
+            json_projects.append(__d)
+        json_projects = json.dumps(json_projects, default=json_util.default)
+
+        with open('static/second/data.json', 'w') as outfile:
+             json.dump(json_projects, outfile)
+        connection.close()
+        return json_projects
+# test aggragation
+
 @app.route("/about")
 def about():
+    print("delete begin")
+    if os.path.exists("./static/second/data.json"):
+        os.remove("./static/second/data.json")
+    print("delete stop")
     return render_template("about.html")
+
 
 @app.route("/result",methods = ['POST','GET'])
 def result():
     if request.method == 'POST':
         result = request.form
-
+        print('test')
+    print('test')
     return render_template("result.html",result = result)
 
 
