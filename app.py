@@ -2,11 +2,11 @@ from flask import Flask
 from flask import render_template,request
 from flask_bootstrap import Bootstrap
 from pymongo import MongoClient
-import json
 from bson import json_util
 from bson.json_util import dumps
 from threading import Thread
 from flask import Response
+import json
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -70,8 +70,9 @@ def zipfilter():
         result = request.form
         static_zip = result['Area']
         static_zip=int(static_zip)
-        print(" i am in json")
+        print(" i am in the fucking json above")
         print(static_zip)
+        print(" i am in the fucking json below")
         connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
         collection = connection[DBS_NAME][COLLECTION_NAME]
         projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
@@ -79,6 +80,8 @@ def zipfilter():
         for project in projects:
             json_projects.append(project)
         json_projects = json.dumps(json_projects, default=json_util.default)
+        with open('./second/data.json', 'w') as outfile:
+             json.dump(json_projects, outfile)
         connection.close()
         return json_projects
 # test aggragation
@@ -93,6 +96,7 @@ def result():
     if request.method == 'POST':
         result = request.form
         print('test')
+    print('test')
     return render_template("result.html",result = result)
 
 
