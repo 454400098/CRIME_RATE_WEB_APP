@@ -1,8 +1,11 @@
+
 queue()     //asynchronous call back, when all data loaded , continue to call make graphs
-    .defer(d3.json, "/first1/hand")  //main dataset group by zipcode
+    .defer(d3.json, "/static/second/data_new.json")  //main dataset group by zipcode
     .await(makeGraphs);
 
+
 function makeGraphs(error, projectsJson) {
+  console.log(projectsJson)
   console.log('test_if i already in here');
   var crimeProjects = projectsJson;
   console.log(projectsJson)
