@@ -40,6 +40,7 @@ function makeGraphs(error, projectsJson) {
   //--------****-----------
 
   //Calculate metrics
+  var numProjectsByDate = dateDim.group();
   var totalkilled_male = dateDim.group().reduceSum(function(d) {
 		return d["n_male_victim"];
 	});
@@ -59,7 +60,22 @@ function makeGraphs(error, projectsJson) {
   //chart
   var numberProjectsND = dc.numberDisplay("#number-projects-nd");
   var victimND = dc.compositeChart("#victim-chart");
+  var timeChart = dc.barChart("#time-chart");
+  var totalkilledND = dc.numberDisplay("#total-donations-nd");
+  var totalinjuredND = dc.numberDisplay("#total-injured-nd");
 
+
+  timeChart
+  .width(600)
+  .height(160)
+  .margins({top: 10, right: 50, bottom: 30, left: 50})
+  .dimension(dateDim)
+  .group(numProjectsByDate)
+  .transitionDuration(500)
+  .x(d3.time.scale().domain([minDate, maxDate]))
+  .elasticY(true)
+  .xAxisLabel("Year")
+  .yAxis().ticks(4);
 
 
   victimND
@@ -87,6 +103,18 @@ function makeGraphs(error, projectsJson) {
   .formatNumber(d3.format("d"))
   .valueAccessor(function(d){return d; })
   .group(all);
+
+  totalkilledND
+		.formatNumber(d3.format("d"))
+		.valueAccessor(function(d){return d; })
+		.group(totalkilled)
+		.formatNumber(d3.format(".3s"));
+
+  totalinjuredND
+		.formatNumber(d3.format("d"))
+		.valueAccessor(function(d){return d; })
+		.group(totalinjured)
+		.formatNumber(d3.format(".3s"));
 
   dc.renderAll();
 

@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="./static/lib/css/keen-dashboards.css">
   <link rel="stylesheet" href="./static/lib/css/dc.css">
   <link rel="stylesheet" href="./static/css/custom.css">
-
+  <script src="./static/lib/js/d3.js"></script>
 {% endblock %}
 
 
@@ -154,6 +154,8 @@
 
     </div>
 
+
+
     <div class="dc-date-count" style = "float:left;">
         <a href="javascript:dc.filterAll();dc.renderAll();">Reset All</a>
       </h2>
@@ -161,10 +163,34 @@
   </div>
 
 
+<!-- 
+<svg width = "960" height = "600" id="svg1">
+
+</svg>
+
+<script type="text/javascript">
+  var svg = d3.select("#svg1")
+
+    .append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .call(d3.behavior.zoom().on("zoom", function () {
+      svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+    }))
+    .append("g")
+
+  svg.append("circle")
+    .attr("cx", document.body.clientWidth / 2)
+    .attr("cy", document.body.clientHeight / 2)
+    .attr("r", 50)
+    .style("fill", "#B8DEE6")
+</script> -->
+
+
   <script src="./static/lib/js/jquery.min.js"></script>
   <script src="./static/lib/js/bootstrap.min.js"></script>
   <script src="./static/lib/js/crossfilter.js"></script>
-  <script src="./static/lib/js/d3.js"></script>
+
   <script src="./static/lib/js/dc.js"></script>
   <script src="./static/lib/js/queue.js"></script>
   <!-- <script src="http://d3js.org/queue.v1.min.js"></script> -->

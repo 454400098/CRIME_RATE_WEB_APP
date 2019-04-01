@@ -125,17 +125,13 @@ def zipfilter():
         collection = connection[DBS_NAME][COLLECTION_NAME]
         str = 0
         _id = '_id'
-        print(type('zip_code'))
         # projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
-        projects = collection.find({'zip_code':dynamic_zip},{_id:str})
+        projects = collection.find({'zip_code':dynamic_zip},{_id:str})      #must mask _id
+                                                                            #if not, cannot save to json file, dont know the reason, but this worked
 
         json_projects = []
-        print('here!!!!!!!')
-
         for project in projects:
             json_projects.append(project)
-
-
 
         with open('./static/second/data_new.json', 'w') as fout:
              json.dump(json_projects, fout)
@@ -143,6 +139,14 @@ def zipfilter():
         print('test')
         print('what is the type???',type(json_projects))
         print('what is the type???',json_projects[0])
+
+        projects2 = collection.find({'zip_code':dynamic_zip},{'latitude':1,'longitude':1,_id:str})
+        json_projects2 = []
+        for project in projects2:
+            json_projects2.append(project)
+
+        with open('./static/second/location.json', 'w') as fout:
+             json.dump(json_projects2, fout)
 
         connection.close()
         # return json_projects
@@ -154,6 +158,10 @@ def about():
     print("delete begin")
     if os.path.exists("./static/second/data_new.json"):
         os.remove("./static/second/data_new.json")
+
+    if os.path.exists("./static/second/location.json"):
+        os.remove("./static/second/location.json")
+
     print("delete stop")
     return render_template("about.html")
 
