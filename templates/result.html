@@ -64,7 +64,9 @@
           <div class="col-sm-14">
             <div class="chart-wrapper">
               <div class="chart-title">
-                Victim type
+                Number of Victim [<font style="color:#ff80c0;">child_victim</font>]
+                                 [<font style="color:#331926;">teen_victim</font>]
+                                 [<font style="color:#ffc080;">adult_victim</font>]
               </div>
               <div class="chart-stage">
                 <div id="victim-chart"></div>
@@ -103,18 +105,7 @@
           </div>
           <div class="chart-stage">
             <div id="us-chart"></div>
-              <div class='my-legend'>
-  <div class='legend-title'>Distribution of Gun Violence</div>
-  <div class='legend-scale'>
-  <ul class='legend-labels'>
-    <li><span style='background:#ffcccc;'></span></li>
-    <li><span style='background:#ff3333;'></span></li>
-    <li><span style='background:#e60000;'></span></li>
-    <li><span style='background:#cc0000;'></span></li>
-    <li><span style='background:#660000;'></span></li>
-  </ul>
-          </div>
-        </div>
+
       </div>
       <!-- Map -->
 
@@ -240,6 +231,21 @@
 </div>
 
 
+
+<!-- read local location json file -->
+<script type="text/javascript">
+  var data;
+  console.log('Reading local json file!!!!!!');
+  $.getJSON("./static/second/location.json", function(json) {
+    console.log('this is read data',json); // this will show the info it in firebug console
+    data = json;
+});
+console.log('finished reading local json file!!!!!!');
+</script>
+
+
+<!-- read local location json file -->
+
 <script type="text/javascript">
   var myGeocode = [40.7831,-73.985130];
   var input = {{result['Area']|tojson}}
@@ -262,6 +268,7 @@
 </script>
 
 
+
 <button id = "action" type="button" name="button"  >Show map</button>
 <div id="mapid" style="width: 600px; height: 400px;"></div>
 </div>
@@ -271,17 +278,27 @@ function mapDisplay(){
   var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
+    maxZoom: 15,
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoiNDU0NDAwMDk4IiwiYSI6ImNqdGo3ZWNwcTBxamE0M2xlcWhmbDI1aWwifQ.NFAQsnKRRN3wTsQPjV-ZtA'
 }).addTo(mymap);
+
+// loop to make make marker
+var i;
+for(i = 0; i < data.length;i++){
+    L.circle([data[i]['latitude'],data[i]['longitude']],{
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 50
+  }).addTo(mymap);
+}
+// var marker = L.marker([40.5942,-74.4536]).addTo(mymap);
 };
 
 $(function() {
     $('#action').click(mapDisplay);
 });
-
-
 
 
 </script>
