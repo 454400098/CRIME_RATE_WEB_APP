@@ -66,7 +66,6 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
   var victimND = dc.compositeChart("#victim-chart");
-
   victimND
   .width(600)
   .height(250)
@@ -136,6 +135,19 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 					+ "Total Num of Killed: " + Math.round(p["value"]);
 		})
 
+
+
+
   dc.renderAll();
+
+
+  // var zoom = d3.behavior.zoom()
+  //     .translate(projection.translate())
+  //     .sclae(projection.scale())
+  //     .scaleExtent([height,8*height])
+  //     .on("zoom",zoomed);     //bind the necessary event listeners for zooming
+
+
+
 
 };

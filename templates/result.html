@@ -64,7 +64,9 @@
           <div class="col-sm-14">
             <div class="chart-wrapper">
               <div class="chart-title">
-                Victim type
+                Number of Victim [<font style="color:#ff80c0;">child_victim</font>]
+                                 [<font style="color:#331926;">teen_victim</font>]
+                                 [<font style="color:#ffc080;">adult_victim</font>]
               </div>
               <div class="chart-stage">
                 <div id="victim-chart"></div>
@@ -103,18 +105,7 @@
           </div>
           <div class="chart-stage">
             <div id="us-chart"></div>
-              <div class='my-legend'>
-  <div class='legend-title'>Distribution of Gun Violence</div>
-  <div class='legend-scale'>
-  <ul class='legend-labels'>
-    <li><span style='background:#ffcccc;'></span></li>
-    <li><span style='background:#ff3333;'></span></li>
-    <li><span style='background:#e60000;'></span></li>
-    <li><span style='background:#cc0000;'></span></li>
-    <li><span style='background:#660000;'></span></li>
-  </ul>
-          </div>
-        </div>
+
       </div>
       <!-- Map -->
 
@@ -280,8 +271,6 @@ function mapDisplay(){
 $(function() {
     $('#action').click(mapDisplay);
 });
-
-
 
 
 </script>
