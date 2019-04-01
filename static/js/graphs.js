@@ -136,8 +136,6 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 					+ "Total Num of Killed: " + Math.round(p["value"]);
 		})
 
-
-
   dc.renderAll();
 
 };
