@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="./static/lib/css/dc.css">
   <link rel="stylesheet" href="./static/css/custom.css">
 
+
 {% endblock %}
 
 
@@ -214,7 +215,7 @@
 
 <div class="flex-container">
 <div>
-  <p>TEST RESULT PAGE</p>
+  <!-- <p>TEST RESULT PAGE</p> -->
   <table border = 1>
       <tr>
         <th>{{result}}</th>
@@ -225,10 +226,10 @@
 
 
 
-<div>
+<!-- <div>
   <input type="text" placeholder="Enter a zip code" id="zip" onkeydown="lonlat()" autocomplete="off"/>
   <p id="lonlat"></p>
-</div>
+</div> -->
 
 
 
@@ -273,6 +274,7 @@ console.log('finished reading local json file!!!!!!');
 <div id="mapid" style="width: 600px; height: 400px;"></div>
 </div>
 
+
 <script type="text/javascript">
 function mapDisplay(){
   var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
@@ -282,7 +284,6 @@ function mapDisplay(){
     id: 'mapbox.streets',
     accessToken: 'pk.eyJ1IjoiNDU0NDAwMDk4IiwiYSI6ImNqdGo3ZWNwcTBxamE0M2xlcWhmbDI1aWwifQ.NFAQsnKRRN3wTsQPjV-ZtA'
 }).addTo(mymap);
-
 // loop to make make marker
 var i;
 for(i = 0; i < data.length;i++){
@@ -292,6 +293,7 @@ for(i = 0; i < data.length;i++){
       fillOpacity: 0.5,
       radius: 50
   }).addTo(mymap);
+
 }
 // var marker = L.marker([40.5942,-74.4536]).addTo(mymap);
 };
