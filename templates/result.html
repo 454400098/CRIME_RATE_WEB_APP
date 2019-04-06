@@ -25,6 +25,9 @@
   <link rel="stylesheet" href="./static/css/custom.css">
 
 
+  <script src="https://bowercdn.net/c/es6-promise-3.2.2/es6-promise.min.js" integrity="sha384-GF7IR8yT5028AbfHnSJSxX0Y1D+sicFNHXDyV1Hzcf4EISXdjP8uW0Q/0yFIHpTD" crossorigin="anonymous"></script>
+  <script src="https://bowercdn.net/c/fetch-1.0.0/fetch.js" integrity="sha384-j9GCh0V617Ks+uEOZnAhwzTOWu5lPIlPW3QYRSfEwXd+x7VqP1XHNLgj3AIX7Mo0" crossorigin="anonymous"></script>
+
 {% endblock %}
 
 
@@ -233,6 +236,18 @@
 
 
 
+<script type="text/javascript">
+  var nj_data;
+  console.log('Reading NJ BOUNDARY!!!!!!');
+  $.getJSON("./static/geojson/nj.geojson", function(json) {
+    console.log('this is read data',json);
+    nj_data = json;
+  });
+
+</script>
+
+
+
 <!-- read local location json file -->
 <script type="text/javascript">
   var data;
@@ -293,7 +308,9 @@ for(i = 0; i < data.length;i++){
       fillOpacity: 0.5,
       radius: 50
   }).addTo(mymap);
-
+//add boundary to map
+var myLayer = L.geoJSON().addTo(mymap);
+myLayer.addData(nj_data);
 }
 // var marker = L.marker([40.5942,-74.4536]).addTo(mymap);
 };

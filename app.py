@@ -141,6 +141,7 @@ def zipfilter():
         print('what is the type???',json_projects[0])
 
         projects2 = collection.find({'zip_code':dynamic_zip},{'latitude':1,'longitude':1,_id:str})
+        print('what is the user input: ',dynamic_zip)
         json_projects2 = []
         for project in projects2:
             json_projects2.append(project)
