@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="./static/css/custom.css">
 
 
+
 {% endblock %}
 
 
@@ -233,6 +234,18 @@
 
 
 
+<!-- <script type="text/javascript">
+  var nj_data;
+  console.log('Reading NJ BOUNDARY!!!!!!');
+  $.getJSON("./static/geojson/nj.geojson", function(json) {
+    console.log('this is read data',json);
+    nj_data = json;
+  });
+
+</script> -->
+
+
+
 <!-- read local location json file -->
 <script type="text/javascript">
   var data;
@@ -253,19 +266,19 @@ console.log('finished reading local json file!!!!!!');
   var lonlat = document.getElementById('lonlat');
   console.log(input);
   if (input.length === 5) {
-    console.log('i am here');
+    // console.log('i am here');
     var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
     xhr.done(function(data) {
       lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
       myGeocode[0] = data.results[0].geometry.location.lat;
       myGeocode[1] = data.results[0].geometry.location.lng;
-      console.log('finished computation');
+      // console.log('finished computation');
       console.log(myGeocode[0]);
       console.log(myGeocode[1]);
     });
   }
-  console.log('now ans is ');
-  console.log(myGeocode[0]);
+  // console.log('now ans is ');
+  // console.log(myGeocode[0]);
 </script>
 
 
@@ -286,13 +299,26 @@ function mapDisplay(){
 }).addTo(mymap);
 // loop to make make marker
 var i;
+console.log(data);
 for(i = 0; i < data.length;i++){
     L.circle([data[i]['latitude'],data[i]['longitude']],{
       color: 'red',
       fillColor: '#f03',
       fillOpacity: 0.5,
       radius: 50
-  }).addTo(mymap);
+  })
+  .bindPopup(data[i]['source_url'])
+  .addTo(mymap);
+//add boundary to map
+// var myLayer = L.geoJSON().addTo(mymap);
+// myLayer.addData(nj_data)
+
+// var myLayer = L.geoJSON(data,{
+//     filter: function(feature,layer){
+//       return feature.properties.ZCTA5CE10 == 08854;
+//     }
+// }).addTo(mymap);
+
 
 }
 // var marker = L.marker([40.5942,-74.4536]).addTo(mymap);
