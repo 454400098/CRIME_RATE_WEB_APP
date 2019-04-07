@@ -53,8 +53,10 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
 
   var max_killed_state = totalnumkilledByState.top(1)[0].value;
-  var max_injured_state = totalnuminjuredByState.top(1)[0].value;
-
+  // var max_injured_state = totalnuminjuredByState.top(1)[0].value;
+  var nameofstate = totalnumkilledByState.top(1)[0]
+  console.log('WTF!!!!')
+  console.log('name is',nameofstate)
   //Define values (to be used in charts)
 	var minDate = dateDim.bottom(1)[0]["date"];
 	var maxDate = dateDim.top(1)[0]["date"];
@@ -158,9 +160,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     .attr("x",function(d){return project(d.geometry.coordinates)[0];})
     .attr("y",function(d){return project(d.geometry.coordinates)[1];})
     .attr("dx","-1em");
-
-  console.log('finsied redenering text')
-  console.log(labels.features)
+  //
+  // console.log('finsied redenering text')
+  // console.log(labels.features)
   // var zoom = d3.behavior.zoom()
   //     .translate(projection.translate())
   //     .sclae(projection.scale())
