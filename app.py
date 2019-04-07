@@ -94,11 +94,20 @@ def firset_projects():
 def second_projects():
     connection = MongoClient(MONGODB_HOST2,MONGODB_PORT2)
     collection = connection[DBS_NAME2][COLLECTION_NAME2]
-    test  =list( collection.find({'GEOID':90012}))
+    test  =list( collection.find({'GEOID':8817}))
     print('I am HERE!!!!',test[0].get('loc'))
     arr = test[0].get('loc')
     print('hahahahha',arr)
-    projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.05}},{"GEOID":1,"_id":0});
+    projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.1}},{"GEOID":1,"_id":0});
+    arr2  = []
+    for doc in projects:
+        print(doc)
+        arr2.append(doc.get('GEOID'))
+    print(arr2)
+    arr = [8817,8854]
+    projects = collection.find({"GEOID":{"$in":arr2}})
+
+
     json_projects = []
     for project in projects:
         json_projects.append(project)
