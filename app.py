@@ -56,7 +56,9 @@ MONGODB_HOST2 = 'localhost'
 DBS_NAME2 = 'second'
 MONGODB_PORT2 = 27018
 COLLECTION_NAME2 = 'projects2'
-FIELDS2 = {'Average Household Income':True,
+FIELDS2 = {
+'GEOID':True,
+'Average Household Income':True,
 'Average Household Income':True,
 'Median House Value':True,
 '_id':False}
@@ -92,7 +94,23 @@ def firset_projects():
 def second_projects():
     connection = MongoClient(MONGODB_HOST2,MONGODB_PORT2)
     collection = connection[DBS_NAME2][COLLECTION_NAME2]
-    projects = collection.find(projection=FIELDS2,limit = 240000)
+    test  =list( collection.find({'GEOID':8817}))
+    print('I am HERE!!!!',test[0].get('loc'))
+    arr = test[0].get('loc')
+    print('hahahahha',arr)
+    projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.1}},{"GEOID":1,"_id":0});
+    arr2  = []
+    for doc in projects:
+        print(doc)
+        arr2.append(doc.get('GEOID'))
+    print(arr2)
+
+    connection2 = MongoClient(MONGODB_HOST,MONGODB_PORT)
+    collection2 = connection2[DBS_NAME][COLLECTION_NAME]
+
+    projects = collection2.find({"zip_code":{"$in":arr2}},{"_id":0})
+
+
     json_projects = []
     for project in projects:
         json_projects.append(project)
@@ -121,33 +139,63 @@ def zipfilter():
         result = request.form
         dynamic_zip = result['Area']
         dynamic_zip=int(dynamic_zip)
-        connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
-        collection = connection[DBS_NAME][COLLECTION_NAME]
-        str = 0
-        _id = '_id'
-        # projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
-        projects = collection.find({'zip_code':dynamic_zip},{_id:str})      #must mask _id
-                                                                            #if not, cannot save to json file, dont know the reason, but this worked
+        print('zipcode is',dynamic_zip)
+        # connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
+        # collection = connection[DBS_NAME][COLLECTION_NAME]
+        # str = 0
+        # _id = '_id'
+        # # projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
+        # projects = collection.find({'zip_code':dynamic_zip},{_id:str})      #must mask _id
+        #                                                                     #if not, cannot save to json file, dont know the reason, but this worked
+        #
+        # json_projects = []
+        # for project in projects:
+        #     json_projects.append(project)
+        #
+        # with open('./static/second/data_new.json', 'w') as fout:
+        #      json.dump(json_projects, fout)
+        #
+        # print('test')
+        # print('what is the type???',type(json_projects))
+        # print('what is the type???',json_projects[0])
+        #
+        # projects2 = collection.find({'zip_code':dynamic_zip},{'latitude':1,'longitude':1,_id:str})
+        # print('what is the user input: ',dynamic_zip)
+        # json_projects2 = []
+        # for project in projects2:
+        #     json_projects2.append(project)
+        #
+        # with open('./static/second/location.json', 'w') as fout:
+        #      json.dump(json_projects2, fout)
+        connection = MongoClient(MONGODB_HOST2,MONGODB_PORT2)
+        collection = connection[DBS_NAME2][COLLECTION_NAME2]
+        test = list(collection.find({'GEOID':dynamic_zip}))
+        arr = test[0].get('loc')
+        print('I am HERE!!!!',test[0].get('loc'))
+        projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.1}},{"GEOID":1,"_id":0});
+        arr2 = []       #list of nearby zipcode
+        for doc in projects:
+            arr2.append(doc.get('GEOID'))
 
-        json_projects = []
-        for project in projects:
-            json_projects.append(project)
 
-        with open('./static/second/data_new.json', 'w') as fout:
-             json.dump(json_projects, fout)
 
-        print('test')
-        print('what is the type???',type(json_projects))
-        print('what is the type???',json_projects[0])
+        connection2 = MongoClient(MONGODB_HOST,MONGODB_PORT)
+        collection2 = connection2[DBS_NAME][COLLECTION_NAME]
 
-        projects2 = collection.find({'zip_code':dynamic_zip},{'latitude':1,'longitude':1,_id:str})
+        projects3 = collection2.find({"zip_code":{"$in":arr2}},{"_id":0})
+        json_projects3 = []
+        for project in projects3:
+                json_projects3.append(project)
+        with open('./static/second/data_new.json','w') as fout:
+            json.dump(json_projects3,fout)
+
+        projects2 = collection2.find({"zip_code":{"$in":arr2}},{'latitude':1,'longitude':1,'source_url':1,"_id":0})
         json_projects2 = []
         for project in projects2:
             json_projects2.append(project)
 
-        with open('./static/second/location.json', 'w') as fout:
-             json.dump(json_projects2, fout)
-
+        with open('./static/second/location.json','w') as fout:
+            json.dump(json_projects2,fout)
         connection.close()
         # return json_projects
 
