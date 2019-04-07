@@ -189,7 +189,7 @@ def zipfilter():
         with open('./static/second/data_new.json','w') as fout:
             json.dump(json_projects3,fout)
 
-        projects2 = collection2.find({"zip_code":{"$in":arr2}},{'latitude':1,'longitude':1,"_id":0})
+        projects2 = collection2.find({"zip_code":{"$in":arr2}},{'latitude':1,'longitude':1,'source_url':1,"_id":0})
         json_projects2 = []
         for project in projects2:
             json_projects2.append(project)
