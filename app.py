@@ -56,7 +56,9 @@ MONGODB_HOST2 = 'localhost'
 DBS_NAME2 = 'second'
 MONGODB_PORT2 = 27018
 COLLECTION_NAME2 = 'projects2'
-FIELDS2 = {'Average Household Income':True,
+FIELDS2 = {
+'GEOID':True,
+'Average Household Income':True,
 'Average Household Income':True,
 'Median House Value':True,
 '_id':False}
@@ -92,7 +94,11 @@ def firset_projects():
 def second_projects():
     connection = MongoClient(MONGODB_HOST2,MONGODB_PORT2)
     collection = connection[DBS_NAME2][COLLECTION_NAME2]
-    projects = collection.find(projection=FIELDS2,limit = 240000)
+    test  =list( collection.find({'GEOID':90012}))
+    print('I am HERE!!!!',test[0].get('loc'))
+    arr = test[0].get('loc')
+    print('hahahahha',arr)
+    projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.05}},{"GEOID":1,"_id":0});
     json_projects = []
     for project in projects:
         json_projects.append(project)
