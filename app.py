@@ -104,8 +104,11 @@ def second_projects():
         print(doc)
         arr2.append(doc.get('GEOID'))
     print(arr2)
-    arr = [8817,8854]
-    projects = collection.find({"GEOID":{"$in":arr2}})
+
+    connection2 = MongoClient(MONGODB_HOST,MONGODB_PORT)
+    collection2 = connection2[DBS_NAME][COLLECTION_NAME]
+
+    projects = collection2.find({"zip_code":{"$in":arr2}},{"_id":0})
 
 
     json_projects = []
