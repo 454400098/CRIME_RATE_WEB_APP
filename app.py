@@ -86,7 +86,11 @@ def firset_projects():
     for project in projects:
         json_projects.append(project)
     json_projects = json.dumps(json_projects, default=json_util.default)
+
+
     connection.close()
+
+
     return json_projects
 
 
@@ -129,6 +133,8 @@ def test():
     for project in projects:
         json_projects.append(project)
     json_projects = json.dumps(json_projects, default=json_util.default)
+
+
     connection.close()
     return json_projects
 
