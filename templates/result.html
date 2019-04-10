@@ -321,7 +321,10 @@ function mapDisplay(){
 });
 
  const Dataset = new carto.source.Dataset(`out`);
-
+ //
+ // const bou = new carto.source.Dataset(`
+ //   SELECT * FROM out WHERE geoid10 IN ('08854','08817','10024')
+ // `);
 
  const style = new carto.style.CartoCSS(`
    #out  {polygon-fill: #7bd490;
