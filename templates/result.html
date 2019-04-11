@@ -308,6 +308,10 @@ console.log('finished reading local json file!!!!!!');
 
 
 <script type="text/javascript">
+  var test = ["'08817'","'08854'"];
+
+
+  console.log(test.join(','))
 function mapDisplay(){
   var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
@@ -317,7 +321,8 @@ function mapDisplay(){
   apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
   username: '454400098'
 });
- const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 IN('08854','08817','10024')`,{
+ const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+test.join(',')+`)`,{
+  // const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In ('08854','08817')`,{
    apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
    username: '454400098'
  });
