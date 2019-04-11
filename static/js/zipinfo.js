@@ -54,23 +54,7 @@ function makeGraphs(error, projectsJson) {
   var totalaccidentbyzip = zipcodeDim.group().reduceCount();
 
   console.log('zipcode group is :',totalaccidentbyzip.top(10));
-  // new group test
-  var acc = zipcodeDim.group().reduce(
-    function(p,v){
-      ++p.number;
-      p.total += 1;
-      return p;
-    },
-    function(p,v){
-      --p.number;
-      p.total -=1;
-      return p;
-    },
-    function(){
-      return{number:0,total:0}
-    }
-  );
-  console.log('!!!!  test result result group is :',acc.top(10));
+
   // new group test
   var all = ndx.groupAll();
   var totalkilled = ndx.groupAll().reduceSum(function(d) {return d["n_killed"];});
