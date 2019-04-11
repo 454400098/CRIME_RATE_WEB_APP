@@ -146,33 +146,7 @@ def zipfilter():
         dynamic_zip = result['Area']
         dynamic_zip=int(dynamic_zip)
         print('zipcode is',dynamic_zip)
-        # connection = MongoClient(MONGODB_HOST,MONGODB_PORT)
-        # collection = connection[DBS_NAME][COLLECTION_NAME]
-        # str = 0
-        # _id = '_id'
-        # # projects = collection.aggregate([{'$match':{"zip_code":static_zip}}]);
-        # projects = collection.find({'zip_code':dynamic_zip},{_id:str})      #must mask _id
-        #                                                                     #if not, cannot save to json file, dont know the reason, but this worked
-        #
-        # json_projects = []
-        # for project in projects:
-        #     json_projects.append(project)
-        #
-        # with open('./static/second/data_new.json', 'w') as fout:
-        #      json.dump(json_projects, fout)
-        #
-        # print('test')
-        # print('what is the type???',type(json_projects))
-        # print('what is the type???',json_projects[0])
-        #
-        # projects2 = collection.find({'zip_code':dynamic_zip},{'latitude':1,'longitude':1,_id:str})
-        # print('what is the user input: ',dynamic_zip)
-        # json_projects2 = []
-        # for project in projects2:
-        #     json_projects2.append(project)
-        #
-        # with open('./static/second/location.json', 'w') as fout:
-        #      json.dump(json_projects2, fout)
+
         connection = MongoClient(MONGODB_HOST2,MONGODB_PORT2)
         collection = connection[DBS_NAME2][COLLECTION_NAME2]
         test = list(collection.find({'GEOID':dynamic_zip}))
@@ -202,8 +176,19 @@ def zipfilter():
         for project in projects2:
             json_projects2.append(project)
 
+
         with open('./static/second/location.json','w') as fout:
             json.dump(json_projects2,fout)
+
+        project4 = collection.find({"GEOID":{"$in":arr2}},{'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
+        json_projects4 = []
+
+        for project in project4:
+            json_projects4.append(project)
+        print('what is that !!!',json_projects4)
+        with open('./static/second/zip_loc.json','w') as fout:
+            json.dump(json_projects4,fout)
+
         connection.close()
         # return json_projects
 
@@ -217,6 +202,13 @@ def about():
 
     if os.path.exists("./static/second/location.json"):
         os.remove("./static/second/location.json")
+
+    if os.path.exists("./static/second/onlynearzip.json"):
+        os.remove("./static/second/onlynearzip.json")
+
+    if os.path.exists("./static/second/zip_loc.json"):
+        os.remove("./static/second/zip_loc.json")
+
 
     print("delete stop")
     return render_template("about.html")
