@@ -273,7 +273,15 @@
     console.log('this is read data',json); // this will show the info it in firebug console
     data = json;
 });
-console.log('finished reading local json file!!!!!!');
+
+var ziparray;
+console.log('Reading nearziparray json file!!!!!!');
+$.getJSON("./static/second/onlynearzip.json", function(json) {
+  console.log('this is nearziparray data',json); // this will show the info it in firebug console
+  ziparray = json;
+});
+
+console.log('finished reading nearziparray json file!!!!!!',ziparray);
 </script>
 
 
@@ -303,11 +311,12 @@ console.log('finished reading local json file!!!!!!');
 
 
 <button id = "action" type="button" name="button"  >Show map</button>
-<div id="mapid" style="width: 600px; height: 400px;"></div>
+<div id="mapid" style="width: 900px; height: 600px;"></div>
 </div>
 
 
 <script type="text/javascript">
+
   var test = ["'08817'","'08854'"];
   var test2 = ["08817","08854"];
 
@@ -321,6 +330,16 @@ console.log('finished reading local json file!!!!!!');
 
 
 function mapDisplay(){
+  console.log('tyeof ziparray!!!!!!!!!',ziparray)
+
+  for(var i = 0; i < ziparray.length;i++){
+    if(ziparray[i].toString().length <5){
+      ziparray[i] = '0'+ ziparray[i];
+    }
+    ziparray[i] = "'"+ziparray[i]+"'";
+  }
+
+  console.log(ziparray)
   var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
     maxZoom: 15,
@@ -329,7 +348,7 @@ function mapDisplay(){
   apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
   username: '454400098'
 });
- const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+test2.join(',')+`)`,{
+ const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+ziparray.join(',')+`)`,{
  //const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+"''" +test2.join("',''")+"''"+`)`,{
    apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
    username: '454400098'

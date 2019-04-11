@@ -178,12 +178,14 @@ def zipfilter():
         test = list(collection.find({'GEOID':dynamic_zip}))
         arr = test[0].get('loc')
         print('I am HERE!!!!',test[0].get('loc'))
-        projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.1}},{"GEOID":1,"_id":0});
+        projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.05}},{"GEOID":1,"_id":0});
         arr2 = []       #list of nearby zipcode
         for doc in projects:
             arr2.append(doc.get('GEOID'))
 
 
+        with open('./static/second/onlynearzip.json','w') as fout:
+            json.dump(arr2,fout)
 
         connection2 = MongoClient(MONGODB_HOST,MONGODB_PORT)
         collection2 = connection2[DBS_NAME][COLLECTION_NAME]
