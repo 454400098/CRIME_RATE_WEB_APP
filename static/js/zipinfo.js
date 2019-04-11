@@ -30,7 +30,7 @@ function makeGraphs(error, projectsJson) {
   var dateDim = ndx.dimension(function(d) { return d["date"]; });
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
   var total_injured = ndx.dimension(function(d) { return d["n_injured"]; });
-
+  var zipcodeDim = ndx.dimension(function(d){return d["zip_code"];});
 
   //-------- for victim chart---------
   var n_child_dim = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
@@ -49,6 +49,29 @@ function makeGraphs(error, projectsJson) {
     return d["n_male_victim"];
   });
 
+  var totalnumkilledByZip = zipcodeDim.group().reduceSum(function(d){ return d["n_killed"];});
+
+  var totalaccidentbyzip = zipcodeDim.group().reduceCount();
+
+  console.log('zipcode group is :',totalaccidentbyzip.top(10));
+  // new group test
+  var acc = zipcodeDim.group().reduce(
+    function(p,v){
+      ++p.number;
+      p.total += 1;
+      return p;
+    },
+    function(p,v){
+      --p.number;
+      p.total -=1;
+      return p;
+    },
+    function(){
+      return{number:0,total:0}
+    }
+  );
+  console.log('!!!!  test result result group is :',acc.top(10));
+  // new group test
   var all = ndx.groupAll();
   var totalkilled = ndx.groupAll().reduceSum(function(d) {return d["n_killed"];});
   var totalinjured = ndx.groupAll().reduceSum(function(d) {return d["n_injured"];});
@@ -57,6 +80,14 @@ function makeGraphs(error, projectsJson) {
   var minDate = dateDim.bottom(1)[0]["date"];
   var maxDate = dateDim.top(1)[0]["date"];
 
+  //find most dangerous states
+
+  var max_killed_zip = totalnumkilledByZip.top(5);
+  // var min_killed_state = totalnumkilledByZip.bottom(1)[0];
+  console.log('dangerous is: ', max_killed_zip);
+  // console.log('safest is', min_killed_state);
+
+  var test = totalnumkilledByZip;
   //chart
   var numberProjectsND = dc.numberDisplay("#number-projects-nd");
   var victimND = dc.compositeChart("#victim-chart");
@@ -64,6 +95,13 @@ function makeGraphs(error, projectsJson) {
   var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
 
+  var killed = dc.dataTable('#killed')
+    .dimension(totalaccidentbyzip)
+    .group(function(d){return 'zip_code|number of accident'})
+    .columns([function(d){return d.key},function(d){return d.value}])
+    .sortBy(function(d){return d.value})
+    .order(d3.descending)
+    .size(500)
 
   timeChart
   .width(600)
