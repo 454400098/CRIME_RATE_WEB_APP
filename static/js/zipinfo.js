@@ -78,6 +78,26 @@ function makeGraphs(error, projectsJson) {
   var timeChart = dc.barChart("#time-chart");
   var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
+  var pie_forallaccident = dc.pieChart("#pie_for_totall_accient_foreach_zipcode")
+
+  pie_forallaccident
+    .width(768)
+    .height(480)
+    .slicesCap(3)
+    .innerRadius(50)
+    .dimension(zipcodeDim)
+    .group(totalaccidentbyzip)
+    .legend(dc.legend())
+    // .on('pretransition',function(chart){
+    //   chart.selectAll('pie_for_totall_accient_foreach_zipcode.pie-slice').text(function(d){
+    //     return d.key +' ' + dc.utils.printSingleValue((d.endAngle - d.startAngle)/(2*Math.PI)*100)
+    //     + '%';
+    //   })
+    // });
+  
+
+
+
 
   var killed = dc.dataTable('#killed')
     .dimension(totalaccidentbyzip)
@@ -86,6 +106,8 @@ function makeGraphs(error, projectsJson) {
     .sortBy(function(d){return d.value})
     .order(d3.descending)
     .size(500)
+
+
 
   timeChart
   .width(600)
@@ -98,28 +120,6 @@ function makeGraphs(error, projectsJson) {
   .elasticY(true)
   .xAxisLabel("Year")
   .yAxis().ticks(4);
-
-  //
-  // victimND
-  // .width(600)
-  // .height(250)
-  // .margins({ top: 10, right: 10, bottom: 20, left: 40 })
-  // .dimension(dateDim)
-  // .transitionDuration(500)
-  // .brushOn(true)
-  // .valueAccessor(function(d){return d; })
-  // // .x(d3.scale.linear().domain([0, 10000]))
-  // .x(d3.time.scale().domain([minDate, maxDate]))
-  // .elasticY(true)
-  // .compose([
-  //       dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff80c0']),
-  //       dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#ff8080']),
-  //       dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080']),
-  //   ]);
-
-
-
-
 
   numberProjectsND
   .formatNumber(d3.format("d"))
