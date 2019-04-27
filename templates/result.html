@@ -328,7 +328,7 @@ $.getJSON("./static/second/zip_loc.json", function(json) {
 
 
 <button id = "action" type="button" name="button"  >Show map</button>
-<div id="mapid" style="width: 900px; height: 600px;"></div>
+<div id="mapid" style="width: 559px; height: 400px;"></div>
 </div>
 
 
@@ -407,38 +407,9 @@ for(i = 0; i < data.length;i++){
   })
   .bindPopup(data[i]['source_url'])
   .addTo(mymap);
-//add boundary to map
-// var myLayer = L.geoJSON().addTo(mymap);
-// myLayer.addData(nj_data)
-// var myLayer = L.geoJSON(data,{
-//     filter: function(feature,layer){
-//       return feature.properties.ZCTA5CE10 == 08854;
-//     }
-// }).addTo(mymap);
+
 }
 
-
- // var marker = L.marker([40.5942,-74.4536]).addTo(mymap);
-
-
-// var marker = L.marker([40.5942,-74.4536]).bindTooltip("Test Label",
-//   {
-//       permanent: true,
-//       direction: 'right'
-//   }
-// ).addTo(mymap);
-
-    //
-    // var textLatLng = [40.51,-74.39];
-    // var loc = '08817'
-    // var myTextLabel = L.marker(textLatLng, {
-    //     icon: L.divIcon({
-    //         className: 'text-labels',   // Set class for CSS styling
-    //         html: loc
-    //     }),
-    //     draggable: true,       // Allow label dragging...?
-    //     zIndexOffset: 1000     // Make appear above other map features
-    // }).addTo(mymap);
     for (var i = 0; i < zipcode_detail_array.length;i++){
       var zipname = zipcode_detail_array[i]['GEOID'];
       if(zipname.toString().length <5){
