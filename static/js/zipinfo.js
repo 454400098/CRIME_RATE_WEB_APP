@@ -80,6 +80,8 @@ d3.json("/static/second/data_new.json").then(function(experiments){
   var minDate = dateDim.bottom(1)[0]["date"];
   var maxDate = dateDim.top(1)[0]["date"];
 
+  console.log('what is max data', maxDate)
+  console.log('what is min date',minDate)
   //find most dangerous states
 
   var max_killed_zip = totalnumkilledByZip.top(5);
@@ -132,7 +134,7 @@ d3.json("/static/second/data_new.json").then(function(experiments){
   .dimension(dateDim)
   .group(numProjectsByDate)
   .transitionDuration(500)
-  .x(d3.time.scale().domain([minDate, maxDate]))
+  .x(d3.scaleTime().domain([minDate, maxDate]))
   .elasticY(true)
   .xAxisLabel("Year")
   .yAxis().ticks(4);
