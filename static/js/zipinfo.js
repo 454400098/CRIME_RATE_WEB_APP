@@ -1,18 +1,34 @@
 
-queue()     //asynchronous call back, when all data loaded , continue to call make graphs
-    .defer(d3.json, "/static/second/data_new.json")  //main dataset group by zipcode
-    .await(makeGraphs);
+// queue()     //asynchronous call back, when all data loaded , continue to call make graphs
+//     .defer(d3.json, "/static/second/data_new.json")  //main dataset group by zipcode
+//     .await(makeGraphs);
+//
+//
+// function makeGraphs(error, projectsJson) {
 
 
-function makeGraphs(error, projectsJson) {
-  console.log(projectsJson)
+d3.json("/static/second/data_new.json").then(function(experiments){
+
+
+
+
+  console.log(experiments)
   console.log('test_if i already in here');
-  var crimeProjects = projectsJson;
-  console.log(projectsJson)
-  var dateFormat = d3.time.format("%-m/%-d/%Y");
+  var crimeProjects = experiments;
+  // console.log('what!!!',experiments)
+  // var dateFormat = d3.time.format("%-m/%-d/%Y");
+  var timeParse = d3.timeParse("%-m/%-d/%Y");
+  // console.log('what is timeformat>>>??!!!',dateFormat)
   crimeProjects.forEach(function(d){
-    d["date"] = dateFormat.parse(d["date"]);
-    d["date"].setDate(1);
+    // d["date"] = d3.timeParse(d["date"]);
+
+    d["date"] = timeParse(d["date"])
+    d3.timeDay(d["date"])
+
+
+
+
+
     d["n_killed"]=+d["n_killed"];
     d["n_injured"]=+d["n_injured"];
     d["n_male_victim"]=+d["n_male_victim"];
@@ -94,7 +110,7 @@ function makeGraphs(error, projectsJson) {
     //     + '%';
     //   })
     // });
-  
+
 
 
 
@@ -140,4 +156,8 @@ function makeGraphs(error, projectsJson) {
 
   dc.renderAll();
 
-};
+
+
+});
+
+// };
