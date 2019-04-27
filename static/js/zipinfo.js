@@ -74,7 +74,7 @@ function makeGraphs(error, projectsJson) {
   var test = totalnumkilledByZip;
   //chart
   var numberProjectsND = dc.numberDisplay("#number-projects-nd");
-  var victimND = dc.compositeChart("#victim-chart");
+  // var victimND = dc.compositeChart("#victim-chart");
   var timeChart = dc.barChart("#time-chart");
   var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
@@ -99,23 +99,23 @@ function makeGraphs(error, projectsJson) {
   .xAxisLabel("Year")
   .yAxis().ticks(4);
 
-
-  victimND
-  .width(600)
-  .height(250)
-  .margins({ top: 10, right: 10, bottom: 20, left: 40 })
-  .dimension(dateDim)
-  .transitionDuration(500)
-  .brushOn(true)
-  .valueAccessor(function(d){return d; })
-  // .x(d3.scale.linear().domain([0, 10000]))
-  .x(d3.time.scale().domain([minDate, maxDate]))
-  .elasticY(true)
-  .compose([
-        dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff80c0']),
-        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#ff8080']),
-        dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080']),
-    ]);
+  //
+  // victimND
+  // .width(600)
+  // .height(250)
+  // .margins({ top: 10, right: 10, bottom: 20, left: 40 })
+  // .dimension(dateDim)
+  // .transitionDuration(500)
+  // .brushOn(true)
+  // .valueAccessor(function(d){return d; })
+  // // .x(d3.scale.linear().domain([0, 10000]))
+  // .x(d3.time.scale().domain([minDate, maxDate]))
+  // .elasticY(true)
+  // .compose([
+  //       dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff80c0']),
+  //       dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#ff8080']),
+  //       dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080']),
+  //   ]);
 
 
 

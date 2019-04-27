@@ -68,7 +68,7 @@
           <!-- Time Chart -->
 
           <!-- Resources Pie -->
-          <div class="col-sm-14">
+          <!-- <div class="col-sm-14">
             <div class="chart-wrapper">
               <div class="chart-title">
                 Number of Victim [<font style="color:#ff80c0;">child_victim</font>]
@@ -80,7 +80,7 @@
 
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- Resources Pie -->
 
           <!-- Poverty Pie -->
@@ -260,17 +260,6 @@
 
 
 
-<!-- <script type="text/javascript">
-  var nj_data;
-  console.log('Reading NJ BOUNDARY!!!!!!');
-  $.getJSON("./static/geojson/nj.geojson", function(json) {
-    console.log('this is read data',json);
-    nj_data = json;
-  });
-</script> -->
-
-
-
 <!-- read local location json file -->
 <script type="text/javascript">
   var data;
@@ -334,18 +323,6 @@ $.getJSON("./static/second/zip_loc.json", function(json) {
 
 <script type="text/javascript">
 
-  var test = ["'08817'","'08854'"];
-  var test2 = ["08817","08854"];
-
-  for(var i = 0; i < test2.length; i++){
-    test2[i] = "'"+test2[i]+"'";
-  }
-
-  // console.log('test2',test2.join(','));
-  //
-  // console.log('testone is',test.join(','));
-
-
 function mapDisplay(){
   console.log('tyeof ziparray!!!!!!!!!',ziparray)
 
@@ -357,7 +334,7 @@ function mapDisplay(){
   }
 
   console.log(ziparray)
-  var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 13);
+  var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 12);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
     maxZoom: 15,
   }).addTo(mymap);
