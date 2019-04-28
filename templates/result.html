@@ -279,7 +279,7 @@
   var data;
   console.log('Reading local json file!!!!!!');
   $.getJSON("./static/second/location.json", function(json) {
-    console.log('this is read data',json); // this will show the info it in firebug console
+    console.log('this is read data what i need now 4/27',json); // this will show the info it in firebug console
     data = json;
 });
 
@@ -338,8 +338,6 @@ $.getJSON("./static/second/zip_loc.json", function(json) {
 <script type="text/javascript">
 
 function mapDisplay(){
-  console.log('tyeof ziparray!!!!!!!!!',ziparray)
-
   for(var i = 0; i < ziparray.length;i++){
     if(ziparray[i].toString().length <5){
       ziparray[i] = '0'+ ziparray[i];
