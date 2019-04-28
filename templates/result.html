@@ -31,14 +31,8 @@
   <link href="https://carto.com/developers/carto-js/examples/maps/public/style.css" rel="stylesheet">
 
 
-  <!-- 4.28import library for hover function -->
+  <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
 
-  <script src="https://libs.cartocdn.com/carto-vl/v1.2.5/carto-vl.min.js"></script>
-  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js"></script>
-  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css" rel="stylesheet" />
-  <link href="https://carto.com/developers/carto-vl/v1.2.5/examples/maps/style.css" rel="stylesheet">
-
-  
 {% endblock %}
 
 
@@ -382,20 +376,11 @@ function mapDisplay(){
  });
 
 console.log('just boundary data is',Dataset);
- const zipcodeloc = new carto.source.SQL(`SELECT * FROM zip_only WHERE geoid In (`+ziparray.join(',')+`)`,{
- //const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+"''" +test2.join("',''")+"''"+`)`,{
-   apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
-   username: '454400098'
- });
+
 
  var color_light_to_darker = ["#ffebe6","#ffad99","#ff704d","#ff3300","#b32400","#661400","#330a00"]
 
- console.log('debug boundary data is',zipcodeloc);
 
- //
- // const bou = new carto.source.Dataset(`
- //   SELECT * FROM out WHERE geoid10 IN ('08854','08817','10024')
- // `);
  const style = new carto.style.CartoCSS(`
    #out  {polygon-fill: #7bd490;
           polygon-opacity: 0.7;
@@ -408,6 +393,7 @@ console.log('just boundary data is',Dataset);
 const layer = new carto.layer.Layer(Dataset, style);
 client.addLayer(layer);
 client.getLeafletLayer().addTo(mymap);
+
 // loop to make make marker
 var i;
 console.log(data);
