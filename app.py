@@ -171,14 +171,25 @@ def zipfilter():
         with open('./static/second/data_new.json','w') as fout:
             json.dump(json_projects3,fout)
 
-        projects2 = collection2.find({"zip_code":{"$in":arr2}},{'latitude':1,'longitude':1,'source_url':1,"_id":0})
+        projects2 = collection2.find({"zip_code":{"$in":arr2}},{'zip_code':1,'latitude':1,'longitude':1,'source_url':1,"_id":0})
         json_projects2 = []
         for project in projects2:
             json_projects2.append(project)
 
-
         with open('./static/second/location.json','w') as fout:
             json.dump(json_projects2,fout)
+
+
+        #utlize mongodb aggregate function to find the toall num of accident per zipcode for  a specific array of zipcode
+        projects5 = collection2.aggregate([{"$match":{"zip_code":{"$in":arr2}}},{"$group":{"_id":"$zip_code","count":{"$sum":1}}}])
+        json_projects5 = []
+        for project in projects5:
+            json_projects5.append(project)
+
+        with open('./static/second/aggregat_ecount_foreach_zipcode.json','w') as fout:
+            json.dump(json_projects5,fout)
+
+        #finished aggreage file creation
 
         project4 = collection.find({"GEOID":{"$in":arr2}},{'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
         json_projects4 = []
@@ -208,6 +219,9 @@ def about():
 
     if os.path.exists("./static/second/zip_loc.json"):
         os.remove("./static/second/zip_loc.json")
+
+    if os.path.exists("./static/second/aggregat_ecount_foreach_zipcode.json"):
+        os.remove("./static/second/aggregat_ecount_foreach_zipcode.json")
 
 
     print("delete stop")
