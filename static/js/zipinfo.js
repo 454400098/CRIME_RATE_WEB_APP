@@ -12,7 +12,7 @@ d3.json("/static/second/data_new.json").then(function(experiments){
 
 
 
-  console.log(experiments)
+  // console.log(experiments)
   console.log('test_if i already in here');
   var crimeProjects = experiments;
   // console.log('what!!!',experiments)
@@ -69,7 +69,7 @@ d3.json("/static/second/data_new.json").then(function(experiments){
 
   var totalaccidentbyzip = zipcodeDim.group().reduceCount();
 
-  console.log('zipcode group is :',totalaccidentbyzip.top(10));
+  // console.log('zipcode group is :',totalaccidentbyzip.top(10));
 
   // new group test
   var all = ndx.groupAll();
@@ -99,10 +99,10 @@ d3.json("/static/second/data_new.json").then(function(experiments){
   var pie_forallaccident = dc.pieChart("#pie_for_totall_accient_foreach_zipcode")
 
   pie_forallaccident
-    .width(768)
-    .height(480)
-    .slicesCap(3)
-    .innerRadius(50)
+    .width(460)
+    .height(288)
+    .slicesCap(4)
+    .innerRadius(30)
     .dimension(zipcodeDim)
     .group(totalaccidentbyzip)
     .legend(dc.legend())
