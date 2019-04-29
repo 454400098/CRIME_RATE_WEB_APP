@@ -152,7 +152,7 @@ def zipfilter():
         test = list(collection.find({'GEOID':dynamic_zip}))
         arr = test[0].get('loc')
         print('I am HERE!!!!',test[0].get('loc'))
-        projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.05}},{"GEOID":1,"_id":0});
+        projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.05}},{"GEOID":1,"_id":0}).limit(10);
         arr2 = []       #list of nearby zipcode
         for doc in projects:
             arr2.append(doc.get('GEOID'))
@@ -171,7 +171,7 @@ def zipfilter():
         with open('./static/second/data_new.json','w') as fout:
             json.dump(json_projects3,fout)
 
-        projects2 = collection2.find({"zip_code":{"$in":arr2}},{'zip_code':1,'latitude':1,'longitude':1,'source_url':1,"_id":0})
+        projects2 = collection2.find({"zip_code":{"$in":arr2}},{'latitude':1,'longitude':1,'source_url':1,"_id":0})
         json_projects2 = []
         for project in projects2:
             json_projects2.append(project)
@@ -181,7 +181,7 @@ def zipfilter():
 
 
         #utlize mongodb aggregate function to find the toall num of accident per zipcode for  a specific array of zipcode
-        projects5 = collection2.aggregate([{"$match":{"zip_code":{"$in":arr2}}},{"$group":{"_id":"$zip_code","count":{"$sum":1}}}])
+        projects5 = collection2.aggregate([{"$match":{"zip_code":{"$in":arr2}}},{"$group":{"_id":"$zip_code","count":{"$sum":1}}},{"$sort":{"count":1}}])
         json_projects5 = []
         for project in projects5:
             json_projects5.append(project)
@@ -191,7 +191,7 @@ def zipfilter():
 
         #finished aggreage file creation
 
-        project4 = collection.find({"GEOID":{"$in":arr2}},{'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
+        project4 = collection.find({"GEOID":{"$in":arr2}},{'Median Age':1,'Average Household Income':1,'Total Population':1,'Total Housing Units':1,'Median House Value':1,'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
         json_projects4 = []
 
         for project in project4:

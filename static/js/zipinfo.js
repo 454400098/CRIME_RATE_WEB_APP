@@ -6,15 +6,15 @@
 //
 // function makeGraphs(error, projectsJson) {
 
+Promise.all([
+  d3.json("/static/second/data_new.json"),
+  d3.json("/static/second/zip_loc.json")
+]).then(function(experiments){
+  console.log('What is the first json file',experiments[0])
+  console.log('What is the second json file',experiments[1])
 
-d3.json("/static/second/data_new.json").then(function(experiments){
-
-
-
-
-  // console.log(experiments)
   console.log('test_if i already in here');
-  var crimeProjects = experiments;
+  var crimeProjects = experiments[0];
   // console.log('what!!!',experiments)
   // var dateFormat = d3.time.format("%-m/%-d/%Y");
   var timeParse = d3.timeParse("%-m/%-d/%Y");
