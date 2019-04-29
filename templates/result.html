@@ -322,19 +322,41 @@
 //     console.log('4.27.tonight, read aggreage array',json); // this will show the info it in firebug console
 //     aggre_for_each_zipcode = json;
 //   });
+  // function test(){
+      var myGeocode = [40.7831,-73.985130];
+      var input = {{result['Area']|tojson}}
+      var lonlat = document.getElementById('lonlat');
+      console.log('&&&&&&&',input);
+      // if (input.length === 5) {
+        // console.log('i am here');
+        var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
+
+      // }
+
 
   Promise.all([
     d3.json("./static/second/location.json"),
     d3.json("./static/second/onlynearzip.json"),
     d3.json("./static/second/zip_loc.json"),
-    d3.json("./static/second/aggregat_ecount_foreach_zipcode.json")
+    d3.json("./static/second/aggregat_ecount_foreach_zipcode.json"),
+    xhr.done(function(data) {
+      // lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
+      // myGeocode[0] = data.results[0].geometry.location.lat;
+      // myGeocode[1] = data.results[0].geometry.location.lng;
+      // // console.log('finished computation');
+      // console.log(myGeocode[0]);
+      // console.log(myGeocode[1]);
+      // console.log("WHERE ARE YOU NOW!!!")
+      // return myGeocode
+    })
   ]).then(function(read_data){
     data = read_data[0]
     ziparray = read_data[1]
     zipcode_detail_array = read_data[2]
     aggre_for_each_zipcode = read_data[3]
     var myGeocode = []
-    myGeocode = test();
+    myGeocode[0] = read_data[4].results[0].geometry.location.lat;
+    myGeocode[1] = read_data[4].results[0].geometry.location.lng;
     console.log('what !!!!',myGeocode)
     mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode);
 
@@ -347,30 +369,11 @@
 
 <!-- read local location json file -->
 
-<script type="text/javascript">
-  function test(){
-      var myGeocode = [40.7831,-73.985130];
-      var input = {{result['Area']|tojson}}
-      var lonlat = document.getElementById('lonlat');
-      console.log(input);
-      if (input.length === 5) {
-        // console.log('i am here');
-        var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
-        xhr.done(function(data) {
-          lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
-          myGeocode[0] = data.results[0].geometry.location.lat;
-          myGeocode[1] = data.results[0].geometry.location.lng;
-          // console.log('finished computation');
-          console.log(myGeocode[0]);
-          console.log(myGeocode[1]);
-        });
-      }
+<!-- <script type="text/javascript">
 
-      return myGeocode
-    }
   // console.log('now ans is ');
   // console.log(myGeocode[0]);
-</script>
+</script> -->
 
 
 
