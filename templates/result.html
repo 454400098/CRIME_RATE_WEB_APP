@@ -4,6 +4,9 @@
 {% block head %}
   {{ super() }}
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<!-- for geoarr init -->
+
+<!-- for geoarr init -->
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
@@ -251,7 +254,7 @@
       var myGeocode = []
       myGeocode[0] = read_data[4].results[0].geometry.location.lat;
       myGeocode[1] = read_data[4].results[0].geometry.location.lng;
-      console.log('what !!!!',myGeocode)
+      // console.log('what !!!!',myGeocode)
       mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode);
 
 
@@ -270,7 +273,7 @@
         ziparray[i] = "'"+ziparray[i]+"'";
       }
 
-      console.log(ziparray)
+      // console.log(ziparray)
       var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 12);
       L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
         maxZoom: 15,
@@ -285,7 +288,7 @@
        username: '454400098'
      });
 
-    console.log('just boundary data is',Dataset);
+    // console.log('just boundary data is',Dataset);
 
 
    var color_light_to_darker = ["#ffebe6","#ffad99","#ff704d","#ff3300","#b32400","#661400","#330a00"]
@@ -306,7 +309,7 @@
 
     // loop to make make marker
     var i;
-    console.log(data);
+    // console.log(data);
     for(i = 0; i < data.length;i++){
         L.circle([data[i]['latitude'],data[i]['longitude']],{
           color: 'red',

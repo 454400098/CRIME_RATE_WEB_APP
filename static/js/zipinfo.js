@@ -23,11 +23,11 @@ Promise.all([
   for (i = 0; i < incident_arr.length; i++){
     for (j = 0; j < zip_in_arr.length; j++){
       if(incident_arr[i]['_id'] == zip_in_arr[j]['GEOID']){
-        console.log('cur zip is',incident_arr[i])
+        // console.log('cur zip is',incident_arr[i])
         zip_in_arr[j]['count_div_total_pop'] = incident_arr[i]['count']/ zip_in_arr[j]['Total Population']
         zip_in_arr[j]['Accident Sum'] = incident_arr[i]['count']
 
-        console.log('after change cur zip is',zip_in_arr[j])
+        // console.log('after change cur zip is',zip_in_arr[j])
       }
     }
   }
@@ -52,7 +52,7 @@ Promise.all([
 
 
  //finsihed implemented
-  console.log('test_if i already in here');
+  // console.log('test_if i already in here');
   var crimeProjects = experiments[0];
   // console.log('what!!!',experiments)
   // var dateFormat = d3.time.format("%-m/%-d/%Y");
@@ -118,14 +118,14 @@ Promise.all([
   //Define values (to be used in charts)
   var minDate = dateDim.bottom(1)[0]["date"];
   var maxDate = dateDim.top(1)[0]["date"];
-
-  console.log('what is max data', maxDate)
-  console.log('what is min date',minDate)
-  //find most dangerous states
+  //
+  // console.log('what is max data', maxDate)
+  // console.log('what is min date',minDate)
+  // //find most dangerous states
 
   var max_killed_zip = totalnumkilledByZip.top(5);
   // var min_killed_state = totalnumkilledByZip.bottom(1)[0];
-  console.log('dangerous is: ', max_killed_zip);
+  // console.log('dangerous is: ', max_killed_zip);
   // console.log('safest is', min_killed_state);
 
   var test = totalnumkilledByZip;
@@ -136,26 +136,8 @@ Promise.all([
   var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
   var pie_forallaccident = dc.pieChart("#pie_for_totall_accient_foreach_zipcode")
-  // var pie_428 = dc.pieChart("#pie_for_428_new_pie")
-
-  // pie_428
-  //   .width(460)
-  //   .height(288)
-  //   .slicesCap(4)
-  //   .innerRadius(30)
-  //   .dimension(zipcodeDim)
-  //   .group(totalaccidentbyzip)
-  //   .legend(dc.legend())
 
 
-  // pie_forallaccident
-  //   .width(460)
-  //   .height(288)
-  //   .slicesCap(4)
-  //   .innerRadius(30)
-  //   .dimension(zipcodeDim)
-  //   .group(totalaccidentdiv_pop)
-  //   .legend(dc.legend())
 
   pie_forallaccident
     .width(460)
