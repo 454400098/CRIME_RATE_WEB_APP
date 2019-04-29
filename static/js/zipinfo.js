@@ -34,6 +34,24 @@ Promise.all([
 
 
 
+
+
+
+
+
+
+  // implement crossfilter 4.28
+
+  var detailndx = crossfilter(zip_in_arr)
+  var zip_dic = detailndx.dimension(function(d){return d["GEOID"]})
+
+  var totalaccidentdiv_pop = zip_dic.group().reduceSum(function(d){return d["count_div_total_pop"];});
+
+
+
+
+
+ //finsihed implemented
   console.log('test_if i already in here');
   var crimeProjects = experiments[0];
   // console.log('what!!!',experiments)
@@ -118,6 +136,26 @@ Promise.all([
   var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
   var pie_forallaccident = dc.pieChart("#pie_for_totall_accient_foreach_zipcode")
+  // var pie_428 = dc.pieChart("#pie_for_428_new_pie")
+
+  // pie_428
+  //   .width(460)
+  //   .height(288)
+  //   .slicesCap(4)
+  //   .innerRadius(30)
+  //   .dimension(zipcodeDim)
+  //   .group(totalaccidentbyzip)
+  //   .legend(dc.legend())
+
+
+  // pie_forallaccident
+  //   .width(460)
+  //   .height(288)
+  //   .slicesCap(4)
+  //   .innerRadius(30)
+  //   .dimension(zipcodeDim)
+  //   .group(totalaccidentdiv_pop)
+  //   .legend(dc.legend())
 
   pie_forallaccident
     .width(460)
@@ -127,15 +165,16 @@ Promise.all([
     .dimension(zipcodeDim)
     .group(totalaccidentbyzip)
     .legend(dc.legend())
-    // .on('pretransition',function(chart){
-    //   chart.selectAll('pie_for_totall_accient_foreach_zipcode.pie-slice').text(function(d){
-    //     return d.key +' ' + dc.utils.printSingleValue((d.endAngle - d.startAngle)/(2*Math.PI)*100)
-    //     + '%';
-    //   })
-    // });
 
 
 
+  var killed_new = dc.dataTable('#pie_for_428_new_pie')
+    .dimension(totalaccidentdiv_pop)
+    .group(function(d){return 'zip_code|number of accident/num of pop'})
+    .columns([function(d){return d.key},function(d){return d.value}])
+    .sortBy(function(d){return d.value})
+    .order(d3.descending)
+    .size(500)
 
 
   var killed = dc.dataTable('#killed')
