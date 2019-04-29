@@ -321,7 +321,7 @@ $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json)
 
 
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
   Promise.all([
     d3.json("/static/second/aggregat_ecount_foreach_zipcode.json"),
     d3.json("/static/second/zip_loc.json")
@@ -339,13 +339,13 @@ $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json)
           console.log('cur zip is',incident_arr[i])
           zip_in_arr[j]['count_div_total_pop'] = incident_arr[i]['count']/ zip_in_arr[j]['Total Population']
           zip_in_arr[j]['Accident Sum'] = incident_arr[i]['count']
-      
+
           console.log('after change cur zip is',zip_in_arr[j])
         }
       }
     }
   });
-</script>
+</script> -->
 
 <!-- read local location json file -->
 
