@@ -191,7 +191,7 @@ def zipfilter():
 
         #finished aggreage file creation
 
-        project4 = collection.find({"GEOID":{"$in":arr2}},{'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
+        project4 = collection.find({"GEOID":{"$in":arr2}},{'Median Age':1,'Average Household Income':1,'Total Population':1,'Total Housing Units':1,'Median House Value':1,'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
         json_projects4 = []
 
         for project in project4:
