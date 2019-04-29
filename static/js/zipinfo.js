@@ -32,6 +32,8 @@ Promise.all([
     }
   }
 
+  console.log('tonigth what is this data' , zip_in_arr)
+
 
 
 
@@ -47,7 +49,10 @@ Promise.all([
 
   var totalaccidentdiv_pop = zip_dic.group().reduceSum(function(d){return d["count_div_total_pop"];});
 
+  //chart for every zip income
+  var average_house_hold_income = zip_dic.group().reduceSum(function(d){return d["Average Household Income"]/1000;});
 
+  var all = detailndx.groupAll();
 
 
 
@@ -137,6 +142,22 @@ Promise.all([
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
   var pie_forallaccident = dc.pieChart("#pie_for_totall_accient_foreach_zipcode")
 
+  var pie_for_income = dc.pieChart("#pie_for_income")
+
+
+  pie_for_income
+    .width(460)
+    .height(288)
+    .slicesCap(6)
+    .innerRadius(30)
+    .dimension(zipcodeDim)
+    .group(average_house_hold_income)
+    .label(function(d){return "zipcode: " + d.key +"(" + Math.floor(d.value/all.value()*100) +")";})
+    .renderLabel(true)
+    .title(function(d){ return "this is title"; })
+    .legend(dc.legend())
+    .renderTitle(true)
+
 
 
   pie_forallaccident
@@ -146,8 +167,8 @@ Promise.all([
     .innerRadius(30)
     .dimension(zipcodeDim)
     .group(totalaccidentbyzip)
+    .label(function(d){return "zipcode: " + d.key +"(" + Math.floor(d.value/all.value()*100) +")";})
     .legend(dc.legend())
-    .ordinalColors(['#1f78b4', '#b2df8a', '#cab2d6'])
     .on('pretransition',function(pie_forallaccident){
       pie_forallaccident.selectAll('pie_for_totall_accient_foreach_zipcode.pie-slice').text(function(d){
         return dc.utils.printSingleValue((d.endAngle - d.startAngle)/(2*Math.PI)*100)+'%';
