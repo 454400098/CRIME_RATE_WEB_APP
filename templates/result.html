@@ -320,6 +320,27 @@ $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json)
 </script>
 
 
+
+<script type="text/javascript">
+  Promise.all([
+    d3.json("/static/second/aggregat_ecount_foreach_zipcode.json"),
+    d3.json("/static/second/zip_loc.json")
+  ]).then(function(experiments){
+    console.log('What is the first json file',experiments[0])
+    console.log('What is the second json file',experiments[1])
+    var incident_arr = []
+    var zip_in_arr = []
+    incident_arr = experiments[0]
+    zip_in_arr = experiments[1]
+
+    for (i = 0; i < incident_arr.length; i++){
+      for (j = 0; j < zip_in_arr.length; j++){
+        if(incident_arr[i]['  '])
+      }
+    }
+  });
+</script>
+
 <!-- read local location json file -->
 
 <script type="text/javascript">
@@ -348,6 +369,9 @@ $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json)
 <button id = "action" type="button" name="button"  >Show map</button>
 <div id="mapid" style="width: 559px; height: 400px;"></div>
 </div>
+
+
+
 
 
 <script type="text/javascript">
