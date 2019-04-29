@@ -8,10 +8,31 @@
 
 Promise.all([
   d3.json("/static/second/data_new.json"),
+  d3.json("/static/second/aggregat_ecount_foreach_zipcode.json"),
   d3.json("/static/second/zip_loc.json")
+
+
 ]).then(function(experiments){
-  console.log('What is the first json file',experiments[0])
-  console.log('What is the second json file',experiments[1])
+
+//test iteratet the csv file
+  var incident_arr = []
+  var zip_in_arr = []
+  incident_arr = experiments[1]
+  zip_in_arr = experiments[2]
+
+  for (i = 0; i < incident_arr.length; i++){
+    for (j = 0; j < zip_in_arr.length; j++){
+      if(incident_arr[i]['_id'] == zip_in_arr[j]['GEOID']){
+        console.log('cur zip is',incident_arr[i])
+        zip_in_arr[j]['count_div_total_pop'] = incident_arr[i]['count']/ zip_in_arr[j]['Total Population']
+        zip_in_arr[j]['Accident Sum'] = incident_arr[i]['count']
+
+        console.log('after change cur zip is',zip_in_arr[j])
+      }
+    }
+  }
+
+
 
   console.log('test_if i already in here');
   var crimeProjects = experiments[0];
