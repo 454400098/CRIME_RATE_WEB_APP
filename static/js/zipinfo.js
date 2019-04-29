@@ -13,6 +13,19 @@ Promise.all([
   console.log('What is the first json file',experiments[0])
   console.log('What is the second json file',experiments[1])
 
+//test iteratet the csv file
+for (i = 0; i < experiments[1].length;i++){
+  for (j = 0; j < experiments[0].length;j++){
+    if(experiments[0][j]['zip_code'] == experiments[1][i]['GEOID']){
+    
+    }
+  }
+}
+
+
+
+
+
   console.log('test_if i already in here');
   var crimeProjects = experiments[0];
   // console.log('what!!!',experiments)
