@@ -85,7 +85,7 @@ Promise.all([
   var dateDim = ndx.dimension(function(d) { return d["date"]; });
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
   var total_injured = ndx.dimension(function(d) { return d["n_injured"]; });
-  var zipcodeDim = ndx.dimension(function(d){return d["zip_code"];});
+  var zipcodeDim = ndx.dimension(function(d){return "zipcode-"+d["zip_code"];});
 
   //-------- for victim chart---------
   var n_child_dim = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
@@ -165,6 +165,12 @@ Promise.all([
     .dimension(zipcodeDim)
     .group(totalaccidentbyzip)
     .legend(dc.legend())
+    .ordinalColors(['#1f78b4', '#b2df8a', '#cab2d6'])
+    .on('pretransition',function(pie_forallaccident){
+      pie_forallaccident.selectAll('pie_for_totall_accient_foreach_zipcode.pie-slice').text(function(d){
+        return dc.utils.printSingleValue((d.endAngle - d.startAngle)/(2*Math.PI)*100)+'%';
+      })
+    });
 
 
 
