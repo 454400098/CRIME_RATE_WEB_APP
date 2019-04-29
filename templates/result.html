@@ -283,45 +283,63 @@
 
 <!-- read local location json file -->
 <script type="text/javascript">
-  var data;
-  console.log('Reading local json file!!!!!!');
-  $.getJSON("./static/second/location.json", function(json) {
-    console.log('this is read data what i need now 4/27',json); // this will show the info it in firebug console
-    data = json;
-});
+//   var data;
+//   console.log('Reading local json file!!!!!!');
+//   $.getJSON("./static/second/location.json", function(json) {
+//     console.log('this is read data what i need now 4/27',json); // this will show the info it in firebug console
+//     data = json;
+// });
+//
+//
+// // group all incident by zip_code
+//
+// // end groupby zipcode process
+//
+//
+//
+//   var ziparray;
+//   console.log('Reading nearziparray json file!!!!!!');
+//   $.getJSON("./static/second/onlynearzip.json", function(json) {
+//     console.log('this is nearziparray data',json); // this will show the info it in firebug console
+//     ziparray = json;
+//   }).done(function(){
+//     console.log("read done")
+//   });
+//
+//
+//   console.log('finished reading nearziparray json file!!!!!!',ziparray);
+//
+//
+//   var zipcode_detail_array;
+//   $.getJSON("./static/second/zip_loc.json", function(json) {
+//     console.log('###attention zip_loc data',json); // this will show the info it in firebug console
+//     zipcode_detail_array = json;
+//   });
+//
+//
+//   var aggre_for_each_zipcode;
+//   $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json) {
+//     console.log('4.27.tonight, read aggreage array',json); // this will show the info it in firebug console
+//     aggre_for_each_zipcode = json;
+//   });
+
+  Promise.all([
+    d3.json("./static/second/location.json"),
+    d3.json("./static/second/onlynearzip.json"),
+    d3.json("./static/second/zip_loc.json"),
+    d3.json("./static/second/aggregat_ecount_foreach_zipcode.json")
+  ]).then(function(read_data){
+    data = read_data[0]
+    ziparray = read_data[1]
+    zipcode_detail_array = read_data[2]
+    aggre_for_each_zipcode = read_data[3]
+    var myGeocode = []
+    myGeocode = test();
+    console.log('what !!!!',myGeocode)
+    mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode);
 
 
-// group all incident by zip_code
-
-// end groupby zipcode process
-
-
-
-var ziparray;
-console.log('Reading nearziparray json file!!!!!!');
-$.getJSON("./static/second/onlynearzip.json", function(json) {
-  console.log('this is nearziparray data',json); // this will show the info it in firebug console
-  ziparray = json;
-});
-
-
-console.log('finished reading nearziparray json file!!!!!!',ziparray);
-
-
-var zipcode_detail_array;
-$.getJSON("./static/second/zip_loc.json", function(json) {
-  console.log('###attention zip_loc data',json); // this will show the info it in firebug console
-  zipcode_detail_array = json;
-});
-
-
-var aggre_for_each_zipcode;
-$.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json) {
-  console.log('4.27.tonight, read aggreage array',json); // this will show the info it in firebug console
-  aggre_for_each_zipcode = json;
-});
-
-
+  })
 
 </script>
 
@@ -330,22 +348,26 @@ $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json)
 <!-- read local location json file -->
 
 <script type="text/javascript">
-  var myGeocode = [40.7831,-73.985130];
-  var input = {{result['Area']|tojson}}
-  var lonlat = document.getElementById('lonlat');
-  console.log(input);
-  if (input.length === 5) {
-    // console.log('i am here');
-    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
-    xhr.done(function(data) {
-      lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
-      myGeocode[0] = data.results[0].geometry.location.lat;
-      myGeocode[1] = data.results[0].geometry.location.lng;
-      // console.log('finished computation');
-      console.log(myGeocode[0]);
-      console.log(myGeocode[1]);
-    });
-  }
+  function test(){
+      var myGeocode = [40.7831,-73.985130];
+      var input = {{result['Area']|tojson}}
+      var lonlat = document.getElementById('lonlat');
+      console.log(input);
+      if (input.length === 5) {
+        // console.log('i am here');
+        var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
+        xhr.done(function(data) {
+          lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
+          myGeocode[0] = data.results[0].geometry.location.lat;
+          myGeocode[1] = data.results[0].geometry.location.lng;
+          // console.log('finished computation');
+          console.log(myGeocode[0]);
+          console.log(myGeocode[1]);
+        });
+      }
+
+      return myGeocode
+    }
   // console.log('now ans is ');
   // console.log(myGeocode[0]);
 </script>
@@ -362,7 +384,7 @@ $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json)
 
 <script type="text/javascript">
 
-function mapDisplay(){
+function mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode){
   for(var i = 0; i < ziparray.length;i++){
     if(ziparray[i].toString().length <5){
       ziparray[i] = '0'+ ziparray[i];
@@ -435,9 +457,9 @@ for(i = 0; i < data.length;i++){
       }).addTo(mymap);
     }
 }
-$(function() {
-    $('#action').click(mapDisplay);
-});
+// $(function() {
+//     $('#action').click(mapDisplay);
+// });
 </script>
 
 {% endblock %}
