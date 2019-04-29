@@ -105,7 +105,7 @@
 
           <div class="col-sm-6">
             <div id="pie_for_428_new_pie">
-                
+
             </div>
           </div>
         </div>
@@ -201,7 +201,7 @@
   <!-- <script src="http://d3js.org/queue.v1.min.js"></script> -->
   <script src="./static/lib/js/keen.min.js"></script>
 
-  // new 4/27 test
+
   <!-- <script src="https://d3js.org/d3.v5.js"></script> -->
   <script src="./static/lib/js/test/promise-polyfill.js"></script>
   <script src="./static/lib/js/test/fetch.umd.js"></script>
@@ -326,32 +326,6 @@ $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json)
 </script>
 
 
-
-<!-- <script type="text/javascript">
-  Promise.all([
-    d3.json("/static/second/aggregat_ecount_foreach_zipcode.json"),
-    d3.json("/static/second/zip_loc.json")
-  ]).then(function(experiments){
-    console.log('What is the first json file',experiments[0])
-    console.log('What is the second json file',experiments[1])
-    var incident_arr = []
-    var zip_in_arr = []
-    incident_arr = experiments[0]
-    zip_in_arr = experiments[1]
-
-    for (i = 0; i < incident_arr.length; i++){
-      for (j = 0; j < zip_in_arr.length; j++){
-        if(incident_arr[i]['_id'] == zip_in_arr[j]['GEOID']){
-          console.log('cur zip is',incident_arr[i])
-          zip_in_arr[j]['count_div_total_pop'] = incident_arr[i]['count']/ zip_in_arr[j]['Total Population']
-          zip_in_arr[j]['Accident Sum'] = incident_arr[i]['count']
-
-          console.log('after change cur zip is',zip_in_arr[j])
-        }
-      }
-    }
-  });
-</script> -->
 
 <!-- read local location json file -->
 
