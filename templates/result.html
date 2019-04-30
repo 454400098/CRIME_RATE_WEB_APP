@@ -317,8 +317,8 @@
       }
 
       // console.log(ziparray)
-      var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 12);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+      var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 11);
+      L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         maxZoom: 15,
       }).addTo(mymap);
       const client = new carto.Client({
