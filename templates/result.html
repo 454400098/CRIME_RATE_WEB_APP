@@ -49,7 +49,7 @@
         <div class="row">
 
           <!-- Time Chart -->
-          <div class="col-sm-14">
+          <div class="col-sm-12">
             <div class="chart-wrapper">
               <div class="chart-title">
                 Number of GUN VIOLENCE
@@ -97,77 +97,55 @@
       <!-- Map -->
       <div class="col-sm-6">
 
+        <div class="container">
+          <div class="row">
+          <div class="chart-wrapper">
+            <div class="chart-title">
+              Killed Ranking Tables
+            </div>
+            <div class="chart-stage">
+              <div id="killed"></div>
+            </div>
+          </div>
+
+          <div class="chart-wrapper">
+            <div class="chart-title">
+              accident/total population per zipcode
+            </div>
+            <div class="chart-stage">
+          <div id="pie_for_428_new_pie"></div>
+          </div>
+          </div>
+          </div>
+        </div>
         <div class="chart-wrapper">
           <div class="chart-title">
-
+              Accident distribution in nearby zipcode
           </div>
           <div class="chart-stage">
-            <div id="us-chart"></div>
-
-      </div>
+            <!-- <div id="us-chart"></div> -->
+            <div id="mapid" style="width: 559px; height: 400px;"></div>
+          </div>
       <!-- Map -->
 
       <!-- Metric 1 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total Number of Gun Violence
-          </div>
-          <div class="chart-stage">
-            <div id="number-projects-nd"></div>
-          </div>
-        </div>
-      </div>
+
       <!-- Metric 1 -->
 
       <!-- Metric 2 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total killed
-          </div>
-          <div class="chart-stage">
-            <div id="total-donations-nd"></div>
-          </div>
-        </div>
-      </div>
+
       <!-- Metric 2 -->
 
       <!-- Metric 3 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total injured
-          </div>
-          <div class="chart-stage">
-            <div id="total-injured-nd"></div>
-          </div>
-        </div>
-      </div>
 
 
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Killed Ranking Tables
-          </div>
-          <div class="chart-stage">
-            <div id="killed"></div>
-          </div>
-        </div>
-      </div>
 
 
-      <div class="col-sm-6">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            accident/total population per zipcode
-          </div>
-          <div class="chart-stage">
-        <div id="pie_for_428_new_pie"></div>
-        </div>
-        </div>
-      </div>
+
+
+      <!-- <div class="col-sm-6">
+
+      </div> -->
 
       <!-- Metric 3 -->
 
@@ -181,6 +159,39 @@
     <div class="dc-date-count" style = "float:left;">
         <a href="javascript:dc.filterAll();dc.renderAll();">Reset All</a>
       </h2>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Total injured
+        </div>
+        <div class="chart-stage">
+          <div id="total-injured-nd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Total killed
+        </div>
+        <div class="chart-stage">
+          <div id="total-donations-nd"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Total Number of Gun Violence
+        </div>
+        <div class="chart-stage">
+          <div id="number-projects-nd"></div>
+        </div>
+      </div>
     </div>
 
 
@@ -210,7 +221,7 @@
 
 
 
-    <div id="mapid" style="width: 559px; height: 400px;"></div>
+
 
 
   </div>
@@ -306,8 +317,8 @@
       }
 
       // console.log(ziparray)
-      var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 12);
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+      var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 11);
+      L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
         maxZoom: 15,
       }).addTo(mymap);
       const client = new carto.Client({
