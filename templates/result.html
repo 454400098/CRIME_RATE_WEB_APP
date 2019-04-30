@@ -41,14 +41,6 @@
 
 
   <div class="application">
-    <!-- <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="./"> Dashboard</a>
-      </div>
-    </div>
-  </div> -->
-
 
   <div class="container-fluid">
     <div class="row">
@@ -67,47 +59,38 @@
               </div>
             </div>
           </div>
-          <!-- Time Chart -->
 
-          <!-- Resources Pie -->
-          <!-- <div class="col-sm-14">
+          <div class="col-sm-8">
             <div class="chart-wrapper">
-              <div class="chart-title">
-                Number of Victim [<font style="color:#ff80c0;">child_victim</font>]
-                                 [<font style="color:#331926;">teen_victim</font>]
-                                 [<font style="color:#ffc080;">adult_victim</font>]
-              </div>
-              <div class="chart-stage">
-                <div id="victim-chart"></div>
-
-              </div>
+            <div class="chart-title">
+              pie_for total accident in neighborhood
             </div>
-          </div> -->
-          <!-- Resources Pie -->
-
-          <!-- Poverty Pie -->
-          <!-- <div class="col-sm-6">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Poverty Level
-              </div>
-              <div class="chart-stage">
-                <div id="poverty-level-row-chart"></div>
-              </div>
-            </div>
-          </div> -->
-          <!-- Poverty Pie -->
-          <div class="col-sm-6">
             <div id="pie_for_totall_accient_foreach_zipcode">
-
+            </div>
             </div>
           </div>
 
-          <div class="col-sm-6">
-            <div id="pie_for_428_new_pie">
-
+          <div class="col-sm-8">
+            <div class="chart-wrapper">
+            <div class="chart-title">
+              pie_for  income statis in neighborhood
+            </div>
+            <div id="pie_for_income">
+            </div>
             </div>
           </div>
+
+          <div class="col-sm-8">
+            <div class="chart-wrapper">
+            <div class="chart-title">
+              pie_for  median house value in neighborhood
+            </div>
+            <div id="pie_for_house_value">
+            </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
 
@@ -116,10 +99,6 @@
 
         <div class="chart-wrapper">
           <div class="chart-title">
-
-
-
-
 
           </div>
           <div class="chart-stage">
@@ -165,6 +144,31 @@
           </div>
         </div>
       </div>
+
+
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            Killed Ranking Tables
+          </div>
+          <div class="chart-stage">
+            <div id="killed"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-sm-6">
+        <div class="chart-wrapper">
+          <div class="chart-title">
+            accident/total population per zipcode
+          </div>
+          <div class="chart-stage">
+        <div id="pie_for_428_new_pie"></div>
+        </div>
+        </div>
+      </div>
+
       <!-- Metric 3 -->
 
 
@@ -179,16 +183,7 @@
       </h2>
     </div>
 
-    <div class="col-sm-6">
-      <div class="chart-wrapper">
-        <div class="chart-title">
-          Killed Ranking Tables
-        </div>
-        <div class="chart-stage">
-          <div id="killed"></div>
-        </div>
-      </div>
-    </div>
+
   </div>
 
 
@@ -213,6 +208,11 @@
 
   <script src='./static/js/zipinfo.js' type='text/javascript'></script>
 
+
+
+    <div id="mapid" style="width: 559px; height: 400px;"></div>
+
+
   </div>
 
   <style type='text/css'>
@@ -221,6 +221,7 @@
       font-weight: 700;
       /* Use color, background, set margins for offset, etc */
   }
+
 
   .my-legend .legend-title {
     text-align: left;
@@ -261,188 +262,97 @@
 
 
 
-<div class="flex-container">
-<div>
-  <!-- <p>TEST RESULT PAGE</p> -->
-  <table border = 1>
-      <tr>
-        <th>{{result}}</th>
-      </tr>
-</div>
-
-
-
-
-
-<div>
-  <input type="text" placeholder="Enter a zip code" id="zip" onkeydown="lonlat()" autocomplete="off"/>
-  <p id="lonlat"></p>
-</div>
-
-
 
 <!-- read local location json file -->
 <script type="text/javascript">
-//   var data;
-//   console.log('Reading local json file!!!!!!');
-//   $.getJSON("./static/second/location.json", function(json) {
-//     console.log('this is read data what i need now 4/27',json); // this will show the info it in firebug console
-//     data = json;
-// });
-//
-//
-// // group all incident by zip_code
-//
-// // end groupby zipcode process
-//
-//
-//
-//   var ziparray;
-//   console.log('Reading nearziparray json file!!!!!!');
-//   $.getJSON("./static/second/onlynearzip.json", function(json) {
-//     console.log('this is nearziparray data',json); // this will show the info it in firebug console
-//     ziparray = json;
-//   }).done(function(){
-//     console.log("read done")
-//   });
-//
-//
-//   console.log('finished reading nearziparray json file!!!!!!',ziparray);
-//
-//
-//   var zipcode_detail_array;
-//   $.getJSON("./static/second/zip_loc.json", function(json) {
-//     console.log('###attention zip_loc data',json); // this will show the info it in firebug console
-//     zipcode_detail_array = json;
-//   });
-//
-//
-//   var aggre_for_each_zipcode;
-//   $.getJSON("./static/second/aggregat_ecount_foreach_zipcode.json", function(json) {
-//     console.log('4.27.tonight, read aggreage array',json); // this will show the info it in firebug console
-//     aggre_for_each_zipcode = json;
-//   });
-  // function test(){
-      var myGeocode = [40.7831,-73.985130];
-      var input = {{result['Area']|tojson}}
-      var lonlat = document.getElementById('lonlat');
-      console.log('&&&&&&&',input);
-      // if (input.length === 5) {
-        // console.log('i am here');
-        var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
+    var myGeocode = [40.7831,-73.985130];
+    var input = {{result['Area']|tojson}}
+    var lonlat = document.getElementById('lonlat');
+    console.log('&&&&&&&',input);
+    var xhr = $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + input + '&key=AIzaSyAl1n9grfDTDBHCHX8rlfyo4QKv_uuz4E4');
 
-      // }
+    Promise.all([
+      d3.json("./static/second/location.json"),
+      d3.json("./static/second/onlynearzip.json"),
+      d3.json("./static/second/zip_loc.json"),
+      d3.json("./static/second/aggregat_ecount_foreach_zipcode.json"),
+      xhr.done(function(data) {
+      })
+    ]).then(function(read_data){
+      data = read_data[0]
+      ziparray = read_data[1]
+      zipcode_detail_array = read_data[2]
+      aggre_for_each_zipcode = read_data[3]
+      var myGeocode = []
+      myGeocode[0] = read_data[4].results[0].geometry.location.lat;
+      myGeocode[1] = read_data[4].results[0].geometry.location.lng;
+      // console.log('what !!!!',myGeocode)
+      mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode);
 
 
-  Promise.all([
-    d3.json("./static/second/location.json"),
-    d3.json("./static/second/onlynearzip.json"),
-    d3.json("./static/second/zip_loc.json"),
-    d3.json("./static/second/aggregat_ecount_foreach_zipcode.json"),
-    xhr.done(function(data) {
-      // lonlat.innerHTML = 'Latitude = ' + data.results[0].geometry.location.lat + ' ' + '<br>Longitude = ' + data.results[0].geometry.location.lng;
-      // myGeocode[0] = data.results[0].geometry.location.lat;
-      // myGeocode[1] = data.results[0].geometry.location.lng;
-      // // console.log('finished computation');
-      // console.log(myGeocode[0]);
-      // console.log(myGeocode[1]);
-      // console.log("WHERE ARE YOU NOW!!!")
-      // return myGeocode
     })
-  ]).then(function(read_data){
-    data = read_data[0]
-    ziparray = read_data[1]
-    zipcode_detail_array = read_data[2]
-    aggre_for_each_zipcode = read_data[3]
-    var myGeocode = []
-    myGeocode[0] = read_data[4].results[0].geometry.location.lat;
-    myGeocode[1] = read_data[4].results[0].geometry.location.lng;
-    console.log('what !!!!',myGeocode)
-    mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode);
 
 
-  })
 
 </script>
-
-
-
-<!-- read local location json file -->
-
-<!-- <script type="text/javascript">
-
-  // console.log('now ans is ');
-  // console.log(myGeocode[0]);
-</script> -->
-
-
-
-<button id = "action" type="button" name="button"  >Show map</button>
-<div id="mapid" style="width: 559px; height: 400px;"></div>
-</div>
-
-
-
-
-
 <script type="text/javascript">
 
-function mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode){
-  for(var i = 0; i < ziparray.length;i++){
-    if(ziparray[i].toString().length <5){
-      ziparray[i] = '0'+ ziparray[i];
-    }
-    ziparray[i] = "'"+ziparray[i]+"'";
-  }
-
-  console.log(ziparray)
-  var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 12);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
-    maxZoom: 15,
-  }).addTo(mymap);
-  const client = new carto.Client({
-  apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
-  username: '454400098'
-});
- const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+ziparray.join(',')+`)`,{
- //const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+"''" +test2.join("',''")+"''"+`)`,{
-   apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
-   username: '454400098'
- });
-
-console.log('just boundary data is',Dataset);
-
-
- var color_light_to_darker = ["#ffebe6","#ffad99","#ff704d","#ff3300","#b32400","#661400","#330a00"]
-
-
- const style = new carto.style.CartoCSS(`
-   #out  {polygon-fill: #7bd490;
-          polygon-opacity: 0.7;
-          line-color: black;
-          line-width: 1;
-          line-opacity: 1;
+    function mapDisplay(myGeocode,data,ziparray,zipcode_detail_array,aggre_for_each_zipcode){
+      for(var i = 0; i < ziparray.length;i++){
+        if(ziparray[i].toString().length <5){
+          ziparray[i] = '0'+ ziparray[i];
         }
- `);
+        ziparray[i] = "'"+ziparray[i]+"'";
+      }
 
-const layer = new carto.layer.Layer(Dataset, style);
-client.addLayer(layer);
-client.getLeafletLayer().addTo(mymap);
+      // console.log(ziparray)
+      var mymap = L.map('mapid').setView([myGeocode[0], myGeocode[1]], 12);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+        maxZoom: 15,
+      }).addTo(mymap);
+      const client = new carto.Client({
+      apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
+      username: '454400098'
+    });
+     const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+ziparray.join(',')+`)`,{
+     //const Dataset = new carto.source.SQL(`SELECT * FROM out WHERE geoid10 In (`+"''" +test2.join("',''")+"''"+`)`,{
+       apiKey: 'f5a9e0398003a5741b1dd6ab8f35950b2c581be6',
+       username: '454400098'
+     });
 
-// loop to make make marker
-var i;
-console.log(data);
-for(i = 0; i < data.length;i++){
-    L.circle([data[i]['latitude'],data[i]['longitude']],{
-      color: 'red',
-      fillColor: '#f03',
-      fillOpacity: 0.5,
-      radius: 50
-  })
-  .bindPopup(data[i]['source_url'])
-  .addTo(mymap);
+    // console.log('just boundary data is',Dataset);
 
-}
+
+   var color_light_to_darker = ["#ffebe6","#ffad99","#ff704d","#ff3300","#b32400","#661400","#330a00"]
+
+
+   const style = new carto.style.CartoCSS(`
+     #out  {polygon-fill: #7bd490;
+            polygon-opacity: 0.7;
+            line-color: black;
+            line-width: 1;
+            line-opacity: 1;
+          }
+   `);
+
+    const layer = new carto.layer.Layer(Dataset, style);
+    client.addLayer(layer);
+    client.getLeafletLayer().addTo(mymap);
+
+    // loop to make make marker
+    var i;
+    // console.log(data);
+    for(i = 0; i < data.length;i++){
+        L.circle([data[i]['latitude'],data[i]['longitude']],{
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 50
+      })
+      .bindPopup(data[i]['source_url'])
+      .addTo(mymap);
+
+    }
 
     for (var i = 0; i < zipcode_detail_array.length;i++){
       var zipname = zipcode_detail_array[i]['GEOID'];
@@ -460,13 +370,7 @@ for(i = 0; i < data.length;i++){
       }).addTo(mymap);
     }
 }
-// $(function() {
-//     $('#action').click(mapDisplay);
-// });
+
 </script>
 
 {% endblock %}
-
-
-<!-- {% block map %}
-{% endblock %} -->
