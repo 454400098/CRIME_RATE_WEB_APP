@@ -152,7 +152,7 @@ def zipfilter():
         test = list(collection.find({'GEOID':dynamic_zip}))
         arr = test[0].get('loc')
         print('I am HERE!!!!',test[0].get('loc'))
-        projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.05}},{"GEOID":1,"_id":0}).limit(10);
+        projects = collection.find({"loc":{"$near":arr,"$maxDistance":0.08}},{"GEOID":1,"_id":0}).limit(10);
         arr2 = []       #list of nearby zipcode
         for doc in projects:
             arr2.append(doc.get('GEOID'))
