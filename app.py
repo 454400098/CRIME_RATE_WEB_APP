@@ -230,8 +230,12 @@ def about():
 
 @app.route("/result",methods = ['POST','GET'])
 def result():
-    while not os.path.exists("./static/second/data_new.json"):
-        time.sleep(1)
+    while not os.path.exists("./static/second/data_new.json") or not os.path.exists("./static/second/aggregat_ecount_foreach_zipcode.json") or not os.path.exists("./static/second/zip_loc.json"):
+        time.sleep(0.001)
+    # while not os.path.exists("./static/second/data_new.json"):
+    #     time.sleep(0.1)
+    # while not os.path.exists("./static/second/data_new.json"):
+    #     time.sleep(0.1)
     if os.path.isfile("./static/second/data_new.json"):
         if request.method == 'POST':
             result = request.form
