@@ -1,5 +1,6 @@
 
 {% extends "base.html" %}
+{{ super() }}
 
 <!-- {% block head %}
   {{ super() }}
@@ -7,7 +8,11 @@
 {% endblock %} -->
 
 {% block content %}
-<h1>Second Page</h1>
+
+<link rel="stylesheet" href="./static/lib/css//bootstrap.min.css">
+
+
+
 
 <!-- <form  id = "zipform" action = "/first1/zipfilter" method = "POST">
   <div class="form-group">
@@ -23,10 +28,29 @@ $(function() {
   });
 });
 </script>
-<form class="formcalss" action="/result" method="post">
-  <input type="test" name="Area" value="">
-  <input type="submit" value="Submit" class="btn btn-primary">
-</form>
+
+
+
+
+<div class="col-md-2 col-md-offset-2">
+  <h1 class = "head">Find the safest area near a zipcode</h1>
+  <form class="formcalss" action="/result" method="post">
+    <input type="test" name="Area" value="">
+    <input type="submit" value="Submit" class="btn btn-primary">
+</div>
+
+
+<style type='text/css'>
+
+  .formcalss{
+  width: 1280px;
+  margin:100px auto ;
+  }
+</style>
+
+
+
+
 
   <script src="./static/lib/js/crossfilter.js"></script>
   <script src='./static/js/learn_crossfilter.js' type='text/javascript'></script>
