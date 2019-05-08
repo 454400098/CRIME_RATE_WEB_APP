@@ -155,7 +155,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
 
   numberincidentsND
-		.formatNumber(d3.format("d"))
+		.formatNumber(d3.format(".3s"))
 		
 		.valueAccessor(function(d){return d; })
 		.group(all,"test");
