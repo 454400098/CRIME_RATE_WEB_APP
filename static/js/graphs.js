@@ -108,6 +108,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var povertyLevelChart = dc.rowChart("#poverty-level-row-chart");
 	var locationChart = dc.rowChart("#location-row-chart");
 	var chart = dc.pieChart("#test");
+
 	
 	
   victimND
@@ -116,24 +117,37 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .margins({ top: 10, right: 10, bottom: 20, left: 40 })
   .dimension(dateDim)
   .transitionDuration(500)
-  .brushOn(true)
+  
+  .brushOn(false)
   .valueAccessor(function(d){return d; })
   // .x(d3.scale.linear().domain([0, 10000]))
   .x(d3.time.scale().domain([minDate, maxDate]))
   .elasticY(true)
   .mouseZoomable(true)
   .yAxisLabel("number of victims")
-  .xAxisLabel("years")
+  .legend(dc.legend().y(0).x(60))
+ 
   .yAxisPadding("5%")
   .xAxisPadding("5%")
   
  
   .compose([
-        dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff0066']),
-        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#1affd1']),
-        dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080']),
-		dc.lineChart(victimND).group(n_m_dim,"male victims").colors(['#ff0000']),
-		dc.lineChart(victimND).group(n_f_dim,"female victims").colors(['#6699ff']),
+        dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff0066'])
+		
+		,
+        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#1affd1'])
+	
+		,
+        dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080'])
+		
+		,
+		dc.lineChart(victimND).group(n_m_dim,"male victims").colors(['#ff0000'])
+		
+		,
+		dc.lineChart(victimND).group(n_f_dim,"female victims").colors(['#6699ff'])
+		
+		,
+		
 		
     ])
 	;
@@ -218,8 +232,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		  chart
     .width(500)
     .height(480)
+    .slicesCap(7)
 	
-    .slicesCap(10)
+
 	.othersGrouper(false)
     .innerRadius(100)
     .dimension(state)
@@ -228,7 +243,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     
     ;
 		
-		 
+	 
 
 
   usChart.width(990)
