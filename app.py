@@ -75,6 +75,14 @@ static_zip = 90001
 def home():
     return render_template("home.html")
 
+@app.route("/trends")	
+def trends():
+	print("trends begin")
+
+
+	
+	return render_template("trends.html")
+
 
 
 @app.route("/first1/projects")

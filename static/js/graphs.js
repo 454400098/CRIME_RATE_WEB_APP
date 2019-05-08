@@ -3,11 +3,14 @@ queue()     //asynchronous call back, when all data loaded , continue to call ma
     .defer(d3.json, "/first1/projects")
     .defer(d3.json, "/static/geojson/us-states.json")
     .await(makeGraphs);
+	
+	
 
 function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and us-states to function
   var crimeProjects = projectsJson;
   // var dateFormat = d3.time.format("%Y-%m-%d");
   var dateFormat = d3.time.format("%-m/%-d/%Y");
+  var selTop = 10;
   crimeProjects.forEach(function(d){
     d["date"] = dateFormat.parse(d["date"]);
     d["date"].setDate(1);
@@ -16,6 +19,11 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     d["n_child_victim"]=+d["n_child_victim"];
     d["n_teen_victim"]=+d["n_teen_victim"];
     d["n_adult_victim"]=+d["n_adult_victim"];
+	d["n_male"]=+d["n_male"];
+	d["n_female"]=+d["n_female"];
+	d["suicide"]=+d["suicide"];
+	d["n_guns_involved"]=+d["n_guns_involved"];
+	
   });
 
 
@@ -23,21 +31,34 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   //Define Dimensions
   var dateDim = ndx.dimension(function(d) { return d["date"]; });
   var stateDim = ndx.dimension(function(d) { return d["state_ab"]; });
+  var city=ndx.dimension(function(d){return d["city_or_county"]})
+  var state=ndx.dimension(function(d) { return d["state"]; });
+  
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
   var total_injured = ndx.dimension(function(d) { return d["n_injured"]; });
   var n_ch_dimension = ndx.dimension(function(d) { return d["n_child_victim"]; });
+   var n_m = ndx.dimension(function(d) { return d["n_male"]; });
+    var n_fm = ndx.dimension(function(d) { return d["n_female"]; });
+	
+	
+	
 
   //-------- for victim chart---------
   var n_child_dim = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
   var n_teen_dim = dateDim.group().reduceSum(function (d) { return d["n_teen_victim"]; });
   var n_adult_dim = dateDim.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
+   var n_m_dim = dateDim.group().reduceSum(function (d)  { return d["n_male"]; });
+    var n_f_dim = dateDim.group().reduceSum(function (d)  { return d["n_female"]; });
+	var n_s_dim = dateDim.group().reduceSum(function (d)  { return d["suicide"]; });
+	
 
   //--------****-----------
 
 
   //Calculate metrics
   var numProjectsByDate = dateDim.group();
+  
   var numGun = n_gun_Dim.group();
   var totalnumkilledByState = stateDim.group().reduceSum(function(d) {
 		return d["n_killed"];
@@ -45,6 +66,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var totalnuminjuredByState = stateDim.group().reduceSum(function(d) {
 		return d["n_injured"];
 	});
+
+	
 
 
   var all = ndx.groupAll();
@@ -56,6 +79,19 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   // var max_injured_state = totalnuminjuredByState.top(1)[0].value;
   var nameofstate = totalnumkilledByState.top(1)[0]
   console.log('WTF!!!!')
+  
+  
+  var nz = ndx.dimension(function(d) { return d["n_male"]; });
+	var mz = ndx.dimension(function(d) { return d["n_female"]; });
+	var fz = ndx.dimension(function(d) { return d["state","n_male","city_or_county","n_killed"]; });
+  
+ 
+	var nz2 = fz.group().reduceSum(function (d)  { return d["n_male"]; });
+	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
+	var cityz = city.group();
+	var statez=state.group();
+	
+  
   console.log('name is',nameofstate)
   //Define values (to be used in charts)
 	var minDate = dateDim.bottom(1)[0]["date"];
@@ -68,9 +104,15 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
   var victimND = dc.compositeChart("#victim-chart");
+  var resourceTypeChart = dc.rowChart("#resource-type-row-chart");
+	var povertyLevelChart = dc.rowChart("#poverty-level-row-chart");
+	var locationChart = dc.rowChart("#location-row-chart");
+	var chart = dc.pieChart("#test");
+	
+	
   victimND
   .width(600)
-  .height(250)
+  .height(300)
   .margins({ top: 10, right: 10, bottom: 20, left: 40 })
   .dimension(dateDim)
   .transitionDuration(500)
@@ -79,16 +121,28 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   // .x(d3.scale.linear().domain([0, 10000]))
   .x(d3.time.scale().domain([minDate, maxDate]))
   .elasticY(true)
+  .mouseZoomable(true)
+  .yAxisLabel("number of victims")
+  .xAxisLabel("years")
+  .yAxisPadding("5%")
+  .xAxisPadding("5%")
+  
+ 
   .compose([
-        dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff80c0']),
-        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#331926']),
+        dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff0066']),
+        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#1affd1']),
         dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080']),
-    ]);
+		dc.lineChart(victimND).group(n_m_dim,"male victims").colors(['#ff0000']),
+		dc.lineChart(victimND).group(n_f_dim,"female victims").colors(['#6699ff']),
+		
+    ])
+	;
 
 
 
   numberincidentsND
 		.formatNumber(d3.format("d"))
+		
 		.valueAccessor(function(d){return d; })
 		.group(all,"test");
 
@@ -112,15 +166,74 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .margins({top: 10, right: 50, bottom: 30, left: 50})
   .dimension(dateDim)
   .group(numProjectsByDate)
+  .mouseZoomable(true)
   .transitionDuration(500)
   .x(d3.time.scale().domain([minDate, maxDate]))
   .elasticY(true)
   .xAxisLabel("Year")
+  .yAxisLabel("number of incidents")
   .yAxis().ticks(4);
+  
+  	
+	locationChart
+        .width(200)
+        .height(250)
+        .dimension(mz)
+        .group(mz2)
+		.legend(dc.legend())
+		.colors(['#ff4d4d'])
+		.ordering(function(d) { return -d.value })
+        .xAxis().ticks(4)
+		;
+
+	povertyLevelChart
+		.width(300)
+		.height(310)
+		.rowsCap(10)
+		.othersGrouper(false)
+        .dimension(state)
+		.legend(dc.legend())
+        .group(statez)
+        .ordering(function(d) { return -d.value })
+        .colors(['#ffff00'])
+        .elasticX(true)
+        .labelOffsetY(10)
+        .xAxis().ticks(4)
+		
+		resourceTypeChart
+    	.width(300)
+		.height(310)
+		
+		.rowsCap(10)
+		.legend(dc.legend())
+		.othersGrouper(false)
+        .dimension(city)
+        .group(cityz)
+        .ordering(function(d) { return -d.value })
+        .colors(['#00ff00'])
+        .elasticX(true)
+        .labelOffsetY(10)
+        .xAxis().ticks(4)
+		
+		  chart
+    .width(500)
+    .height(480)
+	
+    .slicesCap(10)
+	.othersGrouper(false)
+    .innerRadius(100)
+    .dimension(state)
+    .group(statez)
+    .legend(dc.legend())
+    
+    ;
+		
+		 
 
 
   usChart.width(990)
-		.height(500)
+		.height(400)
+		
 		.dimension(stateDim)
 		.group(totalnumkilledByState)
 		.colors(["#ffcccc", "#ffb3b3", "#ff8080", "#ff4d4d", "#ff3333", "#ff0000", "#e60000", "#cc0000", "#990000","#660000"])
