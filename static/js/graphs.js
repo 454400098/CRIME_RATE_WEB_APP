@@ -33,6 +33,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var stateDim = ndx.dimension(function(d) { return d["state_ab"]; });
   var city=ndx.dimension(function(d){return d["city_or_county"]})
   var state=ndx.dimension(function(d) { return d["state"]; });
+  var zip=ndx.dimension(function(d) { return d["zip_code"]; });
   
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
@@ -90,6 +91,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
 	var cityz = city.group();
 	var statez=state.group();
+	var zipz=zip.group();
 	
   
   console.log('name is',nameofstate)
@@ -205,13 +207,14 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.height(310)
 		.rowsCap(10)
 		.othersGrouper(false)
-        .dimension(state)
+        .dimension(zip)
 		.legend(dc.legend())
-        .group(statez)
+        .group(zipz)
         .ordering(function(d) { return -d.value })
         .colors(['#ffff00'])
         .elasticX(true)
         .labelOffsetY(10)
+		
         .xAxis().ticks(4)
 		
 		resourceTypeChart
@@ -233,7 +236,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     .width(500)
     .height(480)
     .slicesCap(7)
-	
+	 
 
 	.othersGrouper(false)
     .innerRadius(100)
