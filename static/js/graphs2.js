@@ -48,13 +48,20 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	
 
   //-------- for victim chart---------
-  var n_child_dim = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
-  var n_teen_dim = dateDim.group().reduceSum(function (d) { return d["n_teen_victim"]; });
-  var n_adult_dim = dateDim.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
-   var n_m_dim = dateDim.group().reduceSum(function (d)  { return d["n_male"]; });
-    var n_f_dim = dateDim.group().reduceSum(function (d)  { return d["n_female"]; });
-	var n_s_dim = dateDim.group().reduceSum(function (d)  { return d["suicide"]; });
+  var n_child_dim2 = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
+  var n_teen_dim2 = dateDim.group().reduceSum(function (d) { return d["n_teen_victim"]; });
+  var n_adult_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
+   var n_m_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_male"]; });
+    var n_f_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_female"]; });
+	var n_s_dim2 = dateDim.group().reduceSum(function (d)  { return d["suicide"]; });
 	
+	
+	var n_child_dim = state.group().reduceSum(function (d) { return d["n_child_victim"]; });
+  var n_teen_dim = state.group().reduceSum(function (d) { return d["n_teen_victim"]; });
+  var n_adult_dim = state.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
+   var n_m_dim = state.group().reduceSum(function (d)  { return d["n_male"]; });
+    var n_f_dim = state.group().reduceSum(function (d)  { return d["n_female"]; });
+	var n_s_dim = state.group().reduceSum(function (d)  { return d["suicide"]; });
 
   //--------****-----------
 
@@ -134,95 +141,61 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var maxDate = dateDim.top(1)[0]["date"];
 
   //charts
-  var timeChart = dc.barChart("#time-chart");
+  
   var usChart = dc.geoChoroplethChart("#us-chart");
-  var numberincidentsND = dc.numberDisplay("#number-projects-nd");
-	var totalkilledND = dc.numberDisplay("#total-donations-nd");
-  var totalinjuredND = dc.numberDisplay("#total-injured-nd");
-  var victimND = dc.compositeChart("#victim-chart");
+	
+  
   var resourceTypeChart = dc.rowChart("#resource-type-row-chart");
 	var povertyLevelChart = dc.rowChart("#poverty-level-row-chart");
+var barch=dc.compositeChart("#bar");
 	var locationChart = dc.rowChart("#location-row-chart");
 	var chart = dc.pieChart("#test");
 
-	
-	
-  victimND
-  .width(600)
+	barch
+	.width(600)
   .height(300)
   .margins({ top: 10, right: 10, bottom: 20, left: 40 })
-  .dimension(dateDim)
+  .dimension(state)
   .transitionDuration(100)
   
   .brushOn(false)
   .valueAccessor(function(d){return d; })
   // .x(d3.scale.linear().domain([0, 10000]))
-  .x(d3.time.scale().domain([minDate, maxDate]))
+  .x(d3.time.scale())
   .elasticY(true)
   .mouseZoomable(true)
   .yAxisLabel("number of victims")
   .legend(dc.legend().y(0).x(60))
  
-  .yAxisPadding("20%")
+  .yAxisPadding("5%")
   .xAxisPadding("5%")
   
  
   .compose([
-        dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff0066'])
+        dc.barChart(barch).group(n_child_dim,"child_victim").colors(['#ff0066'])
+		.dimension(state)
+		,
+        dc.barChart(barch).group(n_teen_dim,"teen_victim").colors(['#006622'])
+		.dimension(state)
+		,
+        dc.barChart(barch)
+		.group(n_adult_dim,"adult_victim")
+		.dimension(state)
+		.colors(['#ffc080'])
 		
 		,
-        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#006622'])
-	
+		dc.barChart(barch).group(n_m_dim,"male victims").colors(['#ff0000'])
+		.dimension(state)
 		,
-        dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080'])
-		
-		,
-		dc.lineChart(victimND).group(n_m_dim,"male victims").colors(['#ff0000'])
-		
-		,
-		dc.lineChart(victimND).group(n_f_dim,"female victims").colors(['#e600e6'])
-		
+		dc.barChart(barch).group(n_f_dim,"female victims").colors(['#e600e6'])
+		.dimension(state)
 		,
 		
 		
     ])
 	;
+	
 
-
-
-  numberincidentsND
-		.formatNumber(d3.format(".3s"))
-		
-		.valueAccessor(function(d){return d; })
-		.group(all,"test");
-
-
-
-  totalkilledND
-		.formatNumber(d3.format("d"))
-		.valueAccessor(function(d){return d; })
-		.group(totalkilled)
-		.formatNumber(d3.format(".3s"));
-
-  totalinjuredND
-		.formatNumber(d3.format("d"))
-		.valueAccessor(function(d){return d; })
-		.group(totalinjured)
-		.formatNumber(d3.format(".3s"));
-
-  timeChart
-  .width(600)
-  .height(160)
-  .margins({top: 10, right: 50, bottom: 30, left: 50})
-  .dimension(dateDim)
-  .group(numProjectsByDate)
-  .mouseZoomable(false)
-  .transitionDuration(500)
-  .x(d3.time.scale().domain([minDate, maxDate]))
-  .elasticY(false)
-  .xAxisLabel("Year")
-  .yAxisLabel("number of incidents")
-  .yAxis().ticks(4);
 
 
 
@@ -251,6 +224,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
         .ordering(function(d) { return -d.value })
         .colors(['#ffff00'])
         .elasticX(true)
+		
         .labelOffsetY(10)
 		
         .xAxis().ticks(4)
@@ -264,11 +238,14 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.othersGrouper(false)
         .dimension(city)
         .group(cityz)
+		
         .ordering(function(d) { return -d.value })
         .colors(['#00ff00'])
         .elasticX(true)
         .labelOffsetY(10)
         .xAxis().ticks(4)
+		
+
 		
 		  chart
     .width(500)
