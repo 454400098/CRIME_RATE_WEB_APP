@@ -23,6 +23,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	d["n_female"]=+d["n_female"];
 	d["suicide"]=+d["suicide"];
 	d["n_guns_involved"]=+d["n_guns_involved"];
+	d["n_killed_normalized"]=+d["n_killed_normalized"];
 	
   });
 
@@ -33,10 +34,11 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var stateDim = ndx.dimension(function(d) { return d["state_ab"]; });
   var city=ndx.dimension(function(d){return d["city_or_county"]})
   var state=ndx.dimension(function(d) { return d["state"]; });
-  var zip=ndx.dimension(function(d) { return d["zip_code"]; });
+  var zip=ndx.dimension(function(d) { return d["zip_code"] || ''; });
   
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
+  //var total_norkilled = ndx.dimension(function(d) { return d["n_killed_normalized"]; });
   var total_injured = ndx.dimension(function(d) { return d["n_injured"]; });
   var n_ch_dimension = ndx.dimension(function(d) { return d["n_child_victim"]; });
    var n_m = ndx.dimension(function(d) { return d["n_male"]; });
@@ -64,6 +66,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var totalnumkilledByState = stateDim.group().reduceSum(function(d) {
 		return d["n_killed"];
 	});
+	//var totalnumnorkilledByState = stateDim.group().reduceSum(function(d) {return d["n_killed_normalized"];});
   var totalnuminjuredByState = stateDim.group().reduceSum(function(d) {
 		return d["n_injured"];
 	});
@@ -91,8 +94,39 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
 	var cityz = city.group();
 	var statez=state.group();
-	var zipz=zip.group();
+	//var statez=state.group().reduceSum(function (d)  { return d["n_killed_normalized"];});
+	var zipz=zip.group().reduceSum(function (d)  { return d["zip_code"] || null;});
 	
+	function display() {
+          var totFilteredRecs = ndx.groupAll().value();
+          var end = ofs + pag > totFilteredRecs ? totFilteredRecs : ofs + pag;
+          d3.select('#begin')
+              .text(end === 0? ofs : ofs + 1);
+          d3.select('#end')
+              .text(end);
+          d3.select('#last')
+              .attr('disabled', ofs-pag<0 ? 'true' : null);
+          d3.select('#next')
+              .attr('disabled', ofs+pag>=totFilteredRecs ? 'true' : null);
+          d3.select('#size').text(totFilteredRecs);
+          if(totFilteredRecs != ndx.size()){
+            d3.select('#totalsize').text("(filtered Total: " + ndx.size() + " )");
+          }else{
+            d3.select('#totalsize').text('');
+          }
+      }
+	  
+	  
+	   function next() {
+          
+           statez=state.group();
+          chart.redraw();
+      }
+      function last() {
+          
+           statez=state.group().reduceSum(function (d)  { return d["n_killed_normalized"];});
+          chart.redraw();
+      }
   
   console.log('name is',nameofstate)
   //Define values (to be used in charts)
@@ -182,15 +216,19 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .margins({top: 10, right: 50, bottom: 30, left: 50})
   .dimension(dateDim)
   .group(numProjectsByDate)
-  .mouseZoomable(true)
+  .mouseZoomable(false)
   .transitionDuration(500)
   .x(d3.time.scale().domain([minDate, maxDate]))
-  .elasticY(true)
+  .elasticY(false)
   .xAxisLabel("Year")
   .yAxisLabel("number of incidents")
   .yAxis().ticks(4);
-  
-  	
+
+
+
+	
+
+	
 	locationChart
         .width(200)
         .height(250)
@@ -221,7 +259,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     	.width(300)
 		.height(310)
 		
-		.rowsCap(10)
+		.rowsCap(7)
 		.legend(dc.legend())
 		.othersGrouper(false)
         .dimension(city)
@@ -236,10 +274,10 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     .width(500)
     .height(480)
     .slicesCap(7)
-	 
-
+	 .renderLabel(true)
 	.othersGrouper(false)
-    .innerRadius(100)
+	
+    .innerRadius(40)
     .dimension(state)
     .group(statez)
     .legend(dc.legend())
@@ -359,3 +397,6 @@ var labels = {"type":"FeatureCollection","features":[
 {"type":"Feature","id":"55","geometry":{"type":"Point","coordinates":[-89.001006,43.728544]},"properties":{"name":"WI","population":5363675}},
 {"type":"Feature","id":"56","geometry":{"type":"Point","coordinates":[-107.008835,42.675762]},"properties":{"name":"WY","population":493782}}
         ]};
+
+   
+
