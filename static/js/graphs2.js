@@ -104,36 +104,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	//var statez=state.group().reduceSum(function (d)  { return d["n_killed_normalized"];});
 	var zipz=zip.group().reduceSum(function (d)  { return d["zip_code"] || null;});
 	
-	function display() {
-          var totFilteredRecs = ndx.groupAll().value();
-          var end = ofs + pag > totFilteredRecs ? totFilteredRecs : ofs + pag;
-          d3.select('#begin')
-              .text(end === 0? ofs : ofs + 1);
-          d3.select('#end')
-              .text(end);
-          d3.select('#last')
-              .attr('disabled', ofs-pag<0 ? 'true' : null);
-          d3.select('#next')
-              .attr('disabled', ofs+pag>=totFilteredRecs ? 'true' : null);
-          d3.select('#size').text(totFilteredRecs);
-          if(totFilteredRecs != ndx.size()){
-            d3.select('#totalsize').text("(filtered Total: " + ndx.size() + " )");
-          }else{
-            d3.select('#totalsize').text('');
-          }
-      }
-	  
-	  
-	   function next() {
-          
-           statez=state.group();
-          chart.redraw();
-      }
-      function last() {
-          
-           statez=state.group().reduceSum(function (d)  { return d["n_killed_normalized"];});
-          chart.redraw();
-      }
+	
   
   console.log('name is',nameofstate)
   //Define values (to be used in charts)
@@ -150,6 +121,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 var barch=dc.compositeChart("#bar");
 	var locationChart = dc.rowChart("#location-row-chart");
 	var chart = dc.pieChart("#test");
+	
+	
+	
 
 	barch
 	.width(600)
@@ -260,12 +234,14 @@ var barch=dc.compositeChart("#bar");
     .legend(dc.legend())
     
     ;
+	
+
 		
 	 
 
 
   usChart.width(990)
-		.height(400)
+		.height(350)
 		
 		.dimension(stateDim)
 		.group(totalnumkilledByState)

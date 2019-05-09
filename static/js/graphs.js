@@ -213,10 +213,10 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   timeChart
   .width(600)
   .height(160)
+  .mouseZoomable(true)
   .margins({top: 10, right: 50, bottom: 30, left: 50})
   .dimension(dateDim)
   .group(numProjectsByDate)
-  .mouseZoomable(false)
   .transitionDuration(500)
   .x(d3.time.scale().domain([minDate, maxDate]))
   .elasticY(false)
