@@ -24,9 +24,10 @@
  
 {% endblock %}
 
-
+<body>
 {% block content %}
-  <div class="application" >
+  <div class="application" style="background: #648880;
+  background: linear-gradient(to right, #293f37, #293f50, #293f50)"  >
     <!-- <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -123,7 +124,7 @@
       <div class="col-sm-3" >
         <div class="chart-wrapper" style="background-image: linear-gradient(to bottom, #ffffff 0%, #ff3300 100%);">
           <div class="chart-title">
-            <b>Total Number of Gun Violence Incidents</b>
+            <b>Total Number of Incidents</b>
           </div>
           <div class="chart-stage">
             <div id="number-projects-nd"></div>
@@ -212,7 +213,7 @@
 
 
 </div>
-
+</div>
 <style type='text/css'>
   .my-legend .legend-title {
     text-align: left;
@@ -249,5 +250,8 @@
   .my-legend a {
     color: #777;
     }
+	div{
+	background: linear-gradient(to top, #ccffff 0%, #ffffff 100%);
+	}
 </style>
 {% endblock %}

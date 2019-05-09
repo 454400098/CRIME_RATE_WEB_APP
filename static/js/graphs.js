@@ -118,7 +118,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .height(300)
   .margins({ top: 10, right: 10, bottom: 20, left: 40 })
   .dimension(dateDim)
-  .transitionDuration(500)
+  .transitionDuration(100)
   
   .brushOn(false)
   .valueAccessor(function(d){return d; })
@@ -129,7 +129,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .yAxisLabel("number of victims")
   .legend(dc.legend().y(0).x(60))
  
-  .yAxisPadding("5%")
+  .yAxisPadding("20%")
   .xAxisPadding("5%")
   
  
@@ -137,7 +137,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
         dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff0066'])
 		
 		,
-        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#1affd1'])
+        dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#006622'])
 	
 		,
         dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080'])
@@ -146,7 +146,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		dc.lineChart(victimND).group(n_m_dim,"male victims").colors(['#ff0000'])
 		
 		,
-		dc.lineChart(victimND).group(n_f_dim,"female victims").colors(['#6699ff'])
+		dc.lineChart(victimND).group(n_f_dim,"female victims").colors(['#e600e6'])
 		
 		,
 		
