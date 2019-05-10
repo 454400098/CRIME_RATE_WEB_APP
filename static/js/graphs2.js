@@ -33,7 +33,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   //Define Dimensions
   var dateDim = ndx.dimension(function(d) { return d["date"]; });
   var stateDim = ndx.dimension(function(d) { return d["state_ab"]; });
-  var city=ndx.dimension(function(d){return d["city_or_county_new"]})
+  var city=ndx.dimension(function(d){return d["city_or_county"]})
   var state=ndx.dimension(function(d) { return d["state"]; });
   var zip=ndx.dimension(function(d) { return d["zip_code"] || null; });
   
@@ -96,7 +96,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var cityz = city.group();
 	var statez=state.group().reduceSum(function (d)  { return d["n_killed"];});
 	//var statez=state.group();
-	var statez2=state.group().reduceSum(function (d)  { return d["n_killed_normalized_state"];});
+	//var statez2=state.group().reduceSum(function (d)  { return d["n_killed_normalized_state"];});
+	var statez2=state.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
 	var zipz=zip.group().reduceCount();
 	
 	
