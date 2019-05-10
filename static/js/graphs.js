@@ -3,8 +3,8 @@ queue()     //asynchronous call back, when all data loaded , continue to call ma
     .defer(d3.json, "/first1/projects")
     .defer(d3.json, "/static/geojson/us-states.json")
     .await(makeGraphs);
-	
-	
+
+
 
 function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and us-states to function
   var crimeProjects = projectsJson;
@@ -24,7 +24,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	d["suicide"]=+d["suicide"];
 	d["n_guns_involved"]=+d["n_guns_involved"];
 	d["n_killed_normalized"]=+d["n_killed_normalized"];
-	
+
   });
 
 
@@ -35,7 +35,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var city=ndx.dimension(function(d){return d["city_or_county"]})
   var state=ndx.dimension(function(d) { return d["state"]; });
   var zip=ndx.dimension(function(d) { return d["zip_code"] || ''; });
-  
+
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
   //var total_norkilled = ndx.dimension(function(d) { return d["n_killed_normalized"]; });
@@ -43,9 +43,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var n_ch_dimension = ndx.dimension(function(d) { return d["n_child_victim"]; });
    var n_m = ndx.dimension(function(d) { return d["n_male"]; });
     var n_fm = ndx.dimension(function(d) { return d["n_female"]; });
-	
-	
-	
+
+
+
 
   //-------- for victim chart---------
   var n_child_dim = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
@@ -54,14 +54,14 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
    var n_m_dim = dateDim.group().reduceSum(function (d)  { return d["n_male"]; });
     var n_f_dim = dateDim.group().reduceSum(function (d)  { return d["n_female"]; });
 	var n_s_dim = dateDim.group().reduceSum(function (d)  { return d["suicide"]; });
-	
+
 
   //--------****-----------
 
 
   //Calculate metrics
   var numProjectsByDate = dateDim.group();
-  
+
   var numGun = n_gun_Dim.group();
   var totalnumkilledByState = stateDim.group().reduceSum(function(d) {
 		return d["n_killed"];
@@ -71,7 +71,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		return d["n_injured"];
 	});
 
-	
+
 
 
   var all = ndx.groupAll();
@@ -83,20 +83,20 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   // var max_injured_state = totalnuminjuredByState.top(1)[0].value;
   var nameofstate = totalnumkilledByState.top(1)[0]
   console.log('WTF!!!!')
-  
-  
+
+
   var nz = ndx.dimension(function(d) { return d["n_male"]; });
 	var mz = ndx.dimension(function(d) { return d["n_female"]; });
 	var fz = ndx.dimension(function(d) { return d["state","n_male","city_or_county","n_killed"]; });
-  
- 
+
+
 	var nz2 = fz.group().reduceSum(function (d)  { return d["n_male"]; });
 	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
 	var cityz = city.group();
 	var statez=state.group();
 	//var statez=state.group().reduceSum(function (d)  { return d["n_killed_normalized"];});
 	var zipz=zip.group().reduceSum(function (d)  { return d["zip_code"] || null;});
-	
+
 	function display() {
           var totFilteredRecs = ndx.groupAll().value();
           var end = ofs + pag > totFilteredRecs ? totFilteredRecs : ofs + pag;
@@ -115,19 +115,10 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
             d3.select('#totalsize').text('');
           }
       }
-	  
-	  
-	   function next() {
-          
-           statez=state.group();
-          chart.redraw();
-      }
-      function last() {
-          
-           statez=state.group().reduceSum(function (d)  { return d["n_killed_normalized"];});
-          chart.redraw();
-      }
-  
+
+
+
+
   console.log('name is',nameofstate)
   //Define values (to be used in charts)
 	var minDate = dateDim.bottom(1)[0]["date"];
@@ -145,15 +136,15 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var locationChart = dc.rowChart("#location-row-chart");
 	var chart = dc.pieChart("#test");
 
-	
-	
+
+
   victimND
   .width(600)
   .height(300)
   .margins({ top: 10, right: 10, bottom: 20, left: 40 })
   .dimension(dateDim)
   .transitionDuration(100)
-  
+
   .brushOn(false)
   .valueAccessor(function(d){return d; })
   // .x(d3.scale.linear().domain([0, 10000]))
@@ -162,29 +153,29 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   .mouseZoomable(true)
   .yAxisLabel("number of victims")
   .legend(dc.legend().y(0).x(60))
- 
+
   .yAxisPadding("20%")
   .xAxisPadding("5%")
-  
- 
+
+
   .compose([
         dc.lineChart(victimND).group(n_child_dim,"child_victim").colors(['#ff0066'])
-		
+
 		,
         dc.lineChart(victimND).group(n_teen_dim,"teen_victim").colors(['#006622'])
-	
+
 		,
         dc.lineChart(victimND).group(n_adult_dim,"adult_victim").colors(['#ffc080'])
-		
+
 		,
 		dc.lineChart(victimND).group(n_m_dim,"male victims").colors(['#ff0000'])
-		
+
 		,
 		dc.lineChart(victimND).group(n_f_dim,"female victims").colors(['#e600e6'])
-		
+
 		,
-		
-		
+
+
     ])
 	;
 
@@ -192,7 +183,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
   numberincidentsND
 		.formatNumber(d3.format(".3s"))
-		
+
 		.valueAccessor(function(d){return d; })
 		.group(all,"test");
 
@@ -211,7 +202,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.formatNumber(d3.format(".3s"));
 
   timeChart
-  .width(600)
+  .width(1200)
   .height(160)
   .mouseZoomable(true)
   .margins({top: 10, right: 50, bottom: 30, left: 50})
@@ -226,9 +217,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
 
 
-	
 
-	
+
+
 	locationChart
         .width(200)
         .height(250)
@@ -252,13 +243,13 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
         .colors(['#ffff00'])
         .elasticX(true)
         .labelOffsetY(10)
-		
+
         .xAxis().ticks(4)
-		
+
 		resourceTypeChart
     	.width(300)
 		.height(310)
-		
+
 		.rowsCap(7)
 		.legend(dc.legend())
 		.othersGrouper(false)
@@ -269,7 +260,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
         .elasticX(true)
         .labelOffsetY(10)
         .xAxis().ticks(4)
-		
+
 		  chart
     .width(500)
     .height(480)
@@ -281,15 +272,15 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     .dimension(state)
     .group(statez)
     .legend(dc.legend())
-    
+
     ;
-		
-	 
+
+
 
 
   usChart.width(990)
 		.height(400)
-		
+
 		.dimension(stateDim)
 		.group(totalnumkilledByState)
 		.colors(["#ffcccc", "#ffb3b3", "#ff8080", "#ff4d4d", "#ff3333", "#ff0000", "#e60000", "#cc0000", "#990000","#660000"])
@@ -397,6 +388,3 @@ var labels = {"type":"FeatureCollection","features":[
 {"type":"Feature","id":"55","geometry":{"type":"Point","coordinates":[-89.001006,43.728544]},"properties":{"name":"WI","population":5363675}},
 {"type":"Feature","id":"56","geometry":{"type":"Point","coordinates":[-107.008835,42.675762]},"properties":{"name":"WY","population":493782}}
         ]};
-
-   
-
