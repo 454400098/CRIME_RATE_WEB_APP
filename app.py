@@ -46,7 +46,12 @@ FIELDS = {'date': True,
 'n_male_victim':True,
 'n_female_victim':True,
 'state_ab': True,
-'_id': False}
+'_id': False,
+'population':True,
+'n_killed_normalized_state':True,
+'county_population':True,
+'zipcode_population':True
+}
 
 
 
@@ -74,6 +79,14 @@ static_zip = 90001
 @app.route("/")
 def home():
     return render_template("home.html")
+
+@app.route("/trends")
+def trends():
+	print("trends begin")
+
+
+
+	return render_template("trends.html")
 
 
 
@@ -191,7 +204,7 @@ def zipfilter():
 
         #finished aggreage file creation
 
-        project4 = collection.find({"GEOID":{"$in":arr2}},{'Median Age':1,'Average Household Income':1,'Total Population':1,'Total Housing Units':1,'Median House Value':1,'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
+        project4 = collection.find({"GEOID":{"$in":arr2}},{'Median Age':1,'Average Household Income':1,'Total Population':1,'Total Housing Units':1,'Median Household Income' : 1,'Median House Value':1,'GEOID':1,'latitude':1,'longitude':1,'loc':1,"_id":0})
         json_projects4 = []
 
         for project in project4:

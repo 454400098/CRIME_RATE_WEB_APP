@@ -1,6 +1,3 @@
-
-
-
 {% extends "base.html" %}
 
 {% block head %}
@@ -19,12 +16,15 @@
   <link rel="stylesheet" href="./static/lib/css/keen-dashboards.css">
   <link rel="stylesheet" href="./static/lib/css/dc.css">
   <link rel="stylesheet" href="./static/css/custom.css">
+
   <script src="./static/lib/js/d3.js"></script>
+
 {% endblock %}
 
-
+<body>
 {% block content %}
-  <div class="application">
+  <div class="application" style="background: #648880;
+  background: linear-gradient(to right, #293f37, #293f50, #293f50)"  >
     <!-- <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -41,61 +41,72 @@
         <div class="row">
 
           <!-- Time Chart -->
-          <div class="col-sm-14">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Number of GUN VIOLENCE
-              </div>
-              <div class="chart-stage">
-                <div id="time-chart"></div>
-              </div>
-            </div>
-          </div>
+
           <!-- Time Chart -->
 
           <!-- Resources Pie -->
           <div class="col-sm-14">
             <div class="chart-wrapper">
               <div class="chart-title">
-                Number of Victim [<font style="color:#ff80c0;">child_victim</font>]
-                                 [<font style="color:#331926;">teen_victim</font>]
-                                 [<font style="color:#ffc080;">adult_victim</font>]
+                <div class='legend-title'><b>Number of Victims</b></div>
+
+
               </div>
               <div class="chart-stage">
                 <div id="victim-chart"></div>
-
               </div>
             </div>
           </div>
-          <!-- Resources Pie -->
-
-          <!-- Poverty Pie -->
-          <!-- <div class="col-sm-6">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-                Poverty Level
-              </div>
-              <div class="chart-stage">
-                <div id="poverty-level-row-chart"></div>
-              </div>
-            </div>
-          </div> -->
-          <!-- Poverty Pie -->
 
         </div>
+        <!-- Metric 1 -->
+        <div class="row">
+        <div class="col-sm-3" >
+          <div class="chart-wrapper" style="background-image: linear-gradient(to bottom, #ffffff 0%, #ff3300 100%);">
+            <div class="chart-title">
+              <b>Total Number of Incidents</b>
+            </div>
+            <div class="chart-stage">
+              <div id="number-projects-nd"></div>
+            </div>
+          </div>
       </div>
 
+        <!-- Metric 1 -->
+
+        <!-- Metric 2 -->
+        <div class="col-sm-3" >
+          <div class="chart-wrapper" style="background-image: linear-gradient(to bottom, #ffffff 0%, #ff3300 100%);"  >
+            <div class="chart-title">
+              <b>Total number of people killed </b>
+            </div>
+            <div class="chart-stage">
+              <div id="total-donations-nd"></div>
+            </div>
+          </div>
+      </div>
+
+        <!-- Metric 2 -->
+
+        <!-- Metric 3 -->
+        <div class="col-sm-3" >
+          <div class="chart-wrapper" style="background-image: linear-gradient(to bottom, #ffffff 0%, #ff3300 100%);">
+            <div class="chart-title">
+             <b> Total number of people injured </b>
+            </div>
+            <div class="chart-stage">
+              <div id="total-injured-nd"></div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      </div>
       <!-- Map -->
       <div class="col-sm-6">
 
-        <div class="chart-wrapper">
-          <div class="chart-title">
 
-
-
-
-
-          </div>
       <div class="chart-stage">
           <div id="us-chart"></div>
 				  	<div class='my-legend'>
@@ -111,61 +122,34 @@
           </div>
         </div>
       </div>
+
       <!-- Map -->
 
-      <!-- Metric 1 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total Number of Gun Violence
-          </div>
-          <div class="chart-stage">
-            <div id="number-projects-nd"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Metric 1 -->
 
-      <!-- Metric 2 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total killed in USA
-          </div>
-          <div class="chart-stage">
-            <div id="total-donations-nd"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Metric 2 -->
+
 
       <!-- Metric 3 -->
-      <div class="col-sm-3">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Total injured in USA
-          </div>
-          <div class="chart-stage">
-            <div id="total-injured-nd"></div>
-          </div>
+    </div>
+
+    <div class="col-sm-14" >
+      <div class="chart-wrapper">
+        <div class="chart-title" >
+          <b>Number of Gun Violence Incidents</b>
+        </div>
+        <div class="chart-stage">
+          <div id="time-chart" ></div>
         </div>
       </div>
-      <!-- Metric 3 -->
-
     </div>
 
-
-
-    <div class="dc-date-count" style = "float:left;">
-        <a href="javascript:dc.filterAll();dc.renderAll();">Reset All</a>
-      </h2>
-    </div>
-  </div>
-
-
-  <div class="container">
+<div class="container">
     <iframe width="100%" height="520" frameborder="0" src="https://454400098.carto.com/builder/10733771-124f-4a56-aecf-10da5343be14/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
   </div>
+
+  </div>
+
+
+
 
 <!--
 <svg width = "960" height = "600" id="svg1">
@@ -203,7 +187,7 @@
 
 
 </div>
-
+</div>
 <style type='text/css'>
   .my-legend .legend-title {
     text-align: left;
@@ -240,5 +224,8 @@
   .my-legend a {
     color: #777;
     }
+	div{
+	background: linear-gradient(to top, #ffffff 0%, #ffffff 100%);
+	}
 </style>
 {% endblock %}
