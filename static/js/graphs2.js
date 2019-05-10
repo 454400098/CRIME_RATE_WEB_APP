@@ -24,6 +24,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	d["suicide"]=+d["suicide"];
 	d["n_guns_involved"]=+d["n_guns_involved"];
 	d["n_killed_normalized"]=+d["n_killed_normalized"];
+	d["population"]=d["population"]
 	
   });
 
@@ -100,8 +101,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var nz2 = fz.group().reduceSum(function (d)  { return d["n_male"]; });
 	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
 	var cityz = city.group();
-	var statez=state.group();
-	//var statez=state.group().reduceSum(function (d)  { return d["n_killed_normalized"];});
+	var statez2=state.group().reduceSum(function (d)  { return d["n_killed"];});
+	var statez=state.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
 	var zipz=zip.group().reduceSum(function (d)  { return d["zip_code"] || null;});
 	
 	
@@ -118,57 +119,13 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   
   var resourceTypeChart = dc.rowChart("#resource-type-row-chart");
 	var povertyLevelChart = dc.rowChart("#poverty-level-row-chart");
-var barch=dc.compositeChart("#bar");
+	var chart2=dc.pieChart("bar")
 	var locationChart = dc.rowChart("#location-row-chart");
 	var chart = dc.pieChart("#test");
 	
 	
 	
 
-	barch
-	.width(600)
-  .height(300)
-  .margins({ top: 10, right: 10, bottom: 20, left: 40 })
-  .dimension(state)
-  .transitionDuration(100)
-  
-  .brushOn(false)
-  .valueAccessor(function(d){return d; })
-  // .x(d3.scale.linear().domain([0, 10000]))
-  .x(d3.time.scale())
-  .elasticY(true)
-  .mouseZoomable(true)
-  .yAxisLabel("number of victims")
-  .legend(dc.legend().y(0).x(60))
- 
-  .yAxisPadding("5%")
-  .xAxisPadding("5%")
-  
- 
-  .compose([
-        dc.barChart(barch).group(n_child_dim,"child_victim").colors(['#ff0066'])
-		.dimension(state)
-		,
-        dc.barChart(barch).group(n_teen_dim,"teen_victim").colors(['#006622'])
-		.dimension(state)
-		,
-        dc.barChart(barch)
-		.group(n_adult_dim,"adult_victim")
-		.dimension(state)
-		.colors(['#ffc080'])
-		
-		,
-		dc.barChart(barch).group(n_m_dim,"male victims").colors(['#ff0000'])
-		.dimension(state)
-		,
-		dc.barChart(barch).group(n_f_dim,"female victims").colors(['#e600e6'])
-		.dimension(state)
-		,
-		
-		
-    ])
-	;
-	
 
 
 
@@ -234,6 +191,21 @@ var barch=dc.compositeChart("#bar");
     .legend(dc.legend())
     
     ;
+	  chart2
+    .width(500)
+    .height(480)
+    .slicesCap(7)
+	 .renderLabel(true)
+	.othersGrouper(false)
+	.label(function(d) {return d.data.key + ' ' + Math.round((d.endAngle - d.startAngle) / Math.PI * 50) + '%';})
+    .innerRadius(40)
+    .dimension(state)
+    .group(statez2)
+    .legend(dc.legend())
+    
+    ;
+	
+
 	
 
 		

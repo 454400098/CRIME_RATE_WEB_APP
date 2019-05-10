@@ -46,7 +46,9 @@ FIELDS = {'date': True,
 'n_male_victim':True,
 'n_female_victim':True,
 'state_ab': True,
-'_id': False}
+'_id': False,
+'population':True,
+'n_killed_normalized':True}
 
 
 
