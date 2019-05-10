@@ -3,8 +3,8 @@ queue()     //asynchronous call back, when all data loaded , continue to call ma
     .defer(d3.json, "/first1/projects")
     .defer(d3.json, "/static/geojson/us-states.json")
     .await(makeGraphs);
-	
-	
+
+
 
 function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and us-states to function
   var crimeProjects = projectsJson;
@@ -24,8 +24,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	d["suicide"]=+d["suicide"];
 	d["n_guns_involved"]=+d["n_guns_involved"];
 	d["n_killed_normalized"]=+d["n_killed_normalized"];
-	
-	
+
+
   });
 
 
@@ -36,7 +36,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var city=ndx.dimension(function(d){return d["city_or_county"]})
   var state=ndx.dimension(function(d) { return d["state"]; });
   var zip=ndx.dimension(function(d) { return d["zip_code"] || null; });
-  
+  //var zip2=ndx.dimension(function(d){return d["n_killed"]/d["population"];});
+
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
   //var total_norkilled = ndx.dimension(function(d) { return d["n_killed_normalized"]; });
@@ -44,9 +45,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var n_ch_dimension = ndx.dimension(function(d) { return d["n_child_victim"]; });
    var n_m = ndx.dimension(function(d) { return d["n_male"]; });
     var n_fm = ndx.dimension(function(d) { return d["n_female"]; });
-	
-	
-	
+
+
+
 
   //-------- for victim chart---------
   var n_child_dim2 = dateDim.group().reduceSum(function (d) { return d["n_child_victim"]; });
@@ -55,8 +56,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
    var n_m_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_male"]; });
     var n_f_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_female"]; });
 	var n_s_dim2 = dateDim.group().reduceSum(function (d)  { return d["suicide"]; });
-	
-	
+
+
 	var n_child_dim = state.group().reduceSum(function (d) { return d["n_child_victim"]; });
   var n_teen_dim = state.group().reduceSum(function (d) { return d["n_teen_victim"]; });
   var n_adult_dim = state.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
@@ -69,7 +70,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
   //Calculate metrics
   var numProjectsByDate = dateDim.group();
-  
+
   var numGun = n_gun_Dim.group();
   var totalnumkilledByState = stateDim.group().reduceSum(function(d) {
 		return d["n_killed"];
@@ -79,7 +80,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		return d["n_injured"];
 	});
 
-	
+
 
 
   var all = ndx.groupAll();
@@ -91,13 +92,13 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   // var max_injured_state = totalnuminjuredByState.top(1)[0].value;
   var nameofstate = totalnumkilledByState.top(1)[0]
   console.log('WTF!!!!')
-  
-  
+
+
   var nz = ndx.dimension(function(d) { return d["n_male"]; });
 	var mz = ndx.dimension(function(d) { return d["n_female"]; });
 	var fz = ndx.dimension(function(d) { return d["state","n_male","city_or_county","n_killed"]; });
-  
- 
+
+
 	var nz2 = fz.group().reduceSum(function (d)  { return d["n_male"]; });
 	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
 	var cityz = city.group();
@@ -105,19 +106,20 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	//var statez=state.group();
 	var statez2=state.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
 	var zipz=zip.group().reduceCount();
-	
-	
-  
+  var cityz2=city.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
+  var zipz2=zip.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];})
+
+
   console.log('name is',nameofstate)
   //Define values (to be used in charts)
 	var minDate = dateDim.bottom(1)[0]["date"];
 	var maxDate = dateDim.top(1)[0]["date"];
 
   //charts
-  
+
   var usChart = dc.geoChoroplethChart("#us-chart");
-	
-  
+
+
   var resourceTypeChart = dc.rowChart("#resource-type-row-chart");
 	var povertyLevelChart = dc.rowChart("#poverty-level-row-chart");
 	var resourceTypeChart2 = dc.rowChart("#resource-type-row-chart2");
@@ -128,14 +130,14 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	  var numberincidentsND = dc.numberDisplay("#number-projects-nd");
 	var totalkilledND = dc.numberDisplay("#total-donations-nd");
   var totalinjuredND = dc.numberDisplay("#total-injured-nd");
-	
-	
-	
+
+
+
 
 
   numberincidentsND
 		.formatNumber(d3.format(".3s"))
-		
+
 		.valueAccessor(function(d){return d; })
 		.group(all,"test");
 
@@ -154,9 +156,9 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.formatNumber(d3.format(".3s"));
 
 
-	
 
-	
+
+
 	locationChart
         .width(200)
         .height(250)
@@ -179,27 +181,27 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
         .ordering(function(d) { return -d.value })
         .colors(['#ffff00'])
         .elasticX(true)
-		
+
         .labelOffsetY(10)
-		
+
         .xAxis().ticks(4);
-		
+
 		resourceTypeChart
     	.width(300)
 		.height(210)
-		
+
 		.rowsCap(10)
 		.legend(dc.legend())
 		.othersGrouper(false)
         .dimension(city)
         .group(cityz)
-		
+
         .ordering(function(d) { return -d.value })
         .colors(['#00ff00'])
         .elasticX(true)
         .labelOffsetY(10)
         .xAxis().ticks(4);
-		
+
 			povertyLevelChart2
 		.width(300)
 		.height(200)
@@ -207,32 +209,32 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		.othersGrouper(false)
         .dimension(zip)
 		.legend(dc.legend())
-        .group(zipz)
+        .group(zipz2)
         .ordering(function(d) { return -d.value })
         .colors(['#ffff00'])
         .elasticX(true)
-		
+
         .labelOffsetY(10)
-		
+
         .xAxis().ticks(4);
-		
+
 		resourceTypeChart2
     	.width(300)
 		.height(200)
-		
+
 		.rowsCap(10)
 		.legend(dc.legend())
 		.othersGrouper(false)
         .dimension(city)
-        .group(cityz)
-		
+        .group(cityz2)
+
         .ordering(function(d) { return -d.value })
         .colors(['#00ff00'])
         .elasticX(true)
         .labelOffsetY(10)
         .xAxis().ticks(4);
 
-		
+
 		  chart
     .width(400)
     .height(350)
@@ -244,7 +246,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     .dimension(state)
     .group(statez)
     .legend(dc.legend())
-    
+
     ;
 	  chart2
     .width(400)
@@ -257,19 +259,19 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     .dimension(state)
     .group(statez2)
     .legend(dc.legend())
-    
+
     ;
-	
 
-	
 
-		
-	 
+
+
+
+
 
 
   usChart.width(990)
 		.height(400)
-		
+
 		.dimension(stateDim)
 		.group(totalnumkilledByState)
 		.colors(["#ffcccc", "#ffb3b3", "#ff8080", "#ff4d4d", "#ff3333", "#ff0000", "#e60000", "#cc0000", "#990000","#660000"])
@@ -377,6 +379,3 @@ var labels = {"type":"FeatureCollection","features":[
 {"type":"Feature","id":"55","geometry":{"type":"Point","coordinates":[-89.001006,43.728544]},"properties":{"name":"WI","population":5363675}},
 {"type":"Feature","id":"56","geometry":{"type":"Point","coordinates":[-107.008835,42.675762]},"properties":{"name":"WY","population":493782}}
         ]};
-
-   
-

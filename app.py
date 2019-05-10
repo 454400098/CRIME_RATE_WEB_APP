@@ -48,7 +48,7 @@ FIELDS = {'date': True,
 'state_ab': True,
 '_id': False,
 'population':True,
-'n_killed_normalized':True}
+}
 
 
 
