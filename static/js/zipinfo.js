@@ -26,7 +26,7 @@ Promise.all([
         // console.log('cur zip is',incident_arr[i])
         zip_in_arr[j]['count_div_total_pop'] = incident_arr[i]['count']/ zip_in_arr[j]['Total Population']
         zip_in_arr[j]['Accident Sum'] = incident_arr[i]['count']
-        zip_in_arr[j]['Avg Income'] = parseInt(zip_in_arr[j]['Average Household Income']/100000)
+        zip_in_arr[j]['Avg Income'] = parseInt(zip_in_arr[j]['Median Household Income'])
         // console.log('after change cur zip is',zip_in_arr[j])
       }
     }

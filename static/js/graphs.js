@@ -302,7 +302,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
 
 
-
+  dc.renderAll();
 
   //add label to us-chart
   var labelG = d3.select("#us-chart svg")
@@ -329,7 +329,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   //     .on("zoom",zoomed);     //bind the necessary event listeners for zooming
 
 
-  dc.renderAll();
+
 
 };
 
