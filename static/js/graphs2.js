@@ -35,7 +35,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var stateDim = ndx.dimension(function(d) { return d["state_ab"]; });
   var city=ndx.dimension(function(d){return d["city_or_county"]})
   var state=ndx.dimension(function(d) { return d["state"]; });
-  var zip=ndx.dimension(function(d) { return d["zip_code"] || ''; });
+  var zip=ndx.dimension(function(d) { return d["zip_code"] || null; });
   
   var n_gun_Dim = ndx.dimension(function(d){return d["n_guns_involved"];});
   var total_killed = ndx.dimension(function(d) { return d["n_killed"]; });
@@ -101,9 +101,10 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	var nz2 = fz.group().reduceSum(function (d)  { return d["n_male"]; });
 	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
 	var cityz = city.group();
-	var statez2=state.group().reduceSum(function (d)  { return d["n_killed"];});
-	var statez=state.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
-	var zipz=zip.group().reduceSum(function (d)  { return d["zip_code"] || null;});
+	var statez=state.group().reduceSum(function (d)  { return d["n_killed"];});
+	//var statez=state.group();
+	var statez2=state.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
+	var zipz=zip.group().reduceCount();
 	
 	
   
@@ -119,15 +120,38 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   
   var resourceTypeChart = dc.rowChart("#resource-type-row-chart");
 	var povertyLevelChart = dc.rowChart("#poverty-level-row-chart");
-	var chart2=dc.pieChart("bar")
+	var resourceTypeChart2 = dc.rowChart("#resource-type-row-chart2");
+	var povertyLevelChart2 = dc.rowChart("#poverty-level-row-chart2");
+	var chart2=dc.pieChart("#bar")
 	var locationChart = dc.rowChart("#location-row-chart");
 	var chart = dc.pieChart("#test");
+	  var numberincidentsND = dc.numberDisplay("#number-projects-nd");
+	var totalkilledND = dc.numberDisplay("#total-donations-nd");
+  var totalinjuredND = dc.numberDisplay("#total-injured-nd");
 	
 	
 	
 
 
+  numberincidentsND
+		.formatNumber(d3.format(".3s"))
+		
+		.valueAccessor(function(d){return d; })
+		.group(all,"test");
 
+
+
+  totalkilledND
+		.formatNumber(d3.format("d"))
+		.valueAccessor(function(d){return d; })
+		.group(totalkilled)
+		.formatNumber(d3.format(".3s"));
+
+  totalinjuredND
+		.formatNumber(d3.format("d"))
+		.valueAccessor(function(d){return d; })
+		.group(totalinjured)
+		.formatNumber(d3.format(".3s"));
 
 
 	
@@ -146,7 +170,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
 	povertyLevelChart
 		.width(300)
-		.height(310)
+		.height(200)
 		.rowsCap(10)
 		.othersGrouper(false)
         .dimension(zip)
@@ -158,13 +182,13 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 		
         .labelOffsetY(10)
 		
-        .xAxis().ticks(4)
+        .xAxis().ticks(4);
 		
 		resourceTypeChart
     	.width(300)
-		.height(310)
+		.height(210)
 		
-		.rowsCap(7)
+		.rowsCap(10)
 		.legend(dc.legend())
 		.othersGrouper(false)
         .dimension(city)
@@ -174,13 +198,44 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
         .colors(['#00ff00'])
         .elasticX(true)
         .labelOffsetY(10)
-        .xAxis().ticks(4)
+        .xAxis().ticks(4);
 		
+			povertyLevelChart2
+		.width(300)
+		.height(200)
+		.rowsCap(10)
+		.othersGrouper(false)
+        .dimension(zip)
+		.legend(dc.legend())
+        .group(zipz)
+        .ordering(function(d) { return -d.value })
+        .colors(['#ffff00'])
+        .elasticX(true)
+		
+        .labelOffsetY(10)
+		
+        .xAxis().ticks(4);
+		
+		resourceTypeChart2
+    	.width(300)
+		.height(200)
+		
+		.rowsCap(10)
+		.legend(dc.legend())
+		.othersGrouper(false)
+        .dimension(city)
+        .group(cityz)
+		
+        .ordering(function(d) { return -d.value })
+        .colors(['#00ff00'])
+        .elasticX(true)
+        .labelOffsetY(10)
+        .xAxis().ticks(4);
 
 		
 		  chart
-    .width(500)
-    .height(480)
+    .width(400)
+    .height(350)
     .slicesCap(7)
 	 .renderLabel(true)
 	.othersGrouper(false)
@@ -192,8 +247,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     
     ;
 	  chart2
-    .width(500)
-    .height(480)
+    .width(400)
+    .height(350)
     .slicesCap(7)
 	 .renderLabel(true)
 	.othersGrouper(false)
@@ -213,7 +268,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
 
   usChart.width(990)
-		.height(350)
+		.height(400)
 		
 		.dimension(stateDim)
 		.group(totalnumkilledByState)

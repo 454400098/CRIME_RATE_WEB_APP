@@ -34,8 +34,7 @@ $(function() {
 });
 </script>
 {% block content %}
-  <div class="application" style="background: #648880;
-  background: linear-gradient(to right, #293f37, #293f50, #293f50)"  >
+  <div class="application"   >
     <!-- <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -50,18 +49,7 @@ $(function() {
 
       <div class="col-sm-6">
         <div class="row">
-	  <!-- Resources Pie -->
-          <div class="col-sm-14">
-            <div class="chart-wrapper">
-              <div class="chart-title">
-               <b> Top states with most killed normalized</b>
-              </div>
-              <div class="chart-stage">
-                <div id="bar"></div>
-              </div>
-            </div>
-          </div>
-          <!-- Resources Pie -->
+	  
           
 		  <!-- Resources Pie -->
           <div class="col-sm-6">
@@ -84,6 +72,31 @@ $(function() {
               </div>
               <div class="chart-stage">
                 <div id="poverty-level-row-chart"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Poverty Pie -->
+		  <!-- Resources Pie -->
+          <div class="col-sm-6">
+            <div class="chart-wrapper">
+              <div class="chart-title">
+               <b> Top cities with most killed normalized</b>
+              </div>
+              <div class="chart-stage">
+                <div id="resource-type-row-chart2"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Resources Pie -->
+
+          <!-- Poverty Pie -->
+          <div class="col-sm-6">
+            <div class="chart-wrapper">
+              <div class="chart-title">
+                <b>Top zip codes with most incidents normalized</b>
+              </div>
+              <div class="chart-stage">
+                <div id="poverty-level-row-chart2"></div>
               </div>
             </div>
           </div>
@@ -137,8 +150,18 @@ $(function() {
       </div>
 	  
       <!-- Map -->
-	<!-- Chinese Province -->  
-          <div class="col-sm-12">
+	
+
+
+    </div>
+
+      
+
+
+   
+  </div>
+ <!-- Chinese Province -->  
+          <div class="col-sm-6">
             <div class="chart-wrapper">
               <div class="chart-title">
                 <b>Top states with most incidents</b>
@@ -150,16 +173,18 @@ $(function() {
             </div>
           </div>
           <!-- Chinese Province --> 
-      
-	 
-
-    </div>
-
-
-
-   
-  </div>
- 
+		  <!-- Resources Pie -->
+          <div class="col-sm-6">
+            <div class="chart-wrapper">
+              <div class="chart-title">
+               <b> Top states with most killed normalized</b>
+              </div>
+              <div class="chart-stage">
+                <div id="bar"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Resources Pie -->
 
 
 
@@ -208,7 +233,7 @@ $(function() {
     font-size: 90%;
     }
 	div{
-	background: linear-gradient(to top, #ccffff 0%, #ffffff 100%);
+	background: linear-gradient(to top, ##ffffcc 0%, #ffffff 100%);
 	}
   .my-legend .legend-scale ul {
     margin: 0;
