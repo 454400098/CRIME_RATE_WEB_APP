@@ -106,8 +106,8 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	//var statez=state.group();
 	var statez2=state.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
 	var zipz=zip.group().reduceCount();
-  var cityz2=city.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
-  var zipz2=zip.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];})
+  var cityz2=city.group().reduceSum(function (d)  { return d["n_killed"]/d["county_population"];});
+  var zipz2=zip.group().reduceSum(function (d)  { return d["n_killed"]/d["zipcode_population"];})
 
 
   console.log('name is',nameofstate)
@@ -239,6 +239,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
     .width(400)
     .height(350)
     .slicesCap(7)
+    .colors(["#800060", "#ff66ff", "#ff8080", "#6699cc", "#47d147", "#ff0000", "#e60000", "#751aff", "#ffff1a","#660000"])
 	 .renderLabel(true)
 	.othersGrouper(false)
 	.label(function(d) {return d.data.key + ' ' + Math.round((d.endAngle - d.startAngle) / Math.PI * 50) + '%';})
@@ -251,6 +252,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	  chart2
     .width(400)
     .height(350)
+    .colors(["#800060", "#ff66ff", "#ff8080", "#6699cc", "#47d147", "#ff0000", "#e60000", "#751aff", "#ffff1a","#660000"])
     .slicesCap(7)
 	 .renderLabel(true)
 	.othersGrouper(false)
