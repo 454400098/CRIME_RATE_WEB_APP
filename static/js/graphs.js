@@ -204,7 +204,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   timeChart
   .width(1200)
   .height(160)
-  .mouseZoomable(true)
+  .mouseZoomable(false)
   .margins({top: 10, right: 50, bottom: 30, left: 50})
   .dimension(dateDim)
   .group(numProjectsByDate)
@@ -301,7 +301,6 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
 
 
-  dc.renderAll();
 
 
 
@@ -330,9 +329,12 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   //     .on("zoom",zoomed);     //bind the necessary event listeners for zooming
 
 
-
+  dc.renderAll();
 
 };
+
+
+
 
 
 var labels = {"type":"FeatureCollection","features":[
