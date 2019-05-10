@@ -54,7 +54,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var n_adult_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
    var n_m_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_male"]; });
     var n_f_dim2 = dateDim.group().reduceSum(function (d)  { return d["n_female"]; });
-	
+	var n_s_dim2 = dateDim.group().reduceSum(function (d)  { return d["suicide"]; });
 	
 	
 	var n_child_dim = state.group().reduceSum(function (d) { return d["n_child_victim"]; });
@@ -62,7 +62,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var n_adult_dim = state.group().reduceSum(function (d)  { return d["n_adult_victim"]; });
    var n_m_dim = state.group().reduceSum(function (d)  { return d["n_male"]; });
     var n_f_dim = state.group().reduceSum(function (d)  { return d["n_female"]; });
-	
+	var n_s_dim = state.group().reduceSum(function (d)  { return d["suicide"]; });
 
   //--------****-----------
 
@@ -92,11 +92,17 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
   var nameofstate = totalnumkilledByState.top(1)[0]
   console.log('WTF!!!!')
   
-
+  
+  var nz = ndx.dimension(function(d) { return d["n_male"]; });
+	var mz = ndx.dimension(function(d) { return d["n_female"]; });
+	var fz = ndx.dimension(function(d) { return d["state","n_male","city_or_county","n_killed"]; });
+  
+ 
+	var nz2 = fz.group().reduceSum(function (d)  { return d["n_male"]; });
+	var mz2 = fz.group().reduceSum(function (d)  { return d["n_female"]; });
 	var cityz = city.group();
 	var statez=state.group().reduceSum(function (d)  { return d["n_killed"];});
 	//var statez=state.group();
-	//var statez2=state.group().reduceSum(function (d)  { return d["n_killed_normalized_state"];});
 	var statez2=state.group().reduceSum(function (d)  { return d["n_killed"]/d["population"];});
 	var zipz=zip.group().reduceCount();
 	
@@ -249,7 +255,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	.label(function(d) {return d.data.key + ' ' + Math.round((d.endAngle - d.startAngle) / Math.PI * 50) + '%';})
     .innerRadius(40)
     .dimension(state)
-    .group(statez)
+    .group(statez2)
     .legend(dc.legend())
     
     ;
