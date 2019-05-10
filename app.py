@@ -48,6 +48,9 @@ FIELDS = {'date': True,
 'state_ab': True,
 '_id': False,
 'population':True,
+'n_killed_normalized_state':True,
+'county_population':True,
+'zipcode_population':True
 }
 
 

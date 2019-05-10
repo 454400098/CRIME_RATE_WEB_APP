@@ -23,7 +23,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 	d["n_female"]=+d["n_female"];
 	d["suicide"]=+d["suicide"];
 	d["n_guns_involved"]=+d["n_guns_involved"];
-	d["n_killed_normalized"]=+d["n_killed_normalized"];
+	d["n_killed_normalized_state"]=+d["n_killed_normalized_state"];
 
 
   });
@@ -73,7 +73,7 @@ function makeGraphs(error, projectsJson, statesJson) {    //pass db.proejcts and
 
   var numGun = n_gun_Dim.group();
   var totalnumkilledByState = stateDim.group().reduceSum(function(d) {
-		return d["n_killed"];
+		return d["n_killed_normalized_state"];
 	});
 	//var totalnumnorkilledByState = stateDim.group().reduceSum(function(d) {return d["n_killed_normalized"];});
   var totalnuminjuredByState = stateDim.group().reduceSum(function(d) {
