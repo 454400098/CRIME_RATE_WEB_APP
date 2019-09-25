@@ -2,6 +2,8 @@
 
 Crime Rate Scout is an web application that allows user to interactively explore the Gun violence happened between January 2013 and March 2018 within the Range of USA.
 
+User could click a state on the  USA MAP, and system would filter all incident by that clicked state, and visualizes them with coordinated view by showing Num of Victim on that clicked state.
+
 **Allow user to query the gun violence for a zip code within USA, and our system returns safest area in the neighborhood based on number of gun violence, renders the neighbor map with cartographic boundary for each zip code in the near by.**
 
 
@@ -15,6 +17,8 @@ A working Demo could be Found [here](https://youtu.be/IH_aBp-L8XA)
 
 
 ![UI](Home.png)
+After click NY on USA map
+![UI](filter.png)
 ![UI2](searchzipcode.png)
 ![UI3](search.png)
 ![UI4](trends.png)
