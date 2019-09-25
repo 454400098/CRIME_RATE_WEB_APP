@@ -21,7 +21,9 @@ After click NY on USA map and group incident by a time range between mid 2014 to
 ![UI](filter.png)
 View to enable search a safe zip code based on the number of gun violence
 ![UI2](searchzipcode.png)
+Result after search
 ![UI3](search.png)
+General coordinated view to show trends of gun violence in USA, like Top cities that people got killed, top zip code people got killed.
 ![UI4](trends.png)
 
 ## Installation
