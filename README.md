@@ -17,8 +17,9 @@ A working Demo could be Found [here](https://youtu.be/IH_aBp-L8XA)
 
 
 ![UI](Home.png)
-After click NY on USA map
+After click NY on USA map and group incident by a time range between mid 2014 to mid 2016
 ![UI](filter.png)
+View to enable search a safe zip code based on the number of gun violence
 ![UI2](searchzipcode.png)
 ![UI3](search.png)
 ![UI4](trends.png)
