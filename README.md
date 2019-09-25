@@ -25,7 +25,7 @@ Result after search
 ![UI3](search.png)
 General coordinated view to show trends of gun violence in USA, like Top cities that people got killed, top zip code people got killed.
 ![UI4](trends.png)
-User even can filter those gun violence to find out the information like top cities that people got killed only for that clicked state, now we click CA(California), and the result be like:
+now we click CA(California), User even can filter those gun violence to find out the information like top cities(all city of California) that people got killed only for that clicked state(California). Result be like:
 ![UI5](trends2.png)
 ## Installation
 
